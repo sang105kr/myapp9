@@ -86,4 +86,16 @@ public class MemberSVCImpl implements MemberSVC{
   public boolean isMember(String email) {
     return memberDAO.isMember(email);
   }
+
+  /**
+   * 로그인
+   * @param email
+   * @param passwd
+   * @return
+   */
+  @Override
+  public Member login(String email, String passwd) {
+
+    return memberDAO.login(email, passwd);
+  }
 }

@@ -76,4 +76,17 @@ public class MemberDAOImplTest {
     //log.info("members={}", members);
     Assertions.assertThat(members.size()).isEqualTo(2);
   }
+
+  @Test
+  @DisplayName("로그인")
+  void login(){
+
+    String email = "test1@kh.com";
+    String passwd = "1234";
+
+    Member member = memberDAO.login(email, passwd);
+
+    Assertions.assertThat(member).isNotNull();
+
+  }
 }

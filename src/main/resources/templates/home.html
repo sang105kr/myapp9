@@ -7,8 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>초기화면</title>
 </head>
+  <h3><span th:text="${session?.loginMember?.nickname}"></span>님 환영합니다.</h3>
   <ul>
-    <li><a href="/members/add">회원가입</a></li>
+    <th:block th:if="${session?.loginMember == null}">
+      <li><a href="/members/add">회원가입</a></li>
+      <li><a href="/login">로그인</a></li>
+    </th:block>
+    <th:block th:if="${session?.loginMember != null}">
+      <li><a href="/logout">로그아웃</a></li>
+    </th:block>
   </ul>
 <body>
   hello~!
