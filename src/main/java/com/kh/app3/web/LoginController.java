@@ -6,12 +6,10 @@ import com.kh.app3.web.form.LoginForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -61,7 +59,7 @@ public class LoginController {
     //인증성공
     //세션이 있으면 세션 반환, 없으면 새로이 생성
     HttpSession session = request.getSession(true);
-    session.setAttribute("loginMember", loginMember);
+    session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
     return "redirect:/";
   }
