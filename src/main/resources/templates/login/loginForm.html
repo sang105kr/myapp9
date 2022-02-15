@@ -11,18 +11,24 @@
 <body>
   <h3>로그인</h3>
   <hr>
-  <form action="" th:action="@{/login}" method="post">
+  <form action="" th:action="@{/login}" method="post" th:object="${loginForm}">
     <ul>
       <li>
         <label for="email">아이디</label>
-        <input type="text" name="email" id="email">
+        <input type="text" name="email" id="email" th:field="*{email}">
+      </li>
+      <li>
+        <p th:errors="*{email}"></p>
       </li>
       <li>
         <label for="passwd">비밀번호</label>
-        <input type="password" name="passwd" id="passwd">
+        <input type="password" name="passwd" id="passwd" th:field="*{passwd}">
       </li>
       <li>
-        <button type="submit">로그인</button>
+        <p> <p th:errors="*{passwd}"></p></p>
+      </li>
+      <li>
+        <button type="submit" th:text="#{btn.login}">로그인</button>
       </li>
       <li>
         <a href="#">아이디찾기</a>
