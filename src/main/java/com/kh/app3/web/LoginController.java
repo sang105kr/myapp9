@@ -6,6 +6,7 @@ import com.kh.app3.web.form.LoginForm;
 import com.kh.app3.web.form.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Locale;
 
 @Slf4j
 @Controller
@@ -53,17 +55,18 @@ public class LoginController {
 
     //오브젝트 체크 : 회원유무
     if(!memberSVC.isMember(loginForm.getEmail())) {
-      bindingResult.reject("loginFail",null);
+      bindingResult.reject("loginFail.email");
+
       return "login/loginForm";
     }
 
     //오브젝트 체크 :로그인
     Member member = memberSVC.login(loginForm.getEmail(), loginForm.getPasswd());
     if(member == null){
-      bindingResult.reject("loginFail","비밀번호가 일치하지 않습니다.");
+      bindingResult.reject("loginFail.passwd");
       return "login/loginForm";
     }
-    
+
     //회원 세션 정보
     LoginMember loginMember = new LoginMember(member.getEmail(), member.getNickname());
 

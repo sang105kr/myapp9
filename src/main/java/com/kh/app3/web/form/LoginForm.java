@@ -1,6 +1,6 @@
 package com.kh.app3.web.form;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +17,7 @@ public class LoginForm {
 
   @NotBlank
   @Size(min = 4, max=8)
-  @Pattern(regexp = "^[0-9]*$",message="숫자만 입력바랍니다.")
+  //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{4,12}$")
   private String passwd;
+
 }

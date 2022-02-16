@@ -6,26 +6,45 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>로그인</title>
+  <style>
+    input.fieldError{
+      border: 1px solid red;
+    }
+    .globalError, p.fieldError{
+      color: red;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
   <h3>로그인</h3>
   <hr>
+  <!-- 글로벌 오류 case1) form태그 밖에 있을 때 -->
+  <ul th:if="${#fields.hasErrors('${loginForm}')}">
+    <li th:errors="${loginForm}" th:errorclass="globalError">글로벌 오류</li>
+  </ul>
   <form action="" th:action="@{/login}" method="post" th:object="${loginForm}">
     <ul>
+      <!-- 글로벌 오류 case2) form태그 안에 있을 때
+      <li th:if="${#fields.hasErrors('global')}" class="globalError">
+         <p th:each="err : ${#fields.errors('global')}" th:text="${err}">글로벌 오류</p>
+      </li>
+      -->
       <li>
         <label for="email">아이디</label>
-        <input type="text" name="email" id="email" th:field="*{email}">
+        <input type="text" name="email" id="email" th:field="*{email}" th:errorclass="fieldError">
       </li>
-      <li>
-        <p th:errors="*{email}"></p>
+      <li th:if="${#fields.hasErrors('email')}">
+        <p th:errors="*{email}" th:errorclass="fieldError"></p>
       </li>
       <li>
         <label for="passwd">비밀번호</label>
-        <input type="password" name="passwd" id="passwd" th:field="*{passwd}">
+        <input type="password" name="passwd" id="passwd" th:field="*{passwd}" th:errorclass="fieldError">
       </li>
-      <li>
-        <p> <p th:errors="*{passwd}"></p></p>
+      <li th:if="${#fields.hasErrors('passwd')}">
+        <p th:errors="*{passwd}" th:errorclass="fieldError"></p>
       </li>
       <li>
         <button type="submit" th:text="#{btn.login}">로그인</button>

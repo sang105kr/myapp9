@@ -3,6 +3,8 @@ package com.kh.app3.domain.member.dao;
 import com.kh.app3.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -189,12 +191,52 @@ public class MemberDAOImpl implements MemberDAO{
     sql.append("  from member ");
     sql.append(" where email =? and passwd = ? ");
 
-    Member member = jdbcTemplate.queryForObject(
-        sql.toString(),
-        new BeanPropertyRowMapper<>(Member.class),  //자바객체 <=> 테이블 레코드 자동 매핑
-        email, passwd
+    // 레코드1개를 반환할경우 query로 list를 반환받고 list.size() == 1 ? list.get(0) : null 처리하자!!
+    List<Member> list = jdbcTemplate.query(
+                  sql.toString(),
+                  new BeanPropertyRowMapper<>(Member.class),  //자바객체 <=> 테이블 레코드 자동 매핑
+                  email, passwd
     );
 
-    return member;
+    return list.size() == 1 ? list.get(0) : null;
   }
+//  public Member login(String email, String passwd) {
+//
+//    StringBuffer sql = new StringBuffer();
+//    sql.append("select member_id as member, email, nickname ");
+//    sql.append("  from member ");
+//    sql.append(" where email =? and passwd = ? ");
+//
+//    Member member = null;
+//    try {
+//      member = jdbcTemplate.queryForObject(
+//          sql.toString(),
+//          new BeanPropertyRowMapper<>(Member.class),  //자바객체 <=> 테이블 레코드 자동 매핑
+//          email, passwd
+//      );
+//    } catch (DataAccessException e) {
+//      //e.printStackTrace();
+//    }
+//
+//    return member;
+//  }
+
+
+
+//  public Member login(String email, String passwd) {
+//
+//    StringBuffer sql = new StringBuffer();
+//    sql.append("select member_id as member, email, nickname ");
+//    sql.append("  from member ");
+//    sql.append(" where email =? and passwd = ? ");
+//
+//    List<Member> list = jdbcTemplate.query(
+//                  sql.toString(),
+//                  new BeanPropertyRowMapper<>(Member.class),  //자바객체 <=> 테이블 레코드 자동 매핑
+//                  email, passwd
+//    );
+//
+//
+//    return DataAccessUtils.singleResult(list); //요소가 없으면 null, 1개있으면 그요소를 반환
+//  }
 }
