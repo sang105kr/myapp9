@@ -12,6 +12,12 @@ public class Member {
   private String email;
   private String passwd;
   private String nickname;
+
+  public Member(String email, String passwd, String nickname) {
+    this.email = email;
+    this.passwd = passwd;
+    this.nickname = nickname;
+  }
 }
 //  public Member(Long memberId, String email, String passwd, String nickname) {
 //    this.member_Id = memberId;

@@ -6,22 +6,42 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>회원가입</title>
+  <link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 <body>
-  <form action="/members/add" method="post">
+  <form action="/members/add" method="post" th:object="${joinForm}">
     <ul>
       <li><h3>회원가입</h3></li>
       <li>
         <label for="email">아이디</label>
-        <input type="text" name="email" id="email">
+        <input type="text" name="email" id="email" th:field="*{email}"  th:errorclass="fieldError">
+      </li>
+      <li th:if="${#fields.hasErrors('email')}">
+        <p th:errors="*{email}" th:errorclass="fieldError"></p>
       </li>
       <li>
         <label for="passwd">비밀번호</label>
-        <input type="password" name="passwd" id="passwd">
+        <input type="password" name="passwd" id="passwd" th:field="*{passwd}"  th:errorclass="fieldError">
+      </li>
+      <li th:if="${#fields.hasErrors('passwd')}">
+        <p th:errors="*{passwd}" th:errorclass="fieldError"></p>
+      </li>
+      <li>
+        <label for="passwd">비밀번호 확인</label>
+        <input type="password" name="passwdChk" id="passwdChk" th:field="*{passwdChk}"  th:errorclass="fieldError">
+      </li>
+      <li th:if="${#fields.hasErrors('passwdChk')}">
+        <p th:errors="*{passwdChk}" th:errorclass="fieldError"></p>
+      </li>
+      <li th:if="${#fields.hasErrors('global')}" >
+        <p th:errors="*{global}" th:errorclass="globalError"></p>
       </li>
       <li>
         <label for="nickname">별칭</label>
-        <input type="text" name="nickname" id="nickname">
+        <input type="text" name="nickname" id="nickname" th:field="*{nickname}"  th:errorclass="fieldError">
+      </li>
+      <li th:if="${#fields.hasErrors('nickname')}">
+        <p th:errors="*{nickname}" th:errorclass="fieldError"></p>
       </li>
       <li>
         <button type="submit">가입</button>

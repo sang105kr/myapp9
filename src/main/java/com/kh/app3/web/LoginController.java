@@ -2,11 +2,10 @@ package com.kh.app3.web;
 
 import com.kh.app3.domain.member.Member;
 import com.kh.app3.domain.member.svc.MemberSVC;
-import com.kh.app3.web.form.LoginForm;
-import com.kh.app3.web.form.LoginMember;
+import com.kh.app3.web.form.login.LoginForm;
+import com.kh.app3.web.form.login.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Locale;
 
 @Slf4j
 @Controller
