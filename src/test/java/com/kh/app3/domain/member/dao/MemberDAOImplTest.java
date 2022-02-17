@@ -23,7 +23,7 @@ public class MemberDAOImplTest {
   @DisplayName("등록") //테스트케이스 이름
   @Disabled  //테스트 대상에서 제외
   void insert(){
-    Member member = new Member(null,"test3@kh.com","1234","테스터abc");
+    Member member = new Member("test3@kh.com","1234","테스터abc");
     Member savedMember = memberDAO.insertMember(member);
 //    log.info("savedMember.getEmail={}",savedMember.getEmail());
 //    log.info("savedMember.getPasswd={}",savedMember.getPasswd());
@@ -49,7 +49,7 @@ public class MemberDAOImplTest {
     String email = "test3@kh.com";
     String nickname = "테스터3";
 
-    Member member = new Member(null, email, null, nickname);
+    Member member = new Member(email, null, nickname);
     memberDAO.updateMember(member);
 
     Member updatedMember = memberDAO.selectMemberByEmail(email);

@@ -5,10 +5,25 @@
     font-size: 0.8em;
     font-weight: bold;
 }
+
 .globalError{
 
 }
 input.fieldError{
+    color:inherit;
+    font-weight: normal;
     border: 1px solid red;
+}
+
+.fieldSuccess {
+    color:green;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+input.fieldSuccess {
+    color:inherit;
+    font-weight: normal;
+    border: 1px solid green;
 }
 

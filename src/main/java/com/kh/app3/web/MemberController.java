@@ -2,6 +2,7 @@ package com.kh.app3.web;
 
 import com.kh.app3.domain.member.Member;
 import com.kh.app3.domain.member.svc.MemberSVC;
+import com.kh.app3.web.form.member.Gender;
 import com.kh.app3.web.form.member.JoinForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -19,6 +24,36 @@ import javax.validation.Valid;
 public class MemberController {
 
   private final MemberSVC memberSVC;
+
+  //성별
+  @ModelAttribute("gender")
+  public Gender[] genter(){
+
+    return Gender.values();  //[MALE, FEMALE]
+  }
+
+  //취미
+  @ModelAttribute("hobbys")
+  public Map<String,String> hobbys(){
+    Map<String,String> hobbys = new HashMap<>();
+    hobbys.put("reading", "독서");
+    hobbys.put("swim", "수영");
+    hobbys.put("climing", "등산");
+    hobbys.put("golf", "골프");
+    return hobbys;
+  }
+
+  //지역
+  @ModelAttribute("regions")
+  public List<String> regions(){
+    List<String> regions = new ArrayList<>();
+    regions.add("서울");
+    regions.add("부산");
+    regions.add("울산");
+    regions.add("대구");
+    regions.add("제주");
+    return regions;
+  }
 
   //회원가입
   @GetMapping("/add")
@@ -52,10 +87,11 @@ public class MemberController {
     }
 
     //3)정상처리로직
-    Member member = new Member(joinForm.getEmail(),joinForm.getPasswd(),joinForm.getNickname());
-    Member joinedMember = memberSVC.join(member);
-    log.info("email={}, passwd={}, nickname={}",
-        joinedMember.getEmail(),joinedMember.getPasswd(),joinedMember.getNickname());
+    log.info("joinForm={}", joinForm);
+//    Member member = new Member(joinForm.getEmail(),joinForm.getPasswd(),joinForm.getNickname());
+//    Member joinedMember = memberSVC.join(member);
+//    log.info("email={}, passwd={}, nickname={}",
+//        joinedMember.getEmail(),joinedMember.getPasswd(),joinedMember.getNickname());
 
     return "member/joinSuccess";
   }
