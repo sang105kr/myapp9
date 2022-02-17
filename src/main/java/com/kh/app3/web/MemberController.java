@@ -79,14 +79,20 @@ public class MemberController {
       log.info("error={}", bindingResult);
       return "member/joinForm";
     }
-    //2)유효성체크 - global 오류 (2개이상의 필드체크, 백앤드로직 수행시 발생오류)
+    //2)아이디 중복체크
+    if(memberSVC.isMember(joinForm.getEmail())){
+      bindingResult.rejectValue("email","joinForm.email.dup");
+      log.info("error={}", bindingResult);
+      return "member/joinForm";
+    }
+    //3)유효성체크 - global 오류 (2개이상의 필드체크, 백앤드로직 수행시 발생오류)
     //비밀번호 != 비빌번호체크
     if(!joinForm.getPasswd().equals(joinForm.getPasswdChk()))   {
       bindingResult.reject("member.passwdchk");
       return "member/joinForm";
     }
 
-    //3)정상처리로직
+    //4)정상처리로직
     log.info("joinForm={}", joinForm);
     Member member = new Member( null,
                 joinForm.getEmail(), joinForm.getPasswd(), joinForm.getNickname(),
