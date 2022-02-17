@@ -88,13 +88,29 @@ public class MemberController {
 
     //3)정상처리로직
     log.info("joinForm={}", joinForm);
-//    Member member = new Member(joinForm.getEmail(),joinForm.getPasswd(),joinForm.getNickname());
-//    Member joinedMember = memberSVC.join(member);
-//    log.info("email={}, passwd={}, nickname={}",
-//        joinedMember.getEmail(),joinedMember.getPasswd(),joinedMember.getNickname());
+    Member member = new Member( null,
+                joinForm.getEmail(), joinForm.getPasswd(), joinForm.getNickname(),
+                joinForm.getGender().getDescription(),
+                makeListToString(joinForm.getHobby()),
+                joinForm.getRegion());
+    Member joinedMember = memberSVC.join(member);
+    log.info("email={}, passwd={}, nickname={}",
+        joinedMember.getEmail(),joinedMember.getPasswd(),joinedMember.getNickname());
 
     return "member/joinSuccess";
   }
+
+  //문자열 리스트를 ','를 구분자로하는 문자열 변환
+  private String makeListToString(List<String> hobby) {
+    StringBuffer str = new StringBuffer();
+    for (int i=0; i<hobby.size(); i++) {
+      str.append(hobby.get(i));
+      if(i == hobby.size()-1) break;
+      str.append(",");
+    }
+    return str.toString();
+  }
+
 //  public String join(
 //      @RequestParam("email") String email,
 //      @RequestParam("passwd") String passwd,

@@ -38,7 +38,7 @@ public class MemberDAOImpl implements MemberDAO{
     //SQL문작성
     StringBuffer sql = new StringBuffer();
     sql.append("insert into member ");
-    sql.append("values(member_member_id_seq.nextval, ?, ?, ? )");
+    sql.append("values(member_member_id_seq.nextval, ?, ?, ? , ?, ?, ?)");
 
     //SQL실행
     KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -53,6 +53,10 @@ public class MemberDAOImpl implements MemberDAO{
         pstmt.setString(1,member.getEmail());
         pstmt.setString(2,member.getPasswd());
         pstmt.setString(3,member.getNickname());
+
+        pstmt.setString(4,member.getGender());
+        pstmt.setString(5,member.getHobby());
+        pstmt.setString(6,member.getRegion());
 
         return pstmt;
       }
@@ -72,11 +76,19 @@ public class MemberDAOImpl implements MemberDAO{
 
     StringBuffer sql = new StringBuffer();
     sql.append("update member ");
-    sql.append("   set nickname = ? ");
+    sql.append("   set nickname = ?, ");
+    sql.append("       gender = ?, ");
+    sql.append("       hobby = ?, ");
+    sql.append("       region = ? ");
     sql.append(" where email = ? ");
 
-    jdbcTemplate.update(sql.toString(),member.getNickname(),member.getEmail());
-
+    jdbcTemplate.update(
+        sql.toString(),
+        member.getNickname(),
+        member.getGender(),
+        member.getHobby(),
+        member.getRegion(),
+        member.getEmail());
   }
 
   /**
@@ -87,7 +99,13 @@ public class MemberDAOImpl implements MemberDAO{
   @Override
   public Member selectMemberByEmail(String email) {
     StringBuffer sql = new StringBuffer();
-    sql.append("select member_id as memberId, email, passwd, nickname ");
+    sql.append("select member_id as memberId, ");
+    sql.append("       email, ");
+    sql.append("       passwd, ");
+    sql.append("       nickname, ");
+    sql.append("       gender, ");
+    sql.append("       hobby, ");
+    sql.append("       region ");
     sql.append("  from member ");
     sql.append(" where email = ? ");
 
@@ -103,7 +121,13 @@ public class MemberDAOImpl implements MemberDAO{
   public Member selectMemberByMemberId(Long memberId) {
 
     StringBuffer sql = new StringBuffer();
-    sql.append("select member_id as memberId, email, passwd, nickname ");
+    sql.append("select member_id as memberId, ");
+    sql.append("       email, ");
+    sql.append("       passwd, ");
+    sql.append("       nickname, ");
+    sql.append("       gender, ");
+    sql.append("       hobby, ");
+    sql.append("       region ");
     sql.append("  from member ");
     sql.append(" where member_id = ? ");
 
@@ -126,7 +150,10 @@ public class MemberDAOImpl implements MemberDAO{
     sql.append("select member_id as memberId, ");
     sql.append("       email, ");
     sql.append("       passwd, ");
-    sql.append("       nickname ");
+    sql.append("       nickname, ");
+    sql.append("       gender, ");
+    sql.append("       hobby, ");
+    sql.append("       region ");
     sql.append("  from member ");
     sql.append(" order by member_id desc ");
 
