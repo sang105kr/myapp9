@@ -104,7 +104,8 @@ public class MemberController {
     log.info("email={}, passwd={}, nickname={}",
         joinedMember.getEmail(),joinedMember.getPasswd(),joinedMember.getNickname());
 
-    return "member/joinSuccess";
+    //return "member/joinSuccess";
+    return "redirect:/members/joinSuccess";
   }
 
   //문자열 리스트를 ','를 구분자로하는 문자열 변환
@@ -116,6 +117,11 @@ public class MemberController {
       str.append(",");
     }
     return str.toString();
+  }
+
+  @GetMapping("/joinSuccess")
+  public String joinSuccess(){
+    return "member/joinSuccess";
   }
 
 //  public String join(
@@ -270,8 +276,14 @@ public class MemberController {
     if(session != null){
       session.invalidate();
     }
-    return "member/outCompleted"; //탈퇴수행 완료 view
+    return "redirect:/members/outCompleted";
   }  
+
+  @GetMapping("/outCompleted")
+  public String outCompleted(){
+
+    return "member/outCompleted"; //탈퇴수행 완료 view
+  }
 
   //마이페이지
   @GetMapping("/mypage")
