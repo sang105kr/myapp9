@@ -2,10 +2,7 @@ package com.kh.app3.web;
 
 import com.kh.app3.domain.member.Member;
 import com.kh.app3.domain.member.svc.MemberSVC;
-import com.kh.app3.web.form.member.DetailForm;
-import com.kh.app3.web.form.member.Gender;
-import com.kh.app3.web.form.member.JoinForm;
-import com.kh.app3.web.form.member.ModifyForm;
+import com.kh.app3.web.form.member.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -14,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -234,22 +232,51 @@ public class MemberController {
   }
 
   //회원탈퇴
-  @GetMapping("/out")
-  public String outForm(){
-    
+  @GetMapping("/{email}/out")
+  public String outForm(@ModelAttribute OutForm outForm ){
+    log.info("outForm 호출됨!");
     return "member/outForm";
   }
   
   @PostMapping("/out")
-  public String out(){
+  public String out(
+      @Valid @ModelAttribute OutForm outForm,
+      BindingResult bindingResult,
+      HttpSession session){
 
-    return "redirect:/"; //탈퇴후 초기화면
+    log.info("out 호출됨");
+    //1)유효성체크
+    if(bindingResult.hasErrors()){
+      log.info("bindingResult={}",bindingResult);
+      return "/member/outForm";
+    }
+    //2)동의 체크여부
+    if(!outForm.getAgree()){
+      bindingResult.rejectValue("agree",null, "탈퇴 안내를 확인하고 동의해 주세요.");
+      return "/member/outForm";
+    }
+
+    //3) 비밀번호가 일치하는지 체크
+    if(!memberSVC.isMember(outForm.getEmail(), outForm.getPasswd())){
+      bindingResult.rejectValue("passwd","member.passwdchk");
+      log.info("bindingResult={}", bindingResult);
+      return "member/outForm";
+    }
+
+    //4) 탈퇴로직 수행
+      //4-1) 회원정보 삭제
+    memberSVC.out(outForm.getEmail());
+      //4-2) 센션정보 제거
+    if(session != null){
+      session.invalidate();
+    }
+    return "member/outCompleted"; //탈퇴수행 완료 view
   }  
 
   //마이페이지
   @GetMapping("/mypage")
   public String mypage(){
-
+    log.info("mypage() 호출됨");
     return "member/mypage";
   }
 
