@@ -11,7 +11,6 @@ import java.util.List;
 public class DetailForm {
 
   private String email;
-  private String passwd;
   private String nickname;
   private Gender gender;      //남,여
   private List<String> hobby; //취미

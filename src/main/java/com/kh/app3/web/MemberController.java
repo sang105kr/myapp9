@@ -2,6 +2,7 @@ package com.kh.app3.web;
 
 import com.kh.app3.domain.member.Member;
 import com.kh.app3.domain.member.svc.MemberSVC;
+import com.kh.app3.web.form.member.DetailForm;
 import com.kh.app3.web.form.member.Gender;
 import com.kh.app3.web.form.member.JoinForm;
 import com.kh.app3.web.form.member.ModifyForm;
@@ -196,7 +197,8 @@ public class MemberController {
 
     //2) 비밀번호가 일치하는지 체크
     if(!memberSVC.isMember(modifyForm.getEmail(), modifyForm.getPasswd())){
-      bindingResult.rejectValue("passwd",null,"비밀번호가 잘못되었습니다.");
+      bindingResult.rejectValue("passwd","member.passwdchk");
+      log.info("bindingResult={}", bindingResult);
       return "member/modifyForm";
     }
     
@@ -215,14 +217,34 @@ public class MemberController {
 
   //회원상세
   @GetMapping("/{email}/detail")
-  public String detail(@PathVariable String email){
+  public String detail(@PathVariable String email, Model model){
 
     Member member = memberSVC.findByEmail(email);
 
+    DetailForm detailForm = new DetailForm();
+    detailForm.setEmail(member.getEmail());
+    detailForm.setNickname(member.getNickname());
+    detailForm.setGender(getGender(member.getGender()));
+    detailForm.setHobby(stringToList(member.getHobby()));
+    detailForm.setRegion(member.getRegion());
+
+    model.addAttribute("detailForm", detailForm);
 
     return "member/detailForm";
   }
 
+  //회원탈퇴
+  @GetMapping("/out")
+  public String outForm(){
+    
+    return "member/outForm";
+  }
+  
+  @PostMapping("/out")
+  public String out(){
+
+    return "redirect:/"; //탈퇴후 초기화면
+  }  
 
   //마이페이지
   @GetMapping("/mypage")
