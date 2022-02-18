@@ -52,7 +52,7 @@ public class LoginController {
     }
 
     //오브젝트 체크 : 회원유무
-    if(!memberSVC.isMember(loginForm.getEmail())) {
+    if(!memberSVC.existMember(loginForm.getEmail())) {
       bindingResult.reject("loginFail.email");
 
       return "login/loginForm";

@@ -82,7 +82,7 @@ public class MemberController {
       return "member/joinForm";
     }
     //2)아이디 중복체크
-    if(memberSVC.isMember(joinForm.getEmail())){
+    if(memberSVC.existMember(joinForm.getEmail())){
       bindingResult.rejectValue("email","joinForm.email.dup");
       log.info("error={}", bindingResult);
       return "member/joinForm";
@@ -153,7 +153,7 @@ public class MemberController {
     modifyForm.setHobby(stringToList(member.getHobby()));
     modifyForm.setRegion(member.getRegion());
 
-    model.addAttribute("member", member);
+    model.addAttribute("modifyForm", modifyForm);
 
     return "member/modifyForm";
   }
@@ -170,7 +170,7 @@ public class MemberController {
     return finded;
   }
 
-  //콤마를 구분자로하는 문자열을 문자열을 요소로갖는 리스트로 변환
+  //콤마를 구분자로하는 문자열을 문자열 요소로갖는 리스트로 변환
   private List<String> stringToList(String str) {
     String[] array = str.split(",");
     log.info("array={}", array.length);
@@ -183,14 +183,42 @@ public class MemberController {
 
   //회원수정 처리
   @PostMapping("/edit")
-  public String edit(){
+  public String edit(
+    @Valid @ModelAttribute ModifyForm modifyForm,
+    BindingResult bindingResult,
+    RedirectAttributes redirectAttributes){
+
+    //1) 유효성 체크  - 필드오류
+    if(bindingResult.hasErrors()){
+      log.info("bindingResult={}", bindingResult);
+      return "member/modifyForm";
+    }
+
+    //2) 비밀번호가 일치하는지 체크
+    if(!memberSVC.isMember(modifyForm.getEmail(), modifyForm.getPasswd())){
+      bindingResult.rejectValue("passwd",null,"비밀번호가 잘못되었습니다.");
+      return "member/modifyForm";
+    }
+    
+    //3) 회원정보 수정
+    Member member = new Member( null,
+        modifyForm.getEmail(), modifyForm.getPasswd(), modifyForm.getNickname(),
+        modifyForm.getGender().getDescription(),
+        makeListToString(modifyForm.getHobby()),
+        modifyForm.getRegion());
+
+    memberSVC.modify(member);
+    redirectAttributes.addAttribute("email", member.getEmail());
 
     return "redirect:/members/{email}/detail";  //회원 상세화면 이동
   }
 
   //회원상세
   @GetMapping("/{email}/detail")
-  public String detail(){
+  public String detail(@PathVariable String email){
+
+    Member member = memberSVC.findByEmail(email);
+
 
     return "member/detailForm";
   }

@@ -20,12 +20,12 @@ class MemberSVCImplTest {
   @DisplayName("회원유무체크:존재하는경우")
   void isMemberOk() {
     String email = "test1@kh.com";
-    assertThat(memberDAO.isMember(email)).isTrue();
+    assertThat(memberDAO.exitMember(email)).isTrue();
   }
   @Test
   @DisplayName("회원유무체크:존재하지 않는 경우")
   void isMemberNok() {
     String email = "zzz@kh.com";
-    assertThat(memberDAO.isMember(email)).isFalse();
+    assertThat(memberDAO.exitMember(email)).isFalse();
   }
 }

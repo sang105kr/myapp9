@@ -24,9 +24,12 @@ public interface MemberSVC {
   void out(String email);
 
   //회원유무체크
-  boolean isMember(String email);
+  boolean existMember(String email);
 
   //로그인 인증
   Member login(String email, String passwd);
+
+  //비밀번호 일치여부 체크
+  boolean isMember(String email, String passwd);
 
 }

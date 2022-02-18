@@ -184,19 +184,19 @@ public class MemberDAOImpl implements MemberDAO{
    * @return 회원이면 true
    */
 //  @Override
-//  public boolean isMember(String email) {
-//    boolean isMember = false;
+//  public boolean existMember(String email) {
+//    boolean existMember = false;
 //
 //    String sql = "select count(email) from member where email = ? ";
 //
 //    Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
 //
-//    if(count == 1)  isMember = true;
+//    if(count == 1)  existMember = true;
 //
-//    return isMember;
+//    return existMember;
 //  }
   @Override
-  public boolean isMember(String email) {
+  public boolean exitMember(String email) {
 
     String sql = "select count(email) from member where email = ? ";
     Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
@@ -266,4 +266,25 @@ public class MemberDAOImpl implements MemberDAO{
 //
 //    return DataAccessUtils.singleResult(list); //요소가 없으면 null, 1개있으면 그요소를 반환
 //  }
+
+  /**
+   * 비밀번호 일치여부 체크
+   * @param email
+   * @param passwd
+   * @return
+   */
+  @Override
+  public boolean isMember(String email, String passwd) {
+
+    StringBuffer sql = new StringBuffer();
+    sql.append("select count(*) ");
+    sql.append("  from member ");
+    sql.append(" where email = ? and passwd =? ");
+
+    Integer count = jdbcTemplate.queryForObject(
+        sql.toString(), Integer.class, email, passwd
+    );
+
+    return (count == 1) ? true : false;
+  }
 }

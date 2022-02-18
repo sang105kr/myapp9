@@ -1,7 +1,6 @@
 package com.kh.app3.domain.member.dao;
 
 import com.kh.app3.domain.member.Member;
-import com.kh.app3.domain.member.dao.MemberDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -64,7 +63,7 @@ public class MemberDAOImplTest {
     String email = "test2@kh.com";
     memberDAO.deleteMember(email);
 
-    boolean isMember = memberDAO.isMember(email);
+    boolean isMember = memberDAO.exitMember(email);
     Assertions.assertThat(isMember).isFalse();
   }
 

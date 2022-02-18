@@ -82,9 +82,8 @@ public class MemberSVCImpl implements MemberSVC{
    * @param email
    * @return
    */
-  @Override
-  public boolean isMember(String email) {
-    return memberDAO.isMember(email);
+  public boolean existMember(String email) {
+    return memberDAO.exitMember(email);
   }
 
   /**
@@ -97,5 +96,17 @@ public class MemberSVCImpl implements MemberSVC{
   public Member login(String email, String passwd) {
 
     return memberDAO.login(email, passwd);
+  }
+
+  /**
+   * 비밀번호 일치여부 체크
+   * @param email
+   * @param passwd
+   * @return
+   */
+  @Override
+  public boolean isMember(String email, String passwd) {
+
+    return memberDAO.isMember(email, passwd);
   }
 }
