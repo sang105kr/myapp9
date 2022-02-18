@@ -4,9 +4,11 @@ import com.kh.app3.domain.member.Member;
 import com.kh.app3.domain.member.svc.MemberSVC;
 import com.kh.app3.web.form.member.Gender;
 import com.kh.app3.web.form.member.JoinForm;
+import com.kh.app3.web.form.member.ModifyForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -138,9 +140,45 @@ public class MemberController {
 
   //회원수정
   @GetMapping("/{email}/edit")
-  public String editForm(){
+  public String editForm(
+      @PathVariable("email") String email,
+      Model model){
+
+    Member member = memberSVC.findByEmail(email);
+
+    ModifyForm modifyForm = new ModifyForm();
+    modifyForm.setEmail(member.getEmail());
+    modifyForm.setNickname(member.getNickname());
+    modifyForm.setGender(getGender(member.getGender()));
+    modifyForm.setHobby(stringToList(member.getHobby()));
+    modifyForm.setRegion(member.getRegion());
+
+    model.addAttribute("member", member);
 
     return "member/modifyForm";
+  }
+
+  //문자열로 Enum객체에서 상수요소 찾아오기
+  private Gender getGender(String gender) {
+    Gender finded = null;
+    for(Gender g : Gender.values()){
+      if(g.getDescription().equals(gender)){
+        finded = Gender.valueOf(g.name());
+        break;
+      }
+    }
+    return finded;
+  }
+
+  //콤마를 구분자로하는 문자열을 문자열을 요소로갖는 리스트로 변환
+  private List<String> stringToList(String str) {
+    String[] array = str.split(",");
+    log.info("array={}", array.length);
+    List<String> list = new ArrayList<>();
+    for (int i = 0; i < array.length; i++) {
+      list.add(array[i]);
+    }
+    return list;
   }
 
   //회원수정 처리
