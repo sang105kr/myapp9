@@ -3,6 +3,7 @@ package com.kh.app3.domain.notice.dao;
 import com.kh.app3.domain.notice.Notice;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -44,7 +45,7 @@ public class NoticeDAOImpl implements NoticeDAO{
       public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
         PreparedStatement pstmt = con.prepareStatement(
             sql.toString(),
-            new String[]{"notice_id"}  // insert 후 insert 레코드중 반환할 컬럼명
+            new String[]{"notice_id"}  // insert 후 insert 레코드중 반환할 컬럼명, KeyHolder에 저장됨.
         );
 
         pstmt.setString(1, notice.getSubject());
@@ -75,7 +76,16 @@ public class NoticeDAOImpl implements NoticeDAO{
    */
   @Override
   public Notice selectOne(Long noticeId) {
-    return null;
+
+    StringBuffer sql = new StringBuffer();
+    sql.append("select notice_id, subject,content,author, hit, cdate, udate ");
+    sql.append("from notice ");
+    sql.append("where notice_id = ? ");
+
+    List<Notice> query = jdbcTemplate.query(
+        sql.toString(), new BeanPropertyRowMapper<>(Notice.class), noticeId);
+
+    return (query.size() == 1) ? query.get(0) : null;
   }
 
   /**
