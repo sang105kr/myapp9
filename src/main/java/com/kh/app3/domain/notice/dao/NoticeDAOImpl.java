@@ -66,7 +66,15 @@ public class NoticeDAOImpl implements NoticeDAO{
    */
   @Override
   public List<Notice> selectAll() {
-    return null;
+
+    StringBuffer sql = new StringBuffer();
+    sql.append("select notice_id, subject, content, author, hit, cdate, udate ");
+    sql.append("  from notice ");
+
+    List<Notice> list = jdbcTemplate.query(
+        sql.toString(), new BeanPropertyRowMapper<>(Notice.class));
+
+    return list;
   }
 
   /**
@@ -95,8 +103,35 @@ public class NoticeDAOImpl implements NoticeDAO{
    */
   @Override
   public Notice update(Notice notice) {
-    return null;
+
+    StringBuffer sql = new StringBuffer();
+    sql.append("update notice ");
+    sql.append("set subject = ? , ");
+    sql.append("    content = ? , ");
+    sql.append("    udate   = systimestamp ");
+    sql.append("where notice_id = ? ");
+
+    KeyHolder keyHolder = new GeneratedKeyHolder();
+    jdbcTemplate.update(new PreparedStatementCreator() {
+      @Override
+      public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+        PreparedStatement pstmt = con.prepareStatement(
+            sql.toString(),
+            new String[]{"notice_id"}  // update 후 update 레코드중 반환할 컬럼명, KeyHolder에 저장됨.
+        );
+
+        pstmt.setString(1, notice.getSubject());
+        pstmt.setString(2, notice.getContent());
+        pstmt.setLong(3, notice.getNoticeId());
+
+        return pstmt;
+      }
+    },keyHolder);
+
+    long notice_id = Long.valueOf(keyHolder.getKeys().get("notice_id").toString());
+    return selectOne(notice_id);
   }
+
 
   /**
    * 삭제
@@ -105,7 +140,14 @@ public class NoticeDAOImpl implements NoticeDAO{
    */
   @Override
   public int delete(Long noticeId) {
-    return 0;
+
+    StringBuffer sql = new StringBuffer();
+    sql.append("delete from notice ");
+    sql.append(" where notice_id = ? ");
+
+    int cnt = jdbcTemplate.update(sql.toString(), noticeId);
+
+    return cnt;
   }
 
   /**
@@ -115,6 +157,17 @@ public class NoticeDAOImpl implements NoticeDAO{
    */
   @Override
   public int updateHit(Long noticeId) {
-    return 0;
+
+    StringBuffer sql = new StringBuffer();
+    sql.append("update notice ");
+    sql.append("   set hit = hit + 1 ");
+    sql.append(" where notice_id = ? ");
+
+    int cnt = jdbcTemplate.update(sql.toString(), noticeId);
+
+    return cnt;
   }
 }
+
+
+
