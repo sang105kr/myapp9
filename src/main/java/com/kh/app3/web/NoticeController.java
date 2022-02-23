@@ -4,12 +4,19 @@ import com.kh.app3.domain.notice.Notice;
 import com.kh.app3.domain.notice.svc.NoticeSVC;
 import com.kh.app3.web.form.notice.AddForm;
 import com.kh.app3.web.form.notice.DetailForm;
+import com.kh.app3.web.form.notice.EditForm;
+import com.kh.app3.web.form.notice.Item;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -57,6 +64,7 @@ public class NoticeController {
     Notice notice = noticeSVC.findByNoticeId(noticeId);
 
     DetailForm detailForm = new DetailForm();
+    detailForm.setNoticeId(notice.getNoticeId());
     detailForm.setSubject(notice.getSubject());
     detailForm.setContent(notice.getContent());
     detailForm.setAuthor(notice.getAuthor());
@@ -67,25 +75,61 @@ public class NoticeController {
   }
   //  수정화면
   @GetMapping("/{noticeId}/edit")
-  public String editForm(){
+  public String editForm(@PathVariable Long noticeId, Model model){
+
+    Notice notice = noticeSVC.findByNoticeId(noticeId);
+
+    EditForm editForm = new EditForm();
+    editForm.setSubject(notice.getSubject());
+    editForm.setContent(notice.getContent());
+    editForm.setAuthor(notice.getAuthor());
+
+    model.addAttribute("editForm", editForm);
+
     return "notice/editForm";
   }
   //  수정처리
   @PostMapping("/{noticeId}/edit")
-  public String edit(){
+  public String edit(
+      @ModelAttribute EditForm editForm,
+      RedirectAttributes redirectAttributes
+  ){
+
+    Notice notice = new Notice();
+    notice.setSubject(editForm.getSubject());
+    notice.setContent(editForm.getContent());
+    Notice modifiedNotice = noticeSVC.modify(notice);
+
+    redirectAttributes.addAttribute("noticeId", modifiedNotice.getNoticeId());
 
     return "redirect:/notices/{noticeId}";
   }
   //  삭제처리
   @GetMapping("{noticeId}/del")
-  public String del(){
+  public String del(@PathVariable Long noticeId){
+
+    noticeSVC.remove(noticeId);
 
     return "redirect:/notices";
   }
   //  전체목록
   @GetMapping("")
-  public String list(){
+  public String list(Model model){
 
+    List<Notice> list = noticeSVC.findAll();
+
+    List<Item> notices = new ArrayList<>();
+    for (Notice notice : list) {
+      Item item = new Item();
+      item.setNoticeId(notice.getNoticeId());
+      item.setSubject(notice.getSubject());
+      item.setCdate(notice.getCdate().toLocalDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))); //LocalDateTime => LocalDate
+      item.setCtime(notice.getCdate().toLocalTime().format(DateTimeFormatter.ofPattern("H:m:s")));
+      item.setHit(notice.getHit());
+      notices.add(item);
+    }
+
+    model.addAttribute("notices", notices);
     return "notice/list";
   }
 

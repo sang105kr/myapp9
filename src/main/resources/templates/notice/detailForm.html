@@ -13,7 +13,7 @@
     <div class="content">
       <h3>공지사항 상세</h3>
       <hr>
-      <form th:object="${detailForm}">
+      <form th:object="${detailForm}" th:data-notice-id="*{noticeId}">
         <ul>
           <li>
             <span>작성자</span>
@@ -43,12 +43,23 @@
     const $delBtn   = document.getElementById('delBtn');
     const $listBtn  = document.getElementById('listBtn');
 
-    $editBtn.addEventListener('click',()=>location.href='editForm.html');
+    $editBtn.addEventListener('click',e=>{
+      const noticeId = e.target.closest('form').dataset.noticeId;
+      const url = `/notices/${noticeId}/edit`;
+      location.href = url;
+    });
     $delBtn.addEventListener('click', e => {
       if(!confirm('삭제하시겠습니까?')) return;
-      location.href='list.html';
+
+      const noticeId = e.target.closest('form').dataset.noticeId;
+      const url = `/notices/${noticeId}/del`
+      location.href = url;
+
     });
-    $listBtn.addEventListener('click',()=>location.href='list.html');
+    $listBtn.addEventListener('click',()=>{
+      const url = `/notices`;
+      location.href = url;
+    });
   </script>
 </body>
 </html>

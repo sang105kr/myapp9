@@ -11,7 +11,7 @@
     div{ outline: 1px solid red; }  
     .cont{
       display: grid;
-      grid-template-columns: 50px 1fr 100px 70px;
+      grid-template-columns: 50px 1fr 100px 100px 70px;
       grid-auto-rows: 2em;
     }
     .btn-grp{
@@ -30,31 +30,45 @@
         <div class="col">NO</div>
         <div class="col">제목</div>
         <div class="col">작성일</div>
+        <div class="col">작성시간</div>
         <div class="col">조회수</div>
-        <div class="col">1</div>
-        <div class="col">제목1</div>
-        <div class="col">2022/02/22</div>
-        <div class="col">10</div>
-        <div class="col">NO</div>
-        <div class="col">제목2</div>
-        <div class="col">2022/02/22</div>
-        <div class="col">20</div>
-        <div class="col">NO</div>
-        <div class="col">제목3</div>
-        <div class="col">2022/02/21</div>
-        <div class="col">5</div>
-        <div class="col">NO</div>
-        <div class="col">제목3</div>
-        <div class="col">2022/02/21</div>
-        <div class="col">5</div>
-        <div class="col">NO</div>
-        <div class="col">제목3</div>
-        <div class="col">2022/02/21</div>
-        <div class="col">5</div>
-        <div class="col">NO</div>
-        <div class="col">제목3</div>
-        <div class="col">2022/02/21</div>
-        <div class="col">5</div>
+
+        <th:block th:each="item : ${notices}">
+        <div class="col" th:text="${item.noticeId}">1</div>
+        <div class="col" >
+          <a href="" th:href="@{|/notices/${item.noticeId}|}" th:text="${item.subject}">제목1</a>
+        </div>
+        <div class="col" th:text="${item.cdate}">2022/02/22</div>
+        <div class="col" th:text="${item.ctime}">2022/02/22</div>
+        <div class="col" th:text="${item.hit}">10</div>
+        </th:block>
+
+        <th:block th:remove="all">
+          <div class="col">1</div>
+          <div class="col">제목1</div>
+          <div class="col">2022/02/22</div>
+          <div class="col">10</div>
+          <div class="col">NO</div>
+          <div class="col">제목2</div>
+          <div class="col">2022/02/22</div>
+          <div class="col">20</div>
+          <div class="col">NO</div>
+          <div class="col">제목3</div>
+          <div class="col">2022/02/21</div>
+          <div class="col">5</div>
+          <div class="col">NO</div>
+          <div class="col">제목3</div>
+          <div class="col">2022/02/21</div>
+          <div class="col">5</div>
+          <div class="col">NO</div>
+          <div class="col">제목3</div>
+          <div class="col">2022/02/21</div>
+          <div class="col">5</div>
+          <div class="col">NO</div>
+          <div class="col">제목3</div>
+          <div class="col">2022/02/21</div>
+          <div class="col">5</div>
+        </th:block>
       </div>
       <div class="btn-grp">
         <button type="button" id="writeBtn">작성</button>
@@ -64,7 +78,10 @@
 
   <script>
     const $writeBtn = document.getElementById('writeBtn');
-    $writeBtn.addEventListener('click',()=>location.href='addForm.html');
+    $writeBtn.addEventListener('click',()=>{
+      const url = `/notices/add`;
+      location.href = url
+    });
   </script>
 </body>
 </html>

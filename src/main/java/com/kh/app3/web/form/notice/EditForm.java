@@ -6,8 +6,7 @@ import lombok.ToString;
 
 @Setter@Getter
 @ToString
-public class DetailForm {
-  private Long noticeId;
+public class EditForm {
   private String subject;
   private String content;
   private String author;
