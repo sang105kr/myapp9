@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공지사항 목록</title>
+  <link rel="stylesheet" href="../css/notice/common.css">
+  <style>
+    div{ outline: 1px solid red; }  
+    .cont{
+      display: grid;
+      grid-template-columns: 50px 1fr 100px 70px;
+      grid-auto-rows: 2em;
+    }
+    .btn-grp{
+      display: flex;
+      justify-content: flex-end;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="content">
+      <h3>공지사항 목록</h3>
+      <hr>
+      <div class="cont">
+        <div class="col">NO</div>
+        <div class="col">제목</div>
+        <div class="col">작성일</div>
+        <div class="col">조회수</div>
+        <div class="col">1</div>
+        <div class="col">제목1</div>
+        <div class="col">2022/02/22</div>
+        <div class="col">10</div>
+        <div class="col">NO</div>
+        <div class="col">제목2</div>
+        <div class="col">2022/02/22</div>
+        <div class="col">20</div>
+        <div class="col">NO</div>
+        <div class="col">제목3</div>
+        <div class="col">2022/02/21</div>
+        <div class="col">5</div>
+        <div class="col">NO</div>
+        <div class="col">제목3</div>
+        <div class="col">2022/02/21</div>
+        <div class="col">5</div>
+        <div class="col">NO</div>
+        <div class="col">제목3</div>
+        <div class="col">2022/02/21</div>
+        <div class="col">5</div>
+        <div class="col">NO</div>
+        <div class="col">제목3</div>
+        <div class="col">2022/02/21</div>
+        <div class="col">5</div>
+      </div>
+      <div class="btn-grp">
+        <button type="button" id="writeBtn">작성</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $writeBtn = document.getElementById('writeBtn');
+    $writeBtn.addEventListener('click',()=>location.href='addForm.html');
+  </script>
+</body>
+</html>

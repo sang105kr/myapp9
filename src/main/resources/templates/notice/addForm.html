@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공지사항 등록</title>
+  <link rel="stylesheet" href="../css/notice/common.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="content">
+      <h3>공지사항 등록</h3>
+      <hr>
+      <form >
+        <ul>
+          <li>
+            <span>작성자</span>
+            <input type="text">
+          </li>
+          <li>
+            <span>제목</span>
+            <input type="text" >
+          </li>
+          <li>
+            <span>내용</span>
+            <textarea cols="30" rows="10" ></textarea>
+          </li>
+          <li>
+            <button type="button" id="writeBtn">등록</button>
+            <button type="button" id="listBtn">목록</button>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>    
+  <script>
+    const $writeBtn = document.getElementById('writeBtn');
+    const $listBtn = document.getElementById('listBtn');
+    $writeBtn.addEventListener('click', ()=>location.href='detailForm.html');
+    $listBtn.addEventListener('click', ()=>location.href='list.html');
+  </script>
+</body>
+</html>

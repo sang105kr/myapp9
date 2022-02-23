@@ -98,6 +98,9 @@ class NoticeDAOImplTest {
     //then
     Assertions.assertThat(notices.size()).isEqualTo(2);
     log.info("notices={}", notices);
+    notices.stream().forEach(notice -> {
+      log.info("cdate={}",notice.getCdate());
+    });
   }
 }
 

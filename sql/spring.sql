@@ -26,3 +26,30 @@ desc member;
 insert into member values(member_member_id_seq.nextval, 'test1@kh.com', '1234', '테스터1');
 select * from member;
 commit;
+
+drop table notice;
+create table notice(
+    notice_id    number(8),
+    subject     varchar2(100),
+    content     clob,
+    author      varchar2(12),
+    hit         number(5) default 0,
+    cdate       timestamp default systimestamp,
+    udate       timestamp
+);
+--기본키생성
+alter table notice add Constraint notice_notice_id_pk primary key (notice_id);
+
+--제약조건 not null
+alter table notice modify subject constraint notice_subject_nn not null;
+alter table notice modify content constraint notice_content_nn not null;
+alter table notice modify author constraint notice_author_nn not null;
+
+--시퀀스
+drop sequence notice_notice_id_seq;
+create sequence notice_notice_id_seq
+start with 1
+increment by 1
+minvalue 0
+maxvalue 99999999
+nocycle;
