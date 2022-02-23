@@ -13,19 +13,19 @@
     <div class="content">
       <h3>공지사항 등록</h3>
       <hr>
-      <form >
+      <form th:action th:method="post" th:object="${addForm}">
         <ul>
           <li>
             <span>작성자</span>
-            <input type="text">
+            <input type="text" th:field="*{author}">
           </li>
           <li>
             <span>제목</span>
-            <input type="text" >
+            <input type="text" th:field="*{subject}">
           </li>
           <li>
             <span>내용</span>
-            <textarea cols="30" rows="10" ></textarea>
+            <textarea cols="30" rows="10" th:field="*{content}"></textarea>
           </li>
           <li>
             <button type="button" id="writeBtn">등록</button>

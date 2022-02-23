@@ -13,19 +13,20 @@
     <div class="content">
       <h3>공지사항 상세</h3>
       <hr>
-      <form>
+      <form th:object="${detailForm}">
         <ul>
           <li>
             <span>작성자</span>
-            <input type="text" readonly="readonly">
+            <input type="text" readonly="readonly" th:field="*{author}">
+            <!-- <input type="text" readonly="readonly" id="author" name="author" value="작성자1">-->
           </li>
           <li>
             <span>제목</span>
-            <input type="text" readonly="readonly">
+            <input type="text" readonly="readonly" th:field="*{subject}">
           </li>
           <li>
             <span>내용</span>
-            <textarea cols="30" rows="10" readonly="readonly"></textarea>
+            <textarea cols="30" rows="10" readonly="readonly" th:field="*{content}"></textarea>
           </li>
           <li>
             <button type="button" id="editBtn">수정</button>
