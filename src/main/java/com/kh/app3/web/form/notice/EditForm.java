@@ -7,6 +7,7 @@ import lombok.ToString;
 @Setter@Getter
 @ToString
 public class EditForm {
+  private Long noticeId;
   private String subject;
   private String content;
   private String author;

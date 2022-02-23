@@ -13,19 +13,20 @@
     <div class="content">
       <h3>공지사항 수정</h3>
       <hr>
-      <form>
+      <form th:action th:object="${editForm}" th:data-notice-id="*{noticeId}">
+        <input type="hidden" th:field="*{noticeId}">
         <ul>
           <li>
             <span>작성자</span>
-            <input type="text" readonly="readonly">
+            <input type="text" readonly="readonly" th:field="*{author}">
           </li>
           <li>
             <span>제목</span>
-            <input type="text">
+            <input type="text" th:field="*{subject}">
           </li>
           <li>
             <span>내용</span>
-            <textarea cols="30" rows="10"></textarea>
+            <textarea cols="30" rows="10" th:field="*{content}"></textarea>
           </li>
           <li>
             <button type="button" id="modifyBtn">수정</button>
@@ -39,8 +40,19 @@
     const $modifyBtn = document.getElementById('modifyBtn');
     const $cancelBtn = document.getElementById('cancelBtn');
 
-    $modifyBtn.addEventListener('click', ()=>location.href='detailForm.html');
-    $cancelBtn.addEventListener('click', ()=>location.href='detailForm.html');
+    $modifyBtn.addEventListener('click', e=>{
+      const $form = e.target.closest('form');
+      const noticeId = $form.dataset.noticeId;
+      $form.action = `/notices/${noticeId}/edit`;
+      $form.method = 'post';
+      $form.submit();
+    });
+    $cancelBtn.addEventListener('click', e=>{
+      const $form = e.target.closest('form');
+      const noticeId = $form.dataset.noticeId;
+      const url = `/notices/${noticeId}`;
+      location.href = url;
+    });
   </script>
 </body>
 </html>

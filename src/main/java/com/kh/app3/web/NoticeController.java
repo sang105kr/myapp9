@@ -80,6 +80,7 @@ public class NoticeController {
     Notice notice = noticeSVC.findByNoticeId(noticeId);
 
     EditForm editForm = new EditForm();
+    editForm.setNoticeId(notice.getNoticeId());
     editForm.setSubject(notice.getSubject());
     editForm.setContent(notice.getContent());
     editForm.setAuthor(notice.getAuthor());
@@ -92,13 +93,17 @@ public class NoticeController {
   @PostMapping("/{noticeId}/edit")
   public String edit(
       @ModelAttribute EditForm editForm,
+      @PathVariable Long noticeId,
       RedirectAttributes redirectAttributes
   ){
 
     Notice notice = new Notice();
+    notice.setNoticeId(noticeId);
     notice.setSubject(editForm.getSubject());
     notice.setContent(editForm.getContent());
     Notice modifiedNotice = noticeSVC.modify(notice);
+
+    log.info("notice={}", notice);
 
     redirectAttributes.addAttribute("noticeId", modifiedNotice.getNoticeId());
 

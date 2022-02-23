@@ -14,6 +14,8 @@
       <h3>공지사항 상세</h3>
       <hr>
       <form th:object="${detailForm}" th:data-notice-id="*{noticeId}">
+        <input type="hidden" th:field="*{noticeId}">
+<!--        <input type="hidden" id="noticeId" name="noticeId" value="xxx">-->
         <ul>
           <li>
             <span>작성자</span>
