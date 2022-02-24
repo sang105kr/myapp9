@@ -6,14 +6,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>공지사항 수정</title>
-  <link rel="stylesheet" href="../css/notice/common.css">
+  <link rel="stylesheet" href="../css/notice/common.css" th:href="@{/css/notice/common.css}">
 </head>
 <body>
   <div class="wrap">
     <div class="content">
       <h3>공지사항 수정</h3>
       <hr>
-      <form th:action th:object="${editForm}" th:data-notice-id="*{noticeId}">
+      <form th:action th:method="patch" th:object="${editForm}"
+            th:data-notice-id="*{noticeId}">
         <input type="hidden" th:field="*{noticeId}">
         <ul>
           <li>
@@ -43,14 +44,13 @@
     $modifyBtn.addEventListener('click', e=>{
       const $form = e.target.closest('form');
       const noticeId = $form.dataset.noticeId;
-      $form.action = `/notices/${noticeId}/edit`;
-      $form.method = 'post';
+      $form.action = `/notices/${noticeId}`;
       $form.submit();
     });
     $cancelBtn.addEventListener('click', e=>{
       const $form = e.target.closest('form');
       const noticeId = $form.dataset.noticeId;
-      const url = `/notices/${noticeId}`;
+      const url = `/notices/${noticeId}/detail`;
       location.href = url;
     });
   </script>

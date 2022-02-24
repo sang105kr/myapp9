@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>공지사항 목록</title>
-  <link rel="stylesheet" href="../css/notice/common.css">
+  <link rel="stylesheet" href="../css/notice/common.css" th:href="@{/css/notice/common.css}">
   <style>
     div{ outline: 1px solid red; }  
     .cont{
@@ -36,7 +36,7 @@
         <th:block th:each="item : ${notices}">
         <div class="col" th:text="${item.noticeId}">1</div>
         <div class="col" >
-          <a href="" th:href="@{|/notices/${item.noticeId}|}" th:text="${item.subject}">제목1</a>
+          <a href="" th:href="@{|/notices/${item.noticeId}/detail|}" th:text="${item.subject}">제목1</a>
         </div>
         <div class="col" th:text="${item.cdate}">2022/02/22</div>
         <div class="col" th:text="${item.ctime}">2022/02/22</div>
@@ -79,7 +79,7 @@
   <script>
     const $writeBtn = document.getElementById('writeBtn');
     $writeBtn.addEventListener('click',()=>{
-      const url = `/notices/add`;
+      const url = `/notices`;
       location.href = url
     });
   </script>

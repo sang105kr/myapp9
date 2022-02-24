@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>공지사항 등록</title>
-  <link rel="stylesheet" href="../css/notice/common.css">
+  <link rel="stylesheet" href="../css/notice/common.css" th:href="@{/css/notice/common.css}">
 </head>
 <body>
   <div class="wrap">
@@ -42,7 +42,7 @@
       e.target.closest('form').submit();
     });
     $listBtn.addEventListener('click', ()=>{
-      const url = `/notices`;
+      const url = `/notices/all`;
       location.href = url;
     });
   </script>
