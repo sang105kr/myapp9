@@ -34,7 +34,8 @@
         <div class="col">조회수</div>
 
         <th:block th:each="item : ${notices}">
-        <div class="col" th:text="${item.noticeId}">1</div>
+            <div class="col" th:text="${item.noticeId}">1</div>
+<!--        <div class="col" th:text="${itemStat.size-itemStat.index}">1</div>-->
         <div class="col" >
           <a href="" th:href="@{|/notices/${item.noticeId}/detail|}" th:text="${item.subject}">제목1</a>
         </div>

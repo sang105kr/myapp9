@@ -5,12 +5,14 @@ import com.kh.app3.domain.notice.dao.NoticeDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class NoticeSVCImpl implements NoticeSVC{
 
   private final NoticeDAO noticeDAO;
@@ -42,7 +44,9 @@ public class NoticeSVCImpl implements NoticeSVC{
    */
   @Override
   public Notice findByNoticeId(Long noticeId) {
-    return noticeDAO.selectOne(noticeId);
+    Notice notice = noticeDAO.selectOne(noticeId);
+    noticeDAO.updateHit(noticeId);
+    return notice;
   }
 
   /**

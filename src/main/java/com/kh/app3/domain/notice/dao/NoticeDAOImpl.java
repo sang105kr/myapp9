@@ -70,6 +70,7 @@ public class NoticeDAOImpl implements NoticeDAO{
     StringBuffer sql = new StringBuffer();
     sql.append("select notice_id, subject, content, author, hit, cdate, udate ");
     sql.append("  from notice ");
+    sql.append("order by notice_id desc ");
 
     List<Notice> list = jdbcTemplate.query(
         sql.toString(), new BeanPropertyRowMapper<>(Notice.class));
