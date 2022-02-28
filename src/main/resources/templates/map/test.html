@@ -217,7 +217,10 @@
           `<div class='info'>
             <div>상호명</div><div>${info.place_name}</div>
             <div>연락처</div><div>${info.phone}</div>
-            <div>부가정보</div><div><a href='${info.place_url}'>${info.place_url}</a></div>
+            <div>부가정보</div>
+            <div>
+              <a href='${info.place_url}' target='_blank'>${info.place_url}</a>
+            </div>
             <div>도로명주소</div><div>${info.road_address_name}</div>
           </div>`,
         // anchorSize : new naver.maps.Size(10,10)  //인포 창 크기
