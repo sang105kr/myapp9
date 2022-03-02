@@ -22,11 +22,13 @@ public class ApiMemberController {
 
   private final MemberSVC memberSVC;
 
-  @ResponseBody
+  @ResponseBody //http응답 메세지 바디에 직접 쓰기
+                //(반환타입이 객체이면 java객체=>json포맷 문자열로 변환후)
   @GetMapping("/api/members")
-  public List<Member> members(){
+  public ApiResult<List<Member>> members(){
     List<Member> list = memberSVC.findAll();
-    return list;
+    ApiResult<List<Member>> result = new ApiResult<>("00","success",list);
+    return result;
   }
 
   @ResponseBody
