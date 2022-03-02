@@ -8,10 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
@@ -50,5 +48,25 @@ public class ApiMemberController {
     }else{
       return new ApiResult("99","fail","NOK");
     }
+  }
+  @ResponseBody
+  @PutMapping("/api/members/email/find")
+  public ApiResult<String> findEmailByNickname(
+      @RequestBody String nickname
+  ){
+
+    log.info("nickname={}",nickname);
+    ApiResult<String> result = null;
+
+    String email = memberSVC.findEmailByNickname(nickname);
+
+    //StringUtils.isEmpty : null또는 ""문자열 인지 체크
+    //if(email == null || email.equals(""))
+    if(!StringUtils.isEmpty(email)) {
+      result = new ApiResult<>("00", "success", email);
+    }else{
+      result = new ApiResult<>("99", "fail", "찾고자하는 아이디가 없습니다.");
+    }
+    return result;
   }
 }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>아이디 찾기</title>
+  <style>
+    .content-findEmail{
+      display:grid;
+      grid-template-columns: 100px 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>아이디찾기</h3>
+  <hr>
+  <div class="content-findEmail">
+    <div><label>별칭</label></div>
+    <div><input type="text" id="nickname"></div>
+    <div><label>아이디</label></div>
+    <div><span id="findedEmail"></span></div>
+    <div></div><div><button id="findEmailBtn">아이디찾기</button></div>
+  </div>
+
+  <script>
+    findEmailBtn.addEventListener('click', findByEmail);
+
+    function findByEmail(e){
+      const xhr = new XMLHttpRequest();
+      xhr.open('PUT','/api/members/email/find');
+      xhr.send(nickname.value);
+      xhr.addEventListener('load',e=>{
+        //console.log(xhr);
+        if(xhr.status === 200){
+          //console.log(xhr.response); //json포맷의 문자열 수신확인
+          const obj = JSON.parse(xhr.response);//json포맷의 문자열 => js객체변환
+          if(obj.rtcd === '00'){
+            findedEmail.textContent = obj.data;
+          }else{
+            findedEmail.textContent = obj.data;
+          }
+        }else{
+          console.err('Error', xhr.status, xhr.statusText);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

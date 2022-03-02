@@ -32,4 +32,6 @@ public interface MemberSVC {
   //비밀번호 일치여부 체크
   boolean isMember(String email, String passwd);
 
+  //아이디 찾기
+  String findEmailByNickname(String nickname);
 }

@@ -8,12 +8,14 @@ import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -286,5 +288,35 @@ public class MemberDAOImpl implements MemberDAO{
     );
 
     return (count == 1) ? true : false;
+  }
+
+  /**
+   * 별칭으로 이메일 찾기
+   * @param nickname
+   * @return
+   */
+  @Override
+  public String findEmailByNickname(String nickname) {
+    StringBuffer sql = new StringBuffer();
+    sql.append("select email ");
+    sql.append("  from member ");
+    sql.append(" where nickname = ? ");
+
+    List<String> result = jdbcTemplate.query(
+        sql.toString(),
+        new RowMapper<String>() {
+          @Override
+          public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return rs.getNString("email");
+          }
+        },
+        nickname
+    );
+
+//    String eamil = jdbcTemplate.queryForObject(
+//        sql.toString(), String.class, nickname
+//    );
+
+    return (result.size() == 1) ? result.get(0) : null;
   }
 }
