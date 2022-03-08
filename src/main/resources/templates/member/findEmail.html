@@ -29,9 +29,14 @@
     findEmailBtn.addEventListener('click', findByEmail);
 
     function findByEmail(e){
+      // AJAX 객체생성
       const xhr = new XMLHttpRequest();
+
+      //클라이언트 요청
       xhr.open('PUT','/api/members/email/find');
       xhr.send(nickname.value);
+
+      //서버 응답처리
       xhr.addEventListener('load',e=>{
         //console.log(xhr);
         if(xhr.status === 200){
