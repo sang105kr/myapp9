@@ -1,3 +1,6 @@
+-------
+--회원
+-------
 drop table member;
 
 create table member (
@@ -53,3 +56,71 @@ increment by 1
 minvalue 0
 maxvalue 99999999
 nocycle;
+
+
+-------
+--게시판
+-------
+drop table bbs;
+drop table code;
+
+create table code(
+    code_id     varchar2(11),       --코드
+    decode      varchar2(30),       --코드명
+    discript    clob,               --코드설명
+    pcode_id    varchar2(11),       --상위코드
+    useyn       char(1) default 'Y',            --사용여부 (사용:'Y',미사용:'N')
+    cdate       timestamp default systimestamp,         --생성일시
+    udate       timestamp default systimestamp          --수정일시
+);
+--기본키
+alter table code add Constraint code_code_id_pk primary key (code_id);
+
+--제약조건
+alter table code modify decode constraint code_decode_nn not null;
+alter table code modify useyn constraint code_useyn_nn not null;
+alter table code add constraint code_useyn_ck check(useyn in ('Y','N'));
+
+create table bbs(
+    bbs_id      number(10),         --게시글 번호
+    bcategory   varchar2(11),       --분류카테고리
+    title       varchar2(150),      --제목
+    email       varchar2(50),       --email
+    nickname    varchar2(30),       --별칭
+    hit         number(5) default 0,          --조회수
+    bcontent    clob,               --본문
+    pbbs_id     number(10),         --부모 게시글번호
+    bgroup      number(10),         --답글그룹
+    step        number(3) default 0,          --답글단계
+    bindent     number(3) default 0,          --답글들여쓰기
+    status      char(1),               --답글상태  (삭제: 'D', 임시저장: 'I')
+    cdate       timestamp default systimestamp,         --생성일시
+    udate       timestamp default systimestamp          --수정일시
+);
+
+--기본키
+alter table bbs add Constraint bbs_bbs_id_pk primary key (bbs_id);
+
+--외래키
+alter table bbs add constraint bbs_bcategory_fk
+    foreign key(bcategory) references code(code_id);
+alter table bbs add constraint bbs_pbbs_id_fk
+    foreign key(pbbs_id) references bbs(bbs_id);
+alter table bbs add constraint bbs_email_fk
+    foreign key(email) references member(email);
+
+--제약조건
+alter table bbs modify bcategory constraint bbs_bcategory_nn not null;
+alter table bbs modify title constraint bbs_title_nn not null;
+alter table bbs modify email constraint bbs_email_nn not null;
+alter table bbs modify nickname constraint bbs_nickname_nn not null;
+alter table bbs modify bcontent constraint bbs_bcontent_nn not null;
+
+--시퀀스
+drop sequence bbs_bbs_id_seq;
+create sequence bbs_bbs_id_seq;
+
+
+
+
+
