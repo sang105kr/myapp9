@@ -39,4 +39,13 @@ public interface BbsDAO {
    */
   int updateByBbsId(Long id,Bbs bbs);
 
+
+  // 답글작성
+  Long saverReply(Bbs bbs);
+
+  // 조회수
+  int hitCount(Long id);
+
+  // 전체건수
+  int totalCount();
 }

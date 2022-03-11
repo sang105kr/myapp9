@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
@@ -30,6 +32,70 @@ class BbsDAOImplTest {
 
     Long saveOriginId = bbsDAO.saveOrigin(bbs);
     Assertions.assertThat(saveOriginId).isEqualTo(4);
-    log.info("saveOriginId={}",saveOriginId);
+    log.info("saveOriginId={}", saveOriginId);
+  }
+
+  @Test
+  @DisplayName("목록")
+  void findAll() {
+    List<Bbs> list = bbsDAO.findAll();
+
+    Assertions.assertThat(list.size()).isEqualTo(3);
+    Assertions.assertThat(list.get(0).getTitle()).isEqualTo("제목1");
+    for (Bbs bbs : list) {
+      log.info(bbs.toString());
+    }
+  }
+
+  @Test
+  @DisplayName("게시글 단건 조회")
+  void findByBbsId() {
+    Long bbsId = 3L;
+    Bbs findedBbsItem = bbsDAO.findByBbsId(bbsId);
+    Assertions.assertThat(findedBbsItem.getTitle()).isEqualTo("제목1");
+  }
+
+  @Test
+  @DisplayName("게시글 단건 삭제")
+  void deleteByBbsId() {
+    Long bbsId = 3L;
+    int deletedBbsItemCount = bbsDAO.deleteByBbsId(bbsId);
+
+    Assertions.assertThat(deletedBbsItemCount).isEqualTo(1);
+
+    Bbs findedBbsItem = bbsDAO.findByBbsId(bbsId);
+    Assertions.assertThat(findedBbsItem).isNull();
+  }
+
+  @Test
+  @DisplayName("게시글 수정")
+  void updateByBbsId(){
+
+    Long bbsId = 2L;
+    //수정전
+    Bbs beforeUpdatingItem = bbsDAO.findByBbsId(bbsId);
+    beforeUpdatingItem.setBcategory("B0102");
+    beforeUpdatingItem.setTitle("수정후 제목");
+    beforeUpdatingItem.setBcontent("수정후 본문");
+    bbsDAO.updateByBbsId(bbsId,beforeUpdatingItem);
+    
+    //수정후
+    Bbs afterUpdatingItem = bbsDAO.findByBbsId(bbsId);
+    
+    //수정전후 비교
+    Assertions.assertThat(beforeUpdatingItem.getBcategory())
+        .isEqualTo(afterUpdatingItem.getBcategory());
+    Assertions.assertThat(beforeUpdatingItem.getTitle())
+        .isEqualTo(afterUpdatingItem.getTitle());
+    Assertions.assertThat(beforeUpdatingItem.getBcontent())
+        .isEqualTo(afterUpdatingItem.getBcontent());
+    Assertions.assertThat(beforeUpdatingItem.getUdate())
+        .isNotEqualTo(afterUpdatingItem.getUdate());
   }
 }
+
+
+
+
+
+
