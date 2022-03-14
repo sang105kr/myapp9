@@ -221,12 +221,24 @@ public class BbsDAOImpl implements BbsDAO{
   //조회수증가
   @Override
   public int increaseHitCount(Long id) {
-    return 0;
+    StringBuffer sql = new StringBuffer();
+    sql.append("update bbs  ");
+    sql.append("set hit = hit + 1 ");
+    sql.append("where bbs_id = ? ");
+
+    int affectedRows = jdbcTemplate.update(sql.toString(), id);
+
+    return affectedRows;
   }
 
   //전체건수
   @Override
   public int totalCount() {
-    return 0;
+
+    String sql = "select count(*) from bbs";
+
+    Integer cnt = jdbcTemplate.queryForObject(sql, Integer.class);
+
+    return cnt;
   }
 }
