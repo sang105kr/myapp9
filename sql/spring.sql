@@ -94,6 +94,10 @@ insert into code (code_id,decode,pcode_id,useyn) values ('B01','게시판',null,
 insert into code (code_id,decode,pcode_id,useyn) values ('B0101','Spring','B01','Y');
 insert into code (code_id,decode,pcode_id,useyn) values ('B0102','Datbase','B01','Y');
 insert into code (code_id,decode,pcode_id,useyn) values ('B0103','Q_A','B01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F01','첨부',null,'Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F0101','파일','F01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F0102','이미지','F01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F0103','프로파일','F01','Y');
 commit;
 
 create table bbs(
