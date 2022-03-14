@@ -40,12 +40,24 @@ public interface BbsDAO {
   int updateByBbsId(Long id,Bbs bbs);
 
 
-  // 답글작성
-  Long saverReply(Bbs bbs);
+  /**
+   * 답글작성
+   * @param pbbsId 부모글번호
+   * @param replyBbs 답글
+   * @return 답글번호
+   */
+  Long saveReply(Long pbbsId,Bbs replyBbs);
 
-  // 조회수
-  int hitCount(Long id);
+  /**
+   * 조회수증가
+   * @param id 게시글번호
+   * @return  수정건수
+   */ 
+  int increaseHitCount(Long id);
 
-  // 전체건수
+  /**
+   * 전체건수
+   * @return 게시글 전체건수
+   */
   int totalCount();
 }

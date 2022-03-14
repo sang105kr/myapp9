@@ -145,4 +145,88 @@ public class BbsDAOImpl implements BbsDAO{
 
     return updatedItemCount;
   }
+
+  //답글
+  @Override
+  public Long saveReply(Long pbbsId, Bbs replyBbs) {
+
+    //부모글 참조반영
+    Bbs bbs = addInfoOfParentToChild(pbbsId,replyBbs);
+
+    StringBuffer sql = new StringBuffer();
+    sql.append("insert into bbs (bbs_id,bcategory,title,email,nickname,bcontent,pbbs_id,bgroup,step,bindent) ");
+    sql.append("values(bbs_bbs_id_seq.nextval,?,?,?,?,?,?,?,?,?) ");
+
+    KeyHolder keyHolder = new GeneratedKeyHolder();
+    jdbcTemplate.update(new PreparedStatementCreator() {
+      @Override
+      public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+        PreparedStatement pstmt = con.prepareStatement(sql.toString(), new String[]{"bbs_id"});
+        pstmt.setString(1, bbs.getBcategory());
+        pstmt.setString(2, bbs.getTitle());
+        pstmt.setString(3, bbs.getEmail());
+        pstmt.setString(4, bbs.getNickname());
+        pstmt.setString(5, bbs.getBcontent());
+        pstmt.setLong(6, bbs.getPbbsId());
+        pstmt.setLong(7, bbs.getBgroup());
+        pstmt.setInt(8, bbs.getStep());
+        pstmt.setInt(9, bbs.getBindent());
+        return pstmt;
+      }
+    },keyHolder);
+
+    return Long.valueOf(keyHolder.getKeys().get("bbs_id").toString());
+  }
+
+  //답글에 부모정보 반영하기
+  private Bbs addInfoOfParentToChild(Long pbbsId, Bbs replyBbs) {
+    //부모글
+    Bbs bbs = findByBbsId(pbbsId);
+
+    //부모글의 카테고리 가져오기
+    replyBbs.setBcategory(bbs.getBcategory());
+
+    //bgroup 로직
+    // 답글의 bgroup = 부모글의 bgroup
+    replyBbs.setBgroup(bbs.getBgroup());
+
+    //step 로직
+    //1) 부모글의 bgroup값과 동일한 게시글중 부모글의 step보다큰 게시글의 bstep을 1씩 증가
+    int affectedRows = updateBstep(bbs);
+    //2) 답글의 bstep값은 부모글의 bstep값 + 1
+    replyBbs.setStep(bbs.getStep()+1);
+
+    //bindent 로직
+    // 답글의 bindent = 부모글의 bindent + 1
+    replyBbs.setBindent(bbs.getBindent()+1);
+
+    replyBbs.setPbbsId(pbbsId);
+    return replyBbs;
+  }
+
+  //부모글과 동일한그룹 bstep반영
+  private int updateBstep(Bbs bbs) {
+    StringBuffer sql = new StringBuffer();
+
+    sql.append("update bbs ");
+    sql.append("   set step = step + 1 ");
+    sql.append(" where bgroup =  ? ");
+    sql.append("   and step  >  ? ");
+
+    int affectedRows = jdbcTemplate.update(sql.toString(), bbs.getBgroup(), bbs.getStep());
+
+    return affectedRows;
+  }
+
+  //조회수증가
+  @Override
+  public int increaseHitCount(Long id) {
+    return 0;
+  }
+
+  //전체건수
+  @Override
+  public int totalCount() {
+    return 0;
+  }
 }

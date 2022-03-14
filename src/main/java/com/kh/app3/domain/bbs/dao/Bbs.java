@@ -16,7 +16,7 @@ public class Bbs {
   private Long  pbbsId;         //  부모 게시글 번호 PBBS_ID	NUMBER(10,0)
   private Long bgroup;          //  답글그룹 BGROUP	NUMBER(10,0)
   private int step;             //  답글단계 STEP	NUMBER(3,0)
-  private int indent;           //  답글 들여쓰기 BINDENT	NUMBER(3,0)
+  private int bindent;           //  답글 들여쓰기 BINDENT	NUMBER(3,0)
   private BbsStatus status;     //  게시글 상태 STATUS	CHAR(1 BYTE) (D:삭제, I:임시저장, W:경고)
   private LocalDateTime cdate;  //  생성일 CDATE	TIMESTAMP(6)
   private LocalDateTime udate;  //  수정일 UDATE	TIMESTAMP(6)
