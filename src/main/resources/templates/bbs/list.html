@@ -81,6 +81,9 @@
               <td>
                 <!--들여쓰기-->
                 <th:block th:if="${item.bindent} > 0">
+<!--                  컬렉션없이 단순 반복 처리하고자할때 -->
+<!--                  Create a sequence (array) of integer numbers going from x to y -->
+<!--                  ${#numbers.sequence(from,to)}-->
                   <span th:each="cnt : ${#numbers.sequence(1,item.bindent)}">&nbsp;&nbsp;</span>
                   <i class="fa-solid fa-reply"></i>
                 </th:block>

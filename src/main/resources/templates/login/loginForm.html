@@ -25,7 +25,7 @@
   <ul th:if="${#fields.hasErrors('${loginForm}')}">
     <li th:errors="${loginForm}" th:errorclass="globalError">글로벌 오류</li>
   </ul>
-  <form action="" th:action="@{/login}" method="post" th:object="${loginForm}">
+  <form action="" th:action method="post" th:object="${loginForm}">
     <ul>
       <!-- 글로벌 오류 case2) form태그 안에 있을 때
       <li th:if="${#fields.hasErrors('global')}" class="globalError">

@@ -6,6 +6,7 @@ import com.kh.app3.domain.common.CodeDAO;
 import com.kh.app3.web.form.bbs.AddForm;
 import com.kh.app3.web.form.bbs.DetailForm;
 import com.kh.app3.web.form.bbs.ListForm;
+import com.kh.app3.web.form.login.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +49,7 @@ public class BbsController {
   @PostMapping("/add")
   public String add(
       @ModelAttribute AddForm addForm,
+      HttpSession session,
       RedirectAttributes redirectAttributes) {
     log.info("addForm={}",addForm);
 
@@ -57,6 +60,17 @@ public class BbsController {
 //    bbs.setNickname(addForm.getNickname());
 //    bbs.setBcontent(addForm.getBcontent());
     BeanUtils.copyProperties(addForm, bbs);
+
+    //세션 가져오기
+    LoginMember loginMember = (LoginMember)session.getAttribute(SessionConst.LOGIN_MEMBER);
+    //세션 정보가 없으면 로그인페이지로 이동
+    if(loginMember == null){
+      return "redirect:/login";
+    }
+    
+    //세션에서 이메일,별칭가져오기
+    bbs.setEmail(loginMember.getEmail());
+    bbs.setNickname(loginMember.getNickname());
 
     Long originId = bbsSvc.saveOrigin(bbs);
     redirectAttributes.addAttribute("id", originId);
