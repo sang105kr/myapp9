@@ -5,14 +5,17 @@ import com.kh.app3.domain.bbs.svc.BbsSVC;
 import com.kh.app3.domain.common.CodeDAO;
 import com.kh.app3.web.form.bbs.AddForm;
 import com.kh.app3.web.form.bbs.DetailForm;
+import com.kh.app3.web.form.bbs.ListForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -64,7 +67,18 @@ public class BbsController {
 
   //목록
   @GetMapping
-  public String list() {
+  public String list(Model model) {
+
+    List<Bbs> list = bbsSvc.findAll();
+
+    List<ListForm> partOfList = new ArrayList<>();
+    for (Bbs bbs : list) {
+      ListForm listForm = new ListForm();
+      BeanUtils.copyProperties(bbs, listForm);
+      partOfList.add(listForm);
+    }
+
+    model.addAttribute("list", partOfList);
 
     return "bbs/list";
   }
