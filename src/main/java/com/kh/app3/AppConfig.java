@@ -18,6 +18,7 @@ public class AppConfig implements WebMvcConfigurer {
         .excludePathPatterns(
             "/",                    //초기화면
             "/login",               //로그인
+            "/logout",              //로그아웃
             "/members/add",         //회원가입
             "/css/**",
             "/js/**",

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko"
 			xmlns:th="http://www.thymeleaf.org"
-      th:fragment="copyParam(title,styles,scripts,upm,header,nav,main,footer)">
+      th:fragment="copyParam(title,styles,scripts,style,script,upm,header,nav,main,footer)">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:replace=${title}>메인레이아웃</title>
   <!--common style-->
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="" th:href="@{/css/main.css}">
 
   <!--common script-->
   <script defer src="xxx.js" ></script>
@@ -19,11 +19,13 @@
   <th:block th:replace="${styles}"></th:block>
   <th:block th:replace="${scripts}"></th:block>
 
+  <th:block th:replace="${style}"></th:block>
+  <th:block th:replace="${script}"></th:block>
 </head>
 <body>
   <div class="global-wrap">
     <div class="upm">
-      <div class="inner upm-inner" th:insert="${upm}">
+      <div class="inner upm-inner" th:replace="${upm}">
         <div class="logo">logo</div>
         <div class="upm-menu">
           <div class="login"><a href="">로그인</a></div>

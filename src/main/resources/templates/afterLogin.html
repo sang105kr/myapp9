@@ -1,23 +1,153 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/main::copyParam(
+        ~{::title},       <!--/* title */-->
+        ~{},              <!--/* styles */-->
+        ~{},              <!--/* scripts */-->
+        ~{},              <!--/* style */-->
+        ~{},              <!--/* script */-->
+        ~{::.upm-inner},  <!--/* upm */-->
+        ~{::header},      <!--/* header */-->
+        ~{::nav},         <!--/* nav */-->
+        ~{::main},        <!--/* main */-->
+        _                 <!--/* footer default*/-->
+      )}">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>초기화면</title>
+  <title>로그인 후</title>
 </head>
-  <h3 th:if="${!session.isEmpty()}">
-    <span th:text="${session.loginMember.nickname}"></span>님 환영합니다.
-  </h3>
-  <ul>
-    <li><a href="/members/mypage">마이페이지</a></li>
-    <li><a href="/map">지도API</a></li>
-    <li><a href="/covid">코비드 연령별,성별 감염현황</a></li>
-    <li><a href="/bbs">게시판</a></li>
-    <li><a href="/logout">로그아웃</a></li>
-  </ul>
 <body>
-  hello~!
+<div class="global-wrap">
+  <div class="upm">
+    <div class="inner upm-inner">
+      <div class="logo">logo</div>
+      <div class="upm-menu">
+        <div class="mypage"><a href="" th:href="@{/members/mypage}"}>내정보</a></div>
+        <div th:if="${!session.isEmpty()}" th:text="|[${session.loginMember.nickname}]|"></div>
+        <div class="logout"><a href="" th:href="@{/logout}">로그아웃</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hdr">
+    <div class="inner hdr-inner">
+      <header>header</header>
+    </div>
+  </div>
+  <div class="gnb">
+    <div class="inner gnb-inner">
+      <nav>
+        <ul class="depth1">
+          <li class="item">
+            <a href="#">menu1</a>
+            <ul class="depth2">
+              <li class="item"><a href="#">menu-1</a></li>
+              <li class="item"><a href="#">menu-2</a></li>
+            </ul>
+          </li>
+          <li class="item">
+            <a href="#">menu2</a>
+            <ul class="depth2">
+              <li class="item"><a href="#">menu-1</a></li>
+              <li class="item"><a href="#">menu-2</a></li>
+            </ul>
+          </li>
+          <li class="item">
+            <a href="#">menu3</a>
+            <ul class="depth2">
+              <li class="item"><a href="#">menu-1</a></li>
+              <li class="item"><a href="#">menu-2</a></li>
+            </ul>
+          </li>
+          <li class="item">
+            <a href="#">menu4</a>
+            <ul class="depth2">
+              <li class="item"><a href="#">menu-1</a></li>
+              <li class="item"><a href="#">menu-2</a></li>
+            </ul>
+          </li>
+          <li class="item">
+            <a href="#">menu5</a>
+            <ul class="depth2">
+              <li class="item"><a href="#">menu-1</a></li>
+              <li class="item"><a href="#">menu-2</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="main">
+    <div class="inner main-inner">
+      <main>
+        <div class="product-wrap">
+          <div class="product-item">
+            <img src="http://placeimg.com/150/120/any" width="100%">
+            <p>설명</p>
+            <p>가격</p>
+          </div>
+          <div class="product-item">
+            <img src="http://placeimg.com/150/120/any">
+            <p>설명</p>
+            <p>가격</p>
+          </div>
+          <div class="product-item">
+            <img src="http://placeimg.com/150/120/any">
+            <p>설명</p>
+            <p>가격</p>
+          </div>
+          <div class="product-item">
+            <img class="product-img" src="http://ipsumimage.appspot.com/150x150" alt="">
+            <p>설명</p>
+            <p>가격</p>
+          </div>
+          <div class="product-item">
+            <img class="product-img" src="" alt="">
+            <p>설명</p>
+            <p>가격</p>
+          </div>
+          <div class="product-item">
+            <img class="product-img" src="" alt="">
+            <p>설명</p>
+            <p>가격</p>
+          </div>
+          <div class="product-item">
+            <img class="product-img" src="" alt="">
+            <p>설명</p>
+            <p>가격</p>
+          </div>
+          <div class="product-item">
+            <img class="product-img" src="" alt="">
+            <p>설명</p>
+            <p>가격</p>
+          </div>
+          <div class="product-item">
+            <img class="product-img" src="" alt="">
+            <p>설명</p>
+            <p>가격</p>
+          </div>
+          <div class="product-item">
+            <img class="product-img" src="" alt="">
+            <p>설명</p>
+            <p>가격</p>
+          </div>
+          <div class="product-item">
+            <img class="product-img" src="" alt="">
+            <p>설명</p>
+            <p>가격</p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <div class="foot">
+      <div class="inner foot-inner">
+        <footer>
+          <div class="copyright">Copyright © KH울산정보교육원 Co.,Ltd. All Rights Reserved</div>
+        </footer>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

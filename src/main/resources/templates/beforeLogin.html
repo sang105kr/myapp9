@@ -3,6 +3,11 @@
 			xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragment/main::copyParam(
         ~{::title},       <!--/* title */-->
+        ~{},              <!--/* styles */-->
+        ~{},              <!--/* scripts */-->
+        ~{},              <!--/* style */-->
+        ~{},              <!--/* script */-->
+        ~{::.upm-inner},  <!--/* upm */-->
         ~{::header},      <!--/* header */-->
         ~{::nav},         <!--/* nav */-->
         ~{::main},        <!--/* main */-->
@@ -13,118 +18,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>로그인전</title>
-  <style>
-    *{outline:1px solid red;}
-    html,body,p,img{ padding:0; margin:0;}
-    ul { list-style: none; padding:0; margin:0;}
-    a {text-decoration: none; color:inherit;}
-    img {
-      max-width: 100%;	vertical-align: top;
-    }
-    /* layout */
-    .global-wrap{
-      display:grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: 40px 150px 30px auto auto;
-      grid-template-areas: "upm" "hdr" "gnb" "main" "foot";
-    }
-    .upm{grid-area: upm;} .hdr{grid-area: hdr;} .gnb{grid-area: gnb;} .main{grid-area: main;} .foot{grid-area: foot;}
-
-    /* upm */
-      /* upm & footer */
-    .global-wrap .inner{
-      width:80%; height: 100%;
-      max-width:1000px;
-      margin: 0 auto;
-    } 
-
-    .global-wrap .upm{
-      /* background-color: #333;
-      color:#eee; */
-    }
-    .global-wrap .upm .upm-inner{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .global-wrap .upm .upm-inner .upm-menu{
-      /* display:grid;
-      grid-template-columns: repeat(2,1fr);
-      justify-items: center; */
-      display:flex;
-
-    }
-    .global-wrap .upm .upm-inner .upm-menu .login,
-    .global-wrap .upm .upm-inner .upm-menu .join{
-      text-align: center;
-      /* margin: 0 5px; */
-      font-size: 0.8rem;
-      padding:3px;
-    }
-    .global-wrap .upm .upm-inner .upm-menu a{
-      display: block; 
-    }
-
-    /* gnb */
-    .global-wrap .gnb .item{
-      flex: 1;
-      line-height: 30px;
-    }
-    .global-wrap .gnb .item a {
-      display:block;
-      padding-left:10px;
-    }
-    .global-wrap .gnb .depth1 {
-      display:flex;
-      justify-content: center;
-      text-align: center;
-      background-color: #333; color:#fff;
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-    .global-wrap .gnb .depth1 > .item{
-      position:relative;
-    }
-    .global-wrap .gnb .depth1 > .item:hover{
-      color:#ccc;
-    }
-    .global-wrap .gnb .depth1 > .item:hover .depth2{
-      display:block;
-      position:absolute;
-      top:1.7rem; left:10px;
-      background-color: white; color:#444;
-      border:1px solid #eee;
-      border-radius: 10%;
-      box-shadow: 0px 5px 5px 3px rgba(0,0,0,.2);
-      transition: all .5s ease-out;
-    }    
-    .global-wrap .gnb .depth2 {
-      display:none;
-      width:100%;
-      font-weight: normal; font-size: 1rem;    
-    }
-    .global-wrap .gnb .depth2 > .item:hover {
-      color:#00c;
-    }
-    /* main */
-    .global-wrap .main .product-wrap{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
-      padding:30px;
-      gap:20px;
-
-    }
-    .global-wrap .main .product-wrap .product-item .product-img{
-      border:1px solid #eee;
-      border-radius: 10%;
-    }
-
-   /* foot */
-    .global-wrap .foot .copyright{
-      text-align: center; padding: 10px 0; font-size:0.8rem;
-    }
-    
-  </style>
 </head>
 <body>
   <div class="global-wrap">
@@ -132,8 +25,8 @@
       <div class="inner upm-inner">
         <div class="logo">logo</div>
         <div class="upm-menu">
-          <div class="login"><a href="">로그인</a></div>
-          <div class="join"><a href="">회원가입</a></div>
+          <div class="login"><a href="" th:href="@{/login}">로그인</a></div>
+          <div class="join"><a href="" th:href="@{/members/add}"}>회원가입</a></div>
         </div>
       </div>
     </div>
