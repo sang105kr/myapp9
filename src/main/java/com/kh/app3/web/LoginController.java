@@ -44,7 +44,7 @@ public class LoginController {
       LoginForm loginForm,
       BindingResult bindingResult, //폼데이터를 폼객체에 바인딩할때 유효성체크후 오류정보 저장
       HttpServletRequest request,
-      @RequestParam String redirectUrl
+      @RequestParam(required = false,defaultValue = "/") String redirectUrl
       ){
 
     //필드 유효성 체크

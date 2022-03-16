@@ -21,7 +21,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
       String queryString = URLEncoder.encode(request.getQueryString(), "UTF-8");
       StringBuffer str = new StringBuffer();
       redirectUrl = str.append(requestURI)
-          .append("?")
+          .append("&")
           .append(queryString)
           .toString();
     }else{
