@@ -10,14 +10,14 @@
 
 <body>
   <th:block th:fragment="beforeLoginUpm">
-    <div class="logo">logo</div>
+    <div class="logo"><a href="" th:href="@{/}"><i class="fa-solid fa-house"></i></a></div>
     <div class="upm-menu">
       <div class="login"><a href="" th:href="@{/login}">로그인</a></div>
       <div class="join"><a href="" th:href="@{/members/add}"}>회원가입</a></div>
     </div>
   </th:block>
   <th:block th:fragment="afterLoginUpm">
-    <div class="logo">logo</div>
+    <div class="logo"><a href="" th:href="@{/}"><i class="fa-solid fa-house"></i></a></div>
     <div class="upm-menu">
       <div class="mypage"><a href="" th:href="@{/members/mypage}"}>내정보</a></div>
       <div th:if="${!session.isEmpty()}" th:text="|[${session.loginMember.nickname}]|"></div>

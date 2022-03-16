@@ -20,20 +20,20 @@
   <th:block th:replace="${scripts}"></th:block>
 
   <th:block th:replace="${style}"></th:block>
-  <th:block th:replace="${script}"></th:block>
+
 </head>
 <body>
   <div class="global-wrap">
     <div class="upm">
       <div class="inner upm-inner" th:replace="${upm}">
-        <div class="logo">logo</div>
-        <div class="upm-menu">
-          <div class="login"><a href="">로그인</a></div>
-          <div class="join"><a href="">회원가입</a></div>
-        </div>
+<!--        <div class="logo"><a href="">logo</a></div>-->
+<!--        <div class="upm-menu">-->
+<!--          <div class="login"><a href="">로그인</a></div>-->
+<!--          <div class="join"><a href="">회원가입</a></div>-->
+<!--        </div>-->
       </div>
     </div>
-    <div class="hdr">
+    <div class="hdr" th:if="${!#strings.isEmpty(header)}">
       <div class="inner hdr-inner" th:insert="${header}">
         header
       </div>
@@ -55,5 +55,6 @@
       </div>
     </div>
   </div>
+  <th:block th:replace="${script}"></th:block>
 </body>
 </html>

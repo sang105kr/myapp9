@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-*{outline:1px solid red;}
+/* *{outline:1px solid red;} */
 html,body,p,img{ padding:0; margin:0;}
 ul { list-style: none; padding:0; margin:0;}
 a {text-decoration: none; color:inherit;}
@@ -11,7 +11,7 @@ img {
 .global-wrap{
   display:grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 40px 150px 30px auto auto;
+  grid-template-rows: 40px auto 30px auto auto;
   grid-template-areas: "upm" "hdr" "gnb" "main" "foot";
 }
 .upm{grid-area: upm;} .hdr{grid-area: hdr;} .gnb{grid-area: gnb;} .main{grid-area: main;} .foot{grid-area: foot;}
