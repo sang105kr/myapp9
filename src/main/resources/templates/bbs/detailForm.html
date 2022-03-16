@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/main::main(
+        ~{::title},       <!--/* title */-->
+        ~{},              <!--/* styles */-->
+        ~{},              <!--/* scripts */-->
+        ~{::style},       <!--/* style */-->
+        ~{::script},      <!--/* script */-->
+        ~{::.upm-inner},  <!--/* upm */-->
+        ~{},              <!--/* header */-->
+        ~{::nav},         <!--/* nav */-->
+        ~{::main},        <!--/* main */-->
+        _                 <!--/* footer default*/-->
+      )}">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시글 보기</title>
   <style>
+    main { display:flex; justify-content:center; }
     .bbs-wrap * {
       /* outline:1px solid red; */
       box-sizing: border-box;
@@ -40,44 +53,94 @@
     }
   </style>
 </head>
-
 <body>
-  <div class="bbs-wrap">
-    <div class="bbs-title"><h3>게시글 보기</h3></div>
-    <div class="class-body">
-      <form action="" method="post" th:object="${detailForm}">
-        <div class="bbs-hit">
-          <span class="bbs-hit-content bbs-hit-tit">조회수</span>
-          <span class="bbs-hit-content bbs-hit-cnt" th:text="*{hit}">10</span>
-        </div>
-        <div class="bbs-content">
-           <div><lable>분류</lable></div>
-           <div>
-            <select name="" id="" class="w100" th:field="*{bcategory}" th:disabled="disabled">
-              <option value="" >==선택==</option>
-              <th:block th:each="code : ${classifier}">
-                <option value="" th:value="${code.code}" th:text="${code.decode}">게시판1</option>
-              </th:block>
-            </select>
-           </div>
-           <div><lable>제목</lable></div>
-           <div><input type="text" name="" id="" class="w100" th:field="*{title}" th:readonly="readonly"></div>
-           <div><lable>작성자</lable></div>
-           <div><input type="text" name="" id="" class="w100" th:field="*{nickname}" th:readonly="readonly"></div>
-           <div><lable>내용</lable></div>
-           <div><textarea name="" id="" rows="10" class="w100" th:field="*{bcontent}" th:readonly="readonly"></textarea></div>
-        </div>
-        <div class="bbs-btngrp">
-          <button>답글</button>
-          <button>수정</button>
-          <button>삭제</button>          
-          <button>목록</button>
-        </div>
-        <div class="bbs-attach">
-          첨부파일
-        </div>
-      </form>
+<div class="global-wrap">
+  <div class="upm">
+    <div class="inner upm-inner">
+      <th:block th:replace="~{fragment/uppermost::afterLoginUpm}"></th:block>
     </div>
   </div>
+  <div class="hdr">
+    <div class="inner hdr-inner">
+      <header>header</header>
+    </div>
+  </div>
+  <div class="gnb">
+    <div class="inner gnb-inner">
+      <nav th:replace="~{fragment/menu::global}"></nav>
+    </div>
+  </div>
+  <div class="main">
+    <div class="inner main-inner">
+      <main>
+        <div class="bbs-wrap">
+          <div class="bbs-title"><h3>게시글 보기</h3></div>
+          <div class="class-body">
+            <form action="" method="post" th:object="${detailForm}">
+              <input type="hidden" th:field="*{bbsId}">
+              <div class="bbs-hit">
+                <span class="bbs-hit-content bbs-hit-tit">조회수</span>
+                <span class="bbs-hit-content bbs-hit-cnt" th:text="*{hit}">10</span>
+              </div>
+              <div class="bbs-content">
+                <div><lable>분류</lable></div>
+                <div>
+                  <select name="" id="" class="w100" th:field="*{bcategory}" th:disabled="disabled">
+                    <option value="" >==선택==</option>
+                    <th:block th:each="code : ${classifier}">
+                      <option value="" th:value="${code.code}" th:text="${code.decode}">게시판1</option>
+                    </th:block>
+                  </select>
+                </div>
+                <div><lable>제목</lable></div>
+                <div><input type="text" name="" id="" class="w100" th:field="*{title}" th:readonly="readonly"></div>
+                <div><lable>작성자</lable></div>
+                <div><input type="text" name="" id="" class="w100" th:field="*{nickname}" th:readonly="readonly"></div>
+                <div><lable>내용</lable></div>
+                <div><textarea name="" id="" rows="10" class="w100" th:field="*{bcontent}" th:readonly="readonly"></textarea></div>
+              </div>
+              <div class="bbs-btngrp">
+                <button type="button" id="replyBtn">답글</button>
+                <button type="button" id="editBtn">수정</button>
+                <button type="button" id="delBtn">삭제</button>
+                <button type="button" id="listBtn">목록</button>
+              </div>
+              <div class="bbs-attach">
+                첨부파일
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <div class="foot">
+      <div class="inner foot-inner">
+        <footer>
+          footer
+        </footer>
+      </div>
+    </div>
+  </div>
+  <script>
+    //답글
+    replyBtn.addEventListener('click',e=>{
+      const url = `/bbs/${bbsId.value}/reply`;
+      location.href = url;
+    });
+    //수정
+    editBtn.addEventListener('click',e=>{
+      const url = `/bbs/${bbsId.value}/edit`;
+      location.href = url;
+    });
+    //삭제
+    delBtn.addEventListener('click',e=>{
+      const url = `/bbs/${bbsId.value}/del`;
+      location.href = url;
+    });
+    //목록
+    listBtn.addEventListener('click',e=>{
+      location.href="/bbs";
+    });
+  </script>
 </body>
 </html>

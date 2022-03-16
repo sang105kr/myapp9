@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class DetailForm {
+  private Long bbsId;           //  게시글번호
   private String bcategory;     //  분류 BCATEGORY	VARCHAR2(11 BYTE)
   private String title;         //  제목 TITLE	VARCHAR2(150 BYTE)
   private String email;         //  EMAIL	VARCHAR2(50 BYTE)

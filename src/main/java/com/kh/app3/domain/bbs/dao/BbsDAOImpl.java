@@ -69,6 +69,7 @@ public class BbsDAOImpl implements BbsDAO{
     sql.append("  udate ");
     sql.append("FROM ");
     sql.append("  bbs ");
+    sql.append("Order by bgroup desc, step asc ");
 
     List<Bbs> list = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<>(Bbs.class));
 
@@ -97,6 +98,7 @@ public class BbsDAOImpl implements BbsDAO{
     sql.append("FROM ");
     sql.append("  bbs ");
     sql.append("WHERE bcategory = ? ");
+    sql.append("Order by bgroup desc, step asc ");
 
     List<Bbs> list = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<>(Bbs.class),category);
 

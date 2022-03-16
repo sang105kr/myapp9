@@ -41,7 +41,17 @@ public class BbsController {
 //    model.addAttribute("addForm", new AddForm());
 //    return "bbs/addForm";
 //  }
-  public String addForm(@ModelAttribute AddForm addForm) {
+  public String addForm(
+      Model model,
+      HttpSession session) {
+
+    LoginMember loginMember = (LoginMember)session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+    AddForm addForm = new AddForm();
+    addForm.setEmail(loginMember.getEmail());
+    addForm.setNickname(loginMember.getNickname());
+    model.addAttribute("addForm", addForm);
+
     return "bbs/addForm";
   }
 
@@ -98,22 +108,22 @@ public class BbsController {
   }
 
   //조회
-  @GetMapping("/{id}")
-  public String detail(
-      @PathVariable Long id,
-      Model model) {
+    @GetMapping("/{id}")
+    public String detail(
+        @PathVariable Long id,
+        Model model) {
 
-    Bbs detailBbs = bbsSvc.findByBbsId(id);
+      Bbs detailBbs = bbsSvc.findByBbsId(id);
 
-    DetailForm detailForm = new DetailForm();
+      DetailForm detailForm = new DetailForm();
 //    detailForm.setBcategory(detailBbs.getBcategory());
 //    detailForm.setTitle(detailBbs.getTitle());
 //    detailForm.setBcontent(detailBbs.getBcontent());
 //    detailForm.setEmail(detailBbs.getEmail());
 //    detailForm.setNickname(detailBbs.getNickname());
 //    detailForm.setHit(detailBbs.getHit());
-    BeanUtils.copyProperties(detailBbs, detailForm);
-    model.addAttribute("detailForm", detailForm);
+      BeanUtils.copyProperties(detailBbs, detailForm);
+      model.addAttribute("detailForm", detailForm);
 
     return "bbs/detailForm";
   }
