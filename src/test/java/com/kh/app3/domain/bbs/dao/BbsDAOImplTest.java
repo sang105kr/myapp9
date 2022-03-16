@@ -62,6 +62,17 @@ class BbsDAOImplTest {
   }
 
   @Test
+  @DisplayName("카테고리별 목록")
+  void findAllByCategory() {
+    String category = "B0104";
+    List<Bbs> list = bbsDAO.findAll(category);
+
+    for (Bbs bbs : list) {
+      log.info(bbs.toString());
+    }
+  }
+
+  @Test
   @DisplayName("게시글 단건 조회")
   void findByBbsId() {
     Long bbsId = 3L;
@@ -131,6 +142,8 @@ class BbsDAOImplTest {
     Assertions.assertThat(i).isEqualTo(size);
 
   }
+
+
 }
 
 

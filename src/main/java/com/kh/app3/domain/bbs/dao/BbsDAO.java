@@ -16,6 +16,7 @@ public interface BbsDAO {
    * @return
    */
   List<Bbs>  findAll();
+  List<Bbs>  findAll(String category);
 
   /**
    * 상세 조회

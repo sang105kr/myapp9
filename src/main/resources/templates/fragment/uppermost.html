@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title</title>
+</head>
+
+<body>
+  <th:block th:fragment="beforeLoginUpm">
+    <div class="logo">logo</div>
+    <div class="upm-menu">
+      <div class="login"><a href="" th:href="@{/login}">로그인</a></div>
+      <div class="join"><a href="" th:href="@{/members/add}"}>회원가입</a></div>
+    </div>
+  </th:block>
+  <th:block th:fragment="afterLoginUpm">
+    <div class="logo">logo</div>
+    <div class="upm-menu">
+      <div class="mypage"><a href="" th:href="@{/members/mypage}"}>내정보</a></div>
+      <div th:if="${!session.isEmpty()}" th:text="|[${session.loginMember.nickname}]|"></div>
+      <div class="logout"><a href="" th:href="@{/logout}">로그아웃</a></div>
+    </div>
+  </th:block>
+</body>
+</html>

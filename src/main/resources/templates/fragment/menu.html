@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title</title>
+</head>
+
+<body>
+  <nav th:fragment="global">
+    <ul class="depth1">
+      <li class="item">
+        <a href="#">menu1</a>
+        <ul class="depth2">
+          <li class="item"><a href="#">menu-1</a></li>
+          <li class="item"><a href="#">menu-2</a></li>
+        </ul>
+      </li>
+      <li class="item">
+        <a href="#">menu2</a>
+        <ul class="depth2">
+          <li class="item"><a href="#">menu-1</a></li>
+          <li class="item"><a href="#">menu-2</a></li>
+        </ul>
+      </li>
+      <li class="item">
+        <a href="#" th:href="@{/bbs}">게시판</a>
+        <ul class="depth2">
+          <li class="item"><a href="#" th:href="@{/bbs?category=B0101}">Spring</a></li>
+          <li class="item"><a href="#" th:href="@{/bbs?category=B0102}">Database</a></li>
+          <li class="item"><a href="#" th:href="@{/bbs?category=B0103}">Q&A</a></li>
+          <li class="item"><a href="#" th:href="@{/bbs?category=B0104}">자유게시판</a></li>
+        </ul>
+      </li>
+      <li class="item">
+        <a href="#">menu4</a>
+        <ul class="depth2">
+          <li class="item"><a href="#">menu-1</a></li>
+          <li class="item"><a href="#">menu-2</a></li>
+        </ul>
+      </li>
+      <li class="item">
+        <a href="#">menu5</a>
+        <ul class="depth2">
+          <li class="item"><a href="#">menu-1</a></li>
+          <li class="item"><a href="#">menu-2</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <nav th:fragment="admin">
+
+  </nav>
+  <nav th:fragment="mypage">
+
+  </nav>
+</body>
+</html>

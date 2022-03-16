@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragment/main::copyParam(
+      th:replace="~{fragment/main::main(
         ~{::title},       <!--/* title */-->
         ~{},              <!--/* styles */-->
         ~{},              <!--/* scripts */-->
@@ -23,12 +23,7 @@
 <div class="global-wrap">
   <div class="upm">
     <div class="inner upm-inner">
-      <div class="logo">logo</div>
-      <div class="upm-menu">
-        <div class="mypage"><a href="" th:href="@{/members/mypage}"}>내정보</a></div>
-        <div th:if="${!session.isEmpty()}" th:text="|[${session.loginMember.nickname}]|"></div>
-        <div class="logout"><a href="" th:href="@{/logout}">로그아웃</a></div>
-      </div>
+      <th:block th:replace="~{fragment/uppermost::afterLoginUpm}"></th:block>
     </div>
   </div>
   <div class="hdr">
@@ -38,45 +33,7 @@
   </div>
   <div class="gnb">
     <div class="inner gnb-inner">
-      <nav>
-        <ul class="depth1">
-          <li class="item">
-            <a href="#">menu1</a>
-            <ul class="depth2">
-              <li class="item"><a href="#">menu-1</a></li>
-              <li class="item"><a href="#">menu-2</a></li>
-            </ul>
-          </li>
-          <li class="item">
-            <a href="#">menu2</a>
-            <ul class="depth2">
-              <li class="item"><a href="#">menu-1</a></li>
-              <li class="item"><a href="#">menu-2</a></li>
-            </ul>
-          </li>
-          <li class="item">
-            <a href="#">menu3</a>
-            <ul class="depth2">
-              <li class="item"><a href="#">menu-1</a></li>
-              <li class="item"><a href="#">menu-2</a></li>
-            </ul>
-          </li>
-          <li class="item">
-            <a href="#">menu4</a>
-            <ul class="depth2">
-              <li class="item"><a href="#">menu-1</a></li>
-              <li class="item"><a href="#">menu-2</a></li>
-            </ul>
-          </li>
-          <li class="item">
-            <a href="#">menu5</a>
-            <ul class="depth2">
-              <li class="item"><a href="#">menu-1</a></li>
-              <li class="item"><a href="#">menu-2</a></li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
+      <nav th:replace="~{fragment/menu::global}"></nav>
     </div>
   </div>
   <div class="main">

@@ -75,6 +75,34 @@ public class BbsDAOImpl implements BbsDAO{
     return list;
   }
 
+  //카테고리별 목록
+  @Override
+  public List<Bbs> findAll(String category) {
+    StringBuffer sql = new StringBuffer();
+    sql.append("SELECT ");
+    sql.append("  bbs_id, ");
+    sql.append("  bcategory, ");
+    sql.append("  title, ");
+    sql.append("  email, ");
+    sql.append("  nickname, ");
+    sql.append("  hit, ");
+    sql.append("  bcontent, ");
+    sql.append("  pbbs_id, ");
+    sql.append("  bgroup, ");
+    sql.append("  step, ");
+    sql.append("  bindent, ");
+    sql.append("  status, ");
+    sql.append("  cdate, ");
+    sql.append("  udate ");
+    sql.append("FROM ");
+    sql.append("  bbs ");
+    sql.append("WHERE bcategory = ? ");
+
+    List<Bbs> list = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<>(Bbs.class),category);
+
+    return list;
+  }
+
   //조회
   @Override
   public Bbs findByBbsId(Long id) {
