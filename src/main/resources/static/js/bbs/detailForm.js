@@ -11,8 +11,10 @@ editBtn.addEventListener('click',e=>{
 });
 //삭제
 delBtn.addEventListener('click',e=>{
-  const url = `/bbs/${bbsId.value}/del`;
-  location.href = url;
+  if(confirm('삭제하시겠습니까?')){
+    const url = `/bbs/${bbsId.value}/del`;
+    location.href = url;
+  }
 });
 //목록
 listBtn.addEventListener('click',e=>{

@@ -3,10 +3,10 @@
       xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragment/main::main(
         ~{::title},       <!--/* title */-->
-        ~{::link},         <!--/* styles */-->
-        ~{::script},       <!--/* scripts */-->
-        ~{},         <!--/* style */-->
-        ~{},        <!--/* script */-->
+        ~{::link},              <!--/* styles */-->
+        ~{::script},              <!--/* scripts */-->
+        ~{},       <!--/* style */-->
+        ~{},      <!--/* script */-->
         ~{::.upm-inner},  <!--/* upm */-->
         ~{},              <!--/* header */-->
         ~{::nav},         <!--/* nav */-->
@@ -17,9 +17,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>게시글 작성</title>
-  <link rel="stylesheet" href="" th:href="@{/css/bbs/addForm.css}">
-  <script defer src="" th:src="@{/js/bbs/addForm.js}"></script>
+  <title>게시글 수정</title>
+  <link rel="stylesheet" href="" th:href="@{/css/bbs/editForm.css}">
+  <script defer src="" th:src="@{/js/bbs/editForm.js}"></script>
 </head>
 <body>
 <div class="global-wrap">
@@ -42,15 +42,20 @@
     <div class="inner main-inner">
       <main>
         <div class="bbs-wrap">
-          <div class="bbs-title"><h3>게시글 작성</h3></div>
-          <div class="class-body">
-            <form id="writeForm" action="" method="post" th:object="${addForm}">
+          <div class="bbs-title"><h3>게시글 수정</h3></div>
+          <div class="class-body" >
+            <form id="editForm" action="" th:action="@{|/bbs/*{bbsId}/edit|}" method="post" th:object="${editForm}">
+              <input type="hidden" th:field="*{bbsId}">
               <input type="hidden" th:field="*{email}">
               <input type="hidden" th:field="*{nickname}">
+              <div class="bbs-hit">
+                <span class="bbs-hit-content bbs-hit-tit">조회수</span>
+                <span class="bbs-hit-content bbs-hit-cnt" th:text="*{hit}">10</span>
+              </div>
               <div class="bbs-content">
                 <div><lable>분류</lable></div>
                 <div>
-                  <select name="" id="" class="w100" th:field="*{bcategory}">
+                  <select name="" id="" class="w100" th:field="*{bcategory}" >
                     <option value="" >==선택==</option>
                     <th:block th:each="code : ${classifier}">
                       <option value="" th:value="${code.code}" th:text="${code.decode}">게시판1</option>
@@ -60,24 +65,28 @@
                 </div>
                 <div><lable>제목</lable></div>
                 <div>
-                    <input type="text" name="" id="" class="w100" th:field="*{title}">
-                    <div class="fieldError" th:errors="*{title}"></div>
+                  <input type="text" name="" id="" class="w100" th:field="*{title}" >
+                  <div class="fieldError" th:errors="*{title}"></div>
                 </div>
                 <div><lable>작성자</lable></div>
-                <div><span th:text="|*{nickname} ( *{email} )|"></span>
+                <div><span th:text="|*{nickname} ( *{email} )|"></span></div>
                 <div><lable>내용</lable></div>
                 <div>
                   <textarea name="" id="" rows="10" class="w100" th:field="*{bcontent}"></textarea>
                   <div class="fieldError" th:errors="*{bcontent}"></div>
                 </div>
-                <div><lable>첨부</lable></div>
-                <div><input type="file" name="" id="" class="w100" multiple></div>
+                <div><label>첨부</label></div>
+                <div><input type="file" multiple></div>
+              </div>
+              <div class="bbs-btngrp">
+                <button type="button" id="cancelBtn">취소</button>
+                <button type="submit" id="saveBtn">저장</button>
+                <button type="button" id="listBtn">목록</button>
+              </div>
+              <div class="bbs-attach">
+                첨부파일
               </div>
             </form>
-          </div>
-          <div class="bbs-btngrp">
-            <button type="button" id="writeBtn">등록</button>
-            <button type="button" id="listBtn">목록</button>
           </div>
         </div>
       </main>

@@ -63,7 +63,7 @@
                 <div><lable>제목</lable></div>
                 <div><input type="text" name="" id="" class="w100" th:field="*{title}" th:readonly="readonly"></div>
                 <div><lable>작성자</lable></div>
-                <div><input type="text" name="" id="" class="w100" th:field="*{nickname}" th:readonly="readonly"></div>
+                <div><span th:text="|*{nickname} ( *{email} )|"></span></div>
                 <div><lable>내용</lable></div>
                 <div><textarea name="" id="" rows="10" class="w100" th:field="*{bcontent}" th:readonly="readonly"></textarea></div>
               </div>

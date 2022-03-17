@@ -5,6 +5,7 @@ import com.kh.app3.domain.bbs.svc.BbsSVC;
 import com.kh.app3.domain.common.CodeDAO;
 import com.kh.app3.web.form.bbs.AddForm;
 import com.kh.app3.web.form.bbs.DetailForm;
+import com.kh.app3.web.form.bbs.EditForm;
 import com.kh.app3.web.form.bbs.ListForm;
 import com.kh.app3.web.form.login.LoginMember;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.text.Utilities;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,19 +140,45 @@ public class BbsController {
 
   //삭제
   @GetMapping("/{id}/del")
-  public String del() {
+  public String del(@PathVariable Long id) {
+
+    bbsSvc.deleteByBbsId(id);
+
     return "redirect:/bbs";
   }
 
   //수정양식
   @GetMapping("/{id}/edit")
-  public String editForm() {
+  public String editForm(@PathVariable Long id,Model model){
+
+    Bbs bbs = bbsSvc.findByBbsId(id);
+
+    EditForm editForm = new EditForm();
+    BeanUtils.copyProperties(bbs,editForm);
+    model.addAttribute("editForm", editForm);
+
+    log.info("editForm={}",editForm);
+
     return "bbs/editForm";
   }
 
   //수정처리
   @PostMapping("/{id}/edit")
-  public String edit() {
+  public String edit(@PathVariable Long id,
+    @Valid @ModelAttribute EditForm editForm,
+    BindingResult bindingResult,
+    RedirectAttributes redirectAttributes
+      ) {
+
+      if(bindingResult.hasErrors()){
+        return "bbs/editForm";
+      }
+
+      Bbs bbs = new Bbs();
+      BeanUtils.copyProperties(editForm, bbs);
+      bbsSvc.updateByBbsId(id,bbs);
+
+      redirectAttributes.addAttribute("id",id);
     return "redirect:/bbs/{id}";
   }
 
