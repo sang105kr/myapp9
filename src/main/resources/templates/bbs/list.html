@@ -3,10 +3,10 @@
       xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragment/main::main(
         ~{::title},       <!--/* title */-->
-        ~{},              <!--/* styles */-->
-        ~{},              <!--/* scripts */-->
-        ~{::style},       <!--/* style */-->
-        ~{::script},      <!--/* script */-->
+        ~{::link},              <!--/* styles */-->
+        ~{::script},              <!--/* scripts */-->
+        ~{},       <!--/* style */-->
+        ~{},      <!--/* script */-->
         ~{::.upm-inner},  <!--/* upm */-->
         ~{},              <!--/* header */-->
         ~{::nav},         <!--/* nav */-->
@@ -18,57 +18,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시글 목록</title>
-  <style>
-    main { display:flex; justify-content:center; }
-    .bbs-wrap * {
-      /* outline:1px solid red; */
-      box-sizing: border-box;
-    }
-
-    .bbs-wrap { width:90% }
-    .bbs-wrap .bbs-title {
-      text-align: center; padding:20px 0;
-    }
-
-    .bbs-wrap .bbs-content table{
-      width:100%;
-      border:1px solid #333;
-      border-collapse: collapse;
-    }
-    .bbs-wrap .bbs-content table th,
-    .bbs-wrap .bbs-content table td{
-      border:1px solid #333;
-      padding:3px;
-    }
-    .bbs-wrap .bbs-content table>thead>tr>th:nth-child(3){
-      width:50%;
-    }
-
-    .bbs-wrap .bbs-content table>tbody>tr>td:first-child,
-    .bbs-wrap .bbs-content table>tbody>tr>td:last-child{
-      text-align: right;
-    }
-
-    .bbs-wrap .bbs-btngrp{
-      display:flex;
-      justify-content: flex-end;
-    }
-
-    .bbs-wrap .bbs-page{
-      display: flex;
-      justify-content: center;
-      padding: 20px 0;
-    }
-
-    .bbs-wrap .bbs-search{
-      display: flex;
-      justify-content: center;
-    }
-
-    i.fa-solid.fa-reply{
-      /*color:pink;*/
-    }
-  </style>
+  <link rel="stylesheet" href="" th:href="@{/css/bbs/list.css}">
+  <script defer src="" th:src="@{/js/bbs/list.js}"></script>
 </head>
 <body>
 <div class="global-wrap">
@@ -156,10 +107,5 @@
       </div>
     </div>
   </div>
-  <script>
-    writeBtn.addEventListener("click", e=>{
-      location.href="/bbs/add";   // get /bbs/add
-    });
-  </script>
 </body>
 </html>

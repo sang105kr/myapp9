@@ -3,10 +3,10 @@
       xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragment/main::main(
         ~{::title},       <!--/* title */-->
-        ~{},              <!--/* styles */-->
-        ~{},              <!--/* scripts */-->
-        ~{::style},         <!--/* style */-->
-        ~{::script},        <!--/* script */-->
+        ~{::link},         <!--/* styles */-->
+        ~{::script},       <!--/* scripts */-->
+        ~{},         <!--/* style */-->
+        ~{},        <!--/* script */-->
         ~{::.upm-inner},  <!--/* upm */-->
         ~{},              <!--/* header */-->
         ~{::nav},         <!--/* nav */-->
@@ -18,29 +18,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시글 작성</title>
-  <style>
-    main { display:flex; justify-content:center; }
-    .bbs-wrap * {
-      /* outline:1px solid red; */
-      box-sizing: border-box;
-    }
-    .bbs-wrap { width:80% }
-    .bbs-wrap .bbs-title {
-      text-align: center; padding:20px 0;
-    }
-    .bbs-wrap .bbs-content{
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 5px;
-    }
-    .bbs-wrap .bbs-content .w100{
-      width:100%; padding:3px;
-    }
-    .bbs-wrap .bbs-btngrp{
-      display:flex;
-      justify-content: flex-end;
-    }
-  </style>
+  <link rel="stylesheet" href="" th:href="@{/css/bbs/addForm.css}">
+  <script defer src="" th:src="@{/js/bbs/addForm.js}"></script>
 </head>
 <body>
 <div class="global-wrap">
@@ -104,10 +83,5 @@
       </div>
     </div>
   </div>
-  <script>
-    listBtn.addEventListener("click",e=>{
-      location.href = "/bbs";
-    });
-  </script>
 </body>
 </html>

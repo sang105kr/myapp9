@@ -3,10 +3,10 @@
       xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragment/main::main(
         ~{::title},       <!--/* title */-->
-        ~{},              <!--/* styles */-->
-        ~{},              <!--/* scripts */-->
-        ~{::style},       <!--/* style */-->
-        ~{::script},      <!--/* script */-->
+        ~{::link},              <!--/* styles */-->
+        ~{::script},              <!--/* scripts */-->
+        ~{},       <!--/* style */-->
+        ~{},      <!--/* script */-->
         ~{::.upm-inner},  <!--/* upm */-->
         ~{},              <!--/* header */-->
         ~{::nav},         <!--/* nav */-->
@@ -18,40 +18,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시글 보기</title>
-  <style>
-    main { display:flex; justify-content:center; }
-    .bbs-wrap * {
-      /* outline:1px solid red; */
-      box-sizing: border-box;
-    }
-    .bbs-wrap { width:80% }
-    .bbs-wrap .bbs-hit{
-      display: flex;
-      justify-content: end;
-    }
-    .bbs-wrap .bbs-hit .bbs-hit-content{
-      width:50px;
-      font-weight: bold;
-    }
-    .bbs-wrap .bbs-hit .bbs-hit-content.bbs-hit-cnt{
-      text-align: right;
-    }
-    .bbs-wrap .bbs-title {
-      text-align: center; padding:20px 0;
-    }
-    .bbs-wrap .bbs-content{
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 5px;
-    }
-    .bbs-wrap .bbs-content .w100{
-      width:100%; padding:3px;
-    }
-    .bbs-wrap .bbs-btngrp{
-      display:flex;
-      justify-content: flex-end;
-    }
-  </style>
+  <link rel="stylesheet" href="" th:href="@{/css/bbs/detailForm.css}">
+  <script defer src="" th:src="@{/js/bbs/detailForm.js}"></script>
 </head>
 <body>
 <div class="global-wrap">
@@ -121,26 +89,5 @@
       </div>
     </div>
   </div>
-  <script>
-    //답글
-    replyBtn.addEventListener('click',e=>{
-      const url = `/bbs/${bbsId.value}/reply`;
-      location.href = url;
-    });
-    //수정
-    editBtn.addEventListener('click',e=>{
-      const url = `/bbs/${bbsId.value}/edit`;
-      location.href = url;
-    });
-    //삭제
-    delBtn.addEventListener('click',e=>{
-      const url = `/bbs/${bbsId.value}/del`;
-      location.href = url;
-    });
-    //목록
-    listBtn.addEventListener('click',e=>{
-      location.href="/bbs";
-    });
-  </script>
 </body>
 </html>
