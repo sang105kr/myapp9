@@ -20,7 +20,7 @@
     <div class="logo"><a href="" th:href="@{/}"><i class="fa-solid fa-house"></i></a></div>
     <div class="upm-menu">
       <div class="mypage"><a href="" th:href="@{/members/mypage}"}>내정보</a></div>
-      <div th:if="${!session.isEmpty()}" th:text="|[${session.loginMember.nickname}]|"></div>
+      <div th:text="|[${s_nickname}]|"></div>
       <div class="logout"><a href="" th:href="@{/logout}">로그아웃</a></div>
     </div>
   </th:block>

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko"
 			xmlns:th="http://www.thymeleaf.org"
-      th:fragment="main(title,styles,scripts,style,script,upm,header,nav,main,footer)">
+      th:fragment="main(title,styles,scripts,style,script,upm,header,nav,main,footer)"
+      th:with="s_email=${session?.loginMember?.email},
+               s_nickname=${session?.loginMember?.nickname}">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,6 +26,7 @@
 
 </head>
 <body>
+  <th:block th:text="${aaa}"></th:block>
   <div class="global-wrap">
     <div class="upm">
       <div class="inner upm-inner" th:replace="${upm}">

@@ -69,8 +69,12 @@
               </div>
               <div class="bbs-btngrp">
                 <button type="button" id="replyBtn">답글</button>
-                <button type="button" id="editBtn">수정</button>
-                <button type="button" id="delBtn">삭제</button>
+                <!--글작성자와 세션아이디체크해서 동이한경우만 수행-->
+                <th:block th:if="*{email} eq ${s_email}">
+                  <button type="button" id="editBtn">수정</button>
+                  <button type="button" id="delBtn">삭제</button>
+                </th:block>
+                <!-------------------------------------------->
                 <button type="button" id="listBtn">목록</button>
               </div>
               <div class="bbs-attach">

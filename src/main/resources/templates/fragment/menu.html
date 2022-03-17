@@ -53,8 +53,18 @@
   <nav th:fragment="admin">
 
   </nav>
-  <nav th:fragment="mypage">
-
+  <nav th:fragment="my-page">
+    <ul class="depth1">
+      <li class="item">
+        <a th:href="@{|/members/${s_email}/detail|}">내정보조회</a>
+      </li>
+      <li class="item">
+        <a th:href="@{|/members/${s_email}/edit|}">내정보수정</a>
+      </li>
+      <li class="item">
+        <a th:href="@{|/members/${s_email}/out|}">탈퇴</a>
+      </li>
+    </ul>
   </nav>
 </body>
 </html>

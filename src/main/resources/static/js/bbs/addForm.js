@@ -1,9 +1,11 @@
 'use strict';
 //등록
-writeBtn.addEventListener("click", e=>{
+const $writeBtn = document.getElementById('writeBtn');
+$writeBtn?.addEventListener("click", e=>{
   writeForm.submit();
 });
 //목록
-listBtn.addEventListener("click",e=>{
+const $listBtn = document.getElementById('listBtn');
+$listBtn?.addEventListener("click",e=>{
   location.href = "/bbs";
 });

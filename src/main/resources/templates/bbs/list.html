@@ -73,7 +73,7 @@
                     <a href="" th:href="@{|/bbs/${item.bbsId}|}" th:text="${item.title}">제목</a>
                   </td>
                   <td th:text="${item.nickname}">작성자1</td>
-                  <td th:text="${item.cdate}">작성일1</td>
+                  <td th:text="${#temporals.format(item.cdate,'yy/MM/dd HH:dd')}">작성일1</td>
                   <td th:text="${item.hit}">5</td>
                 </tr>
                 </tbody>

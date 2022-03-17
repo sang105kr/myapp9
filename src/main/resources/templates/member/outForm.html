@@ -1,43 +1,92 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/main::main(
+        ~{::title},       <!--/* title */-->
+        <!--/*--------------------------*/-->
+        <!--/*외부파일로 정의시*/-->
+        ~{},              <!--/* styles */-->
+        ~{},              <!--/* scripts */-->
+        <!--/*내부태그로 정의시*/-->
+        ~{::style},              <!--/* style */-->
+        ~{::script},      <!--/* script */-->
+        <!--/*--------------------------*/-->
+        ~{::.upm-inner},  <!--/* upm */-->
+        ~{::header},      <!--/* header */-->
+        ~{::nav},         <!--/* nav */-->
+        ~{::main},        <!--/* main */-->
+        _                 <!--/* footer default*/-->
+      )}">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원탈퇴</title>
-  <link rel="stylesheet" th:href="@{/css/common.css}">
+  <title>탈퇴</title>
+  <style>
+    main {display:flex; justify-content:center; margin-top:50px;}
+    main.content-wrap{width:80%;}
+  </style>
 </head>
-
 <body>
-  <h3>회원탈퇴</h3>
-  <hr>
-  <form id="frm" action="/members/out" method="post" th:object="${outForm}">
-    <input type="hidden" th:field="*{email}" th:value="${session.loginMember.email}">
-    <ul>
-      <li>
-        <p>탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가하오니 신중하게 선택하시기 바랍니다.</p>
-      </li>
-      <li>
-        <label for="">비밀번호</label>
-        <input type="password" name="passwd" th:field="*{passwd}">
-      </li>
-      <li th:if="${#fields.hasErrors('passwd')}">
-        <p th:errors="*{passwd}" th:errorclass="fieldError"></p>
-      </li>
-      <li>
-        <input type="checkbox" name="agree" id="" th:field="*{agree}">
-        <label for="">안내 사항을 모두 확인하였으며, 이에 동의합니다</label>
-      </li>
-      <li th:if="${#fields.hasErrors('agree')}">
-        <p th:errors="*{agree}" th:errorclass="fieldError"></p>
-      </li>
-      <li>
-        <button type="button" id="outBtn">탈퇴</button>
-      </li>
-    </ul>
-  </form>
-  <script>
+<div class="global-wrap">
+  <div class="upm">
+    <div class="inner upm-inner">
+      <th:block th:replace="~{fragment/uppermost::afterLoginUpm}"></th:block>
+    </div>
+  </div>
+  <div class="hdr">
+    <div class="inner hdr-inner">
+      <header>header</header>
+    </div>
+  </div>
+  <div class="gnb">
+    <div class="inner gnb-inner">
+      <nav th:replace="~{fragment/menu::my-page}"></nav>
+    </div>
+  </div>
+  <div class="main">
+    <div class="inner main-inner">
+      <main>
+        <div class="content-wrap">
+        <h3>회원탈퇴</h3>
+        <form id="frm" action="/members/out" method="post" th:object="${outForm}">
+          <input type="hidden" th:field="*{email}" th:value="${session.loginMember.email}">
+          <ul>
+            <li>
+              <p>탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가하오니 신중하게 선택하시기 바랍니다.</p>
+            </li>
+            <li>
+              <label for="">비밀번호</label>
+              <input type="password" name="passwd" th:field="*{passwd}">
+            </li>
+            <li th:if="${#fields.hasErrors('passwd')}">
+              <p th:errors="*{passwd}" th:errorclass="fieldError"></p>
+            </li>
+            <li>
+              <input type="checkbox" name="agree" id="" th:field="*{agree}">
+              <label for="">안내 사항을 모두 확인하였으며, 이에 동의합니다</label>
+            </li>
+            <li th:if="${#fields.hasErrors('agree')}">
+              <p th:errors="*{agree}" th:errorclass="fieldError"></p>
+            </li>
+            <li>
+              <button type="button" id="outBtn">탈퇴</button>
+            </li>
+          </ul>
+        </form>
+        </div>
+      </main>
+    </div>
+    <div class="foot">
+      <div class="inner foot-inner">
+        <footer>
+          footer
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
     outBtn.addEventListener('click',function(e){
       e.preventDefault(); // 기본이벤트 막기
       if(window.confirm('정말 탈퇴하시겠습니까?')){
