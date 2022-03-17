@@ -56,13 +56,20 @@
                       <option value="" th:value="${code.code}" th:text="${code.decode}">게시판1</option>
                     </th:block>
                   </select>
+                  <div class="fieldError" th:errors="*{bcategory}"></div>
                 </div>
                 <div><lable>제목</lable></div>
-                <div><input type="text" name="" id="" class="w100" th:field="*{title}"></div>
+                <div>
+                    <input type="text" name="" id="" class="w100" th:field="*{title}">
+                    <div class="fieldError" th:errors="*{title}"></div>
+                </div>
                 <div><lable>작성자</lable></div>
                 <div><span th:text="|*{nickname} ( *{email} )|"></span>
                 <div><lable>내용</lable></div>
-                <div><textarea name="" id="" rows="10" class="w100" th:field="*{bcontent}"></textarea></div>
+                <div>
+                  <textarea name="" id="" rows="10" class="w100" th:field="*{bcontent}"></textarea>
+                  <div class="fieldError" th:errors="*{bcontent}"></div>
+                </div>
                 <div><lable>첨부</lable></div>
                 <div><input type="file" name="" id="" class="w100" multiple></div>
               </div>

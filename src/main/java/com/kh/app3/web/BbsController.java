@@ -13,10 +13,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,10 +60,16 @@ public class BbsController {
   //작성처리
   @PostMapping("/add")
   public String add(
-      @ModelAttribute AddForm addForm,
+      @Valid @ModelAttribute AddForm addForm,
+      BindingResult bindingResult,      // 폼객체에 바인딩될때 오류내용이 저장되는 객체
       HttpSession session,
       RedirectAttributes redirectAttributes) {
     log.info("addForm={}",addForm);
+
+    if(bindingResult.hasErrors()){
+      log.info("add/bindingResult={}",bindingResult);
+      return "bbs/addForm";
+    }
 
     Bbs bbs = new Bbs();
 //    bbs.setBcategory(addForm.getBcategory());
