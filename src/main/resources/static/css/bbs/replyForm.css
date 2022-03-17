@@ -1,0 +1,22 @@
+@charset "utf-8";
+main { display:flex; justify-content:center; }
+.bbs-wrap * {
+  /* outline:1px solid red; */
+  box-sizing: border-box;
+}
+.bbs-wrap { width:80% }
+.bbs-wrap .bbs-title {
+  text-align: center; padding:20px 0;
+}
+.bbs-wrap .bbs-content{
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 5px;
+}
+.bbs-wrap .bbs-content .w100{
+  width:100%; padding:3px;
+}
+.bbs-wrap .bbs-btngrp{
+  display:flex;
+  justify-content: flex-end;
+}
