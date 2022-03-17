@@ -67,7 +67,8 @@
                       <!--                  Create a sequence (array) of integer numbers going from x to y -->
                       <!--                  ${#numbers.sequence(from,to)}-->
                       <span th:each="cnt : ${#numbers.sequence(1,item.bindent)}">&nbsp;&nbsp;</span>
-                      <i class="fa-solid fa-reply"></i>
+<!--                      <i class="fa-solid fa-reply"></i>-->
+                      <i class="fa-solid fa-comment-dots"></i>
                     </th:block>
                     <a href="" th:href="@{|/bbs/${item.bbsId}|}" th:text="${item.title}">제목</a>
                   </td>

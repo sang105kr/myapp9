@@ -226,7 +226,7 @@ public class BbsController {
   private void appendInfoOfParentBbs(Long parentBbsId, Bbs replyBbs) {
     Bbs parentBbs = bbsSvc.findByBbsId(parentBbsId);
     replyBbs.setBcategory(parentBbs.getBcategory());
-    replyBbs.setPbbsId(parentBbs.getPbbsId());
+    replyBbs.setPbbsId(parentBbs.getBbsId());
     replyBbs.setBgroup(parentBbs.getBgroup());
     replyBbs.setStep(parentBbs.getStep());
     replyBbs.setBindent(parentBbs.getBindent());
