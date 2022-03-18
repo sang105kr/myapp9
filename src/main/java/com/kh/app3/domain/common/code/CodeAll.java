@@ -1,4 +1,4 @@
-package com.kh.app3.domain.common;
+package com.kh.app3.domain.common.code;
 
 import lombok.Data;
 

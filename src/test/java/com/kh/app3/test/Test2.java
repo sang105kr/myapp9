@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Slf4j
 public class Test2 {
@@ -14,5 +15,13 @@ public class Test2 {
   void test(){
     String startDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
     log.info(startDate.toString());
+  }
+
+  @Test
+  void randomCode(){
+    for(int i=0; i<20; i++) {
+      UUID uuid = UUID.randomUUID();
+      log.info("uuid={}", uuid);
+    }
   }
 }
