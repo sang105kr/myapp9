@@ -12,12 +12,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -57,10 +61,11 @@ public class BbsController {
   //작성처리
   @PostMapping("/add")
   public String add(
-      @Valid @ModelAttribute AddForm addForm,
+      //@Valid
+      @ModelAttribute AddForm addForm,
       BindingResult bindingResult,      // 폼객체에 바인딩될때 오류내용이 저장되는 객체
       HttpSession session,
-      RedirectAttributes redirectAttributes) {
+      RedirectAttributes redirectAttributes) throws IOException {
     log.info("addForm={}",addForm);
 
     if(bindingResult.hasErrors()){
@@ -69,11 +74,6 @@ public class BbsController {
     }
 
     Bbs bbs = new Bbs();
-//    bbs.setBcategory(addForm.getBcategory());
-//    bbs.setTitle(addForm.getTitle());
-//    bbs.setEmail(addForm.getEmail());
-//    bbs.setNickname(addForm.getNickname());
-//    bbs.setBcontent(addForm.getBcontent());
     BeanUtils.copyProperties(addForm, bbs);
 
     //세션 가져오기
@@ -82,12 +82,17 @@ public class BbsController {
     if(loginMember == null){
       return "redirect:/login";
     }
-    
+
     //세션에서 이메일,별칭가져오기
     bbs.setEmail(loginMember.getEmail());
     bbs.setNickname(loginMember.getNickname());
 
-    Long originId = bbsSvc.saveOrigin(bbs);
+    Long originId = 0l;
+    if(addForm.getFiles() == null) {
+      originId = bbsSvc.saveOrigin(bbs);
+    }else{
+      originId = bbsSvc.saveOrigin(bbs, addForm.getFiles());
+    }
     redirectAttributes.addAttribute("id", originId);
     // <=서버응답 302 get http://서버:port/bbs/10
     // =>클라이언트요청 get http://서버:port/bbs/10

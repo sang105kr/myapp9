@@ -1,5 +1,6 @@
-package com.kh.app3.domain.common.file;
+package com.kh.app3.domain.common.file.dao;
 
+import com.kh.app3.domain.common.file.UploadFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;

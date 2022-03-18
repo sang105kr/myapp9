@@ -44,7 +44,7 @@
         <div class="bbs-wrap">
           <div class="bbs-title"><h3>게시글 작성</h3></div>
           <div class="class-body">
-            <form id="writeForm" action="" method="post" th:object="${addForm}">
+            <form id="writeForm" action="" method="post" th:object="${addForm}" enctype="multipart/form-data">
               <input type="hidden" th:field="*{email}">
               <input type="hidden" th:field="*{nickname}">
               <div class="bbs-content">
@@ -71,7 +71,7 @@
                   <div class="fieldError" th:errors="*{bcontent}"></div>
                 </div>
                 <div><lable>첨부</lable></div>
-                <div><input type="file" name="" id="" class="w100" multiple></div>
+                <div><input type="file" name="" id="" class="w100" th:field="*{files}" multiple></div>
               </div>
             </form>
           </div>

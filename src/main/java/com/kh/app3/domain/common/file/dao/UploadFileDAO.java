@@ -1,4 +1,6 @@
-package com.kh.app3.domain.common.file;
+package com.kh.app3.domain.common.file.dao;
+
+import com.kh.app3.domain.common.file.UploadFile;
 
 import java.util.List;
 

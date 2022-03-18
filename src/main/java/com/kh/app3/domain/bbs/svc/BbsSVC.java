@@ -1,6 +1,7 @@
 package com.kh.app3.domain.bbs.svc;
 
 import com.kh.app3.domain.bbs.dao.Bbs;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,6 +13,14 @@ public interface BbsSVC {
    * @return 게시글 번호
    */
   Long saveOrigin(Bbs bbs);
+
+  /**
+   * 원글작성-첨부파일 있는경우
+   * @param bbs
+   * @param files 첨파일
+   * @return 게시글 번호
+   */
+  Long saveOrigin(Bbs bbs, List<MultipartFile> files);
 
   /**
    * 목록
