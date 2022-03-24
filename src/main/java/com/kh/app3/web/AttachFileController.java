@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 public class AttachFileController {
   private final UploadFileSVC uploadFileSVC;
 
+  //첨부파일 다운로드
   @GetMapping("/down/{fid}")
   public ResponseEntity<Resource> downLoadAttach(
       @PathVariable("fid") Long uploadfileId
@@ -40,6 +41,7 @@ public class AttachFileController {
         .body(resource);
   }
 
+  //이미지 뷰
   @GetMapping("/view/{fid}")
   public ResponseEntity<Resource> viewAttach(
       @PathVariable("fid") Long uploadfileId
@@ -56,6 +58,7 @@ public class AttachFileController {
         .body(resource);
   }
 
+  //파일시스템내에 물리적인 경로가져오기
   private String getStoreFilePath(UploadFile metaInofOfuploadFile) {
     StringBuffer storeFilePath = new StringBuffer();
     storeFilePath.append("file:")
