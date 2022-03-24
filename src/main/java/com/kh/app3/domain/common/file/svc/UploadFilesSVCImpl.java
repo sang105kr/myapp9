@@ -37,15 +37,14 @@ public class UploadFilesSVCImpl implements UploadFileSVC{
 
       String originalFileName = file.getOriginalFilename();
       String storeFileName = createStoreFilename(originalFileName);
-      uploadFile.setStore_finename(storeFileName);
+      uploadFile.setStore_filename(storeFileName);
       uploadFile.setUpload_filename(originalFileName);
 
       uploadFile.setFsize(String.valueOf(file.getSize()));
       uploadFile.setFtype(file.getContentType());
 
       //파일시스템에 물리적 파일 저장
-      storeFile(code, file);
-
+      storeFile(uploadFile, file);
       //uploadfile 테이블에 첨부파일 메타정보 저장
       uploadFileDAO.addFile(uploadFile);
 
@@ -70,15 +69,15 @@ public class UploadFilesSVCImpl implements UploadFileSVC{
 
         String originalFileName = file.getOriginalFilename();
         String storeFileName = createStoreFilename(originalFileName);
-        uploadFile.setStore_finename(storeFileName);
+        uploadFile.setStore_filename(storeFileName);
         uploadFile.setUpload_filename(originalFileName);
 
         uploadFile.setFsize(String.valueOf(file.getSize()));
         uploadFile.setFtype(file.getContentType());
 
         uploadFiles.add(uploadFile);
-        storeFile(code, file);
       }
+      storeFiles(uploadFiles, files);
       uploadFileDAO.addFile(uploadFiles);
     }catch (Exception e){
       e.printStackTrace();
@@ -87,24 +86,109 @@ public class UploadFilesSVCImpl implements UploadFileSVC{
     return true;
   }
 
+  //첨부파일조회
+  @Override
+  public List<UploadFile> getFilesByCodeWithRid(String code, Long rid) {
+    return uploadFileDAO.getFilesByCodeWithRid(code,rid);
+  }
   //파일시스템에 물리적 파일 저장
-  private void storeFile(String code, MultipartFile file) {
+  private void storeFile(UploadFile uploadFile, MultipartFile file) {
     try {
-      String originalFileName = file.getOriginalFilename();
-      String storeFileName = createStoreFilename(originalFileName);
-      file.transferTo(Path.of(getFullPath(code), storeFileName));
+      file.transferTo(Path.of(getFullPath(uploadFile.getCode()), uploadFile.getStore_filename()));
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
+  //파일시스템에 물리적 파일 저장
+  private void storeFiles(List<UploadFile> uploadFiles, List<MultipartFile> files) {
+    for (int i=0; i<uploadFiles.size(); i++) {
+      storeFile(uploadFiles.get(i), files.get(i));
+    }
+  }
 
   //파일저장경로
-  private String getFullPath(String code) {
+  @Override
+  public String getFullPath(String code) {
     StringBuffer path = new StringBuffer();
     path = path.append(ROOT_DIR).append(code).append("/");
     //경로가 없으면 생성
     createFolder(path.toString());
+    log.info("파일저장위치={}", path.toString());
     return path.toString();
+  }
+
+  //첨부파일조회
+  @Override
+  public UploadFile findFileByUploadFileId(Long uploadfileId) {
+    return uploadFileDAO.findFileByUploadFileId(uploadfileId);
+  }
+
+  // 첨부파일 삭제 by uplaodfileId
+  @Override
+  public int deleteFileByUploadFildId(Long uploadfileId){
+
+    //1)물리파일삭제
+    UploadFile uploadFile = uploadFileDAO.findFileByUploadFileId(uploadfileId);
+    deleteFile(uploadFile.getCode(), uploadFile.getStore_filename());
+
+    //2)메타정보삭제
+    int affectedRow = uploadFileDAO.deleteFileByUploadFildId(uploadfileId);
+
+    return affectedRow;
+  }
+
+  // 첨부파일 삭제 By code, rid
+  public int deleteFileByCodeWithRid(String code, Long rid){
+
+    //1)물리파일삭제
+    List<UploadFile> uploadFiles = uploadFileDAO.getFilesByCodeWithRid(code, rid);
+    for (UploadFile uploadFile : uploadFiles) {
+      deleteFile(uploadFile.getCode(), uploadFile.getStore_filename());
+    }
+
+    //2)메타정보삭제
+    uploadFileDAO.deleteFileByCodeWithRid(code, rid);
+
+    return uploadFiles.size();
+  }
+
+
+
+  /**
+   * 서버 보관 파일 삭제
+   * @param code
+   * @param sfname
+   * @return
+   */
+  private boolean deleteFile(String code ,String sfname) {
+
+    boolean isDeleted = false;
+
+    File file = new File(getFullPath(code)+sfname);
+
+    if(file.exists()) {
+      if(file.delete()) {
+        isDeleted = true;
+      }
+    }
+
+    return isDeleted;
+  }
+
+  private boolean deleteFiles(String code, List<String> fnames ) {
+
+    boolean isDeleted = false;
+    int deletedFileCount = 0;
+
+    for(String sfname : fnames) {
+      if(deleteFile(code, sfname)) {
+        deletedFileCount++;
+      };
+    }
+
+    if(deletedFileCount == fnames.size()) isDeleted = true;
+
+    return isDeleted;
   }
 
   //폴더생성

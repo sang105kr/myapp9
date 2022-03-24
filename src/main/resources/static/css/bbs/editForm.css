@@ -19,7 +19,8 @@ main { display:flex; justify-content:center; }
 .bbs-wrap .bbs-title {
   text-align: center; padding:20px 0;
 }
-.bbs-wrap .bbs-content{
+.bbs-wrap .bbs-content,
+.bbs-wrap .bbs-attach{
   display: grid;
   grid-template-columns: 100px 1fr;
   gap: 5px;
@@ -30,4 +31,11 @@ main { display:flex; justify-content:center; }
 .bbs-wrap .bbs-btngrp{
   display:flex;
   justify-content: flex-end;
+}
+
+.bbs-wrap .bbs-attach .fa-solid.fa-trash-can {
+   cursor:pointer;
+}
+.bbs-wrap .bbs-attach .fa-solid.fa-trash-can:hover{
+   color:red;
 }

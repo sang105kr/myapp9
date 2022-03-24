@@ -24,7 +24,7 @@ class UploadFileDAOImplTest {
 
     uploadFile.setCode("F0101");
     uploadFile.setRid(88l);
-    uploadFile.setStore_finename("xxx-yyy-zz2.png");
+    uploadFile.setStore_filename("xxx-yyy-zz2.png");
     uploadFile.setUpload_filename("커피2.png");
     uploadFile.setFsize("200");
     uploadFile.setFtype("image/png");
@@ -41,7 +41,7 @@ class UploadFileDAOImplTest {
       UploadFile uploadFile = new UploadFile();
       uploadFile.setCode("F0101");
       uploadFile.setRid(88l);
-      uploadFile.setStore_finename("xxx-yyy-zz2.png");
+      uploadFile.setStore_filename("xxx-yyy-zz2.png");
       uploadFile.setUpload_filename("커피2.png");
       uploadFile.setFsize("200");
       uploadFile.setFtype("image/png");

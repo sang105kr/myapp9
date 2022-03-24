@@ -78,7 +78,12 @@
                 <button type="button" id="listBtn">목록</button>
               </div>
               <div class="bbs-attach">
-                첨부파일
+                <div><label>첨부</label></div>
+                <div>
+                  <div th:each="file : ${attachFiles}">
+                    <a href="" th:href="@{|/attach/down/${file.uploadfileId}|}" th:text="${file.upload_filename}"></a>
+                  </div>
+                </div>
               </div>
             </form>
           </div>

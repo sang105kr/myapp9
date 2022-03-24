@@ -19,7 +19,8 @@ main { display:flex; justify-content:center; }
 .bbs-wrap .bbs-title {
   text-align: center; padding:20px 0;
 }
-.bbs-wrap .bbs-content{
+.bbs-wrap .bbs-content,
+.bbs-wrap .bbs-attach{
   display: grid;
   grid-template-columns: 100px 1fr;
   gap: 5px;

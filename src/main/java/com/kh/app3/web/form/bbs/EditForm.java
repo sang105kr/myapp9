@@ -1,10 +1,12 @@
 package com.kh.app3.web.form.bbs;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 public class EditForm {
@@ -27,4 +29,5 @@ public class EditForm {
   private String bcontent;      //  내용 BCONTENT	CLOB
   private int hit;              //  조회수
 
+  private List<MultipartFile> files;  // 첨부파일
 }

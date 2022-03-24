@@ -44,7 +44,8 @@
         <div class="bbs-wrap">
           <div class="bbs-title"><h3>게시글 수정</h3></div>
           <div class="class-body" >
-            <form id="editForm" action="" th:action="@{|/bbs/*{bbsId}/edit|}" method="post" th:object="${editForm}">
+            <form id="editForm" action="" th:action="@{|/bbs/*{bbsId}/edit|}" method="post"
+                  th:object="${editForm}" enctype="multipart/form-data">
               <input type="hidden" th:field="*{bbsId}">
               <input type="hidden" th:field="*{email}">
               <input type="hidden" th:field="*{nickname}">
@@ -76,7 +77,7 @@
                   <div class="fieldError" th:errors="*{bcontent}"></div>
                 </div>
                 <div><label>첨부</label></div>
-                <div><input type="file" multiple></div>
+                <div><input type="file" th:field="*{files}" multiple></div>
               </div>
               <div class="bbs-btngrp">
                 <button type="button" id="cancelBtn">취소</button>
@@ -84,7 +85,16 @@
                 <button type="button" id="listBtn">목록</button>
               </div>
               <div class="bbs-attach">
-                첨부파일
+                <div><label>&nbsp;</label></div>
+                <div id="attachFiles">
+                  <div class="attachFile" th:each="file : ${attachFiles}">
+                    <a href="" th:href="@{|/attach/down/${file.uploadfileId}|}" th:text="${file.upload_filename}"></a>
+                    <i class="fa-solid fa-trash-can" th:data-fid="${file.uploadfileId}"></i>
+                    <th:block th:if="${#strings.contains(file.ftype,'image')}" >
+                    <img th:src="@{|/attach/view/${file.uploadfileId}|}" th:width="30px" th:height="30px">
+                    </th:block>
+                  </div>
+                </div>
               </div>
             </form>
           </div>

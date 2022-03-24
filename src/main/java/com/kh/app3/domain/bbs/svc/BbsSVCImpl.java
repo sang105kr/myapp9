@@ -26,7 +26,7 @@ public class BbsSVCImpl implements BbsSVC{
   private final BbsDAO bbsDAO;
   private final UploadFileSVC uploadFileSVC;
 
-  private String CODE = "F0101";
+  //private String CODE = "F0101";
 
   //원글
   @Override
@@ -42,7 +42,7 @@ public class BbsSVCImpl implements BbsSVC{
     Long bbsId = saveOrigin(bbs);
 
     //2)첨부 저장
-    uploadFileSVC.addFile(CODE,bbsId,files);
+    uploadFileSVC.addFile(bbs.getBcategory(),bbsId,files);
 
     return bbsId;
   }
@@ -64,13 +64,33 @@ public class BbsSVCImpl implements BbsSVC{
   //삭제
   @Override
   public int deleteByBbsId(Long id) {
-    return bbsDAO.deleteByBbsId(id);
+    //1)첨부파일 삭제
+    String bcategory = bbsDAO.findByBbsId(id).getBcategory();
+    uploadFileSVC.deleteFileByCodeWithRid(bcategory, id);
+
+    //2)게시글 삭제
+    int affectedRow =  bbsDAO.deleteByBbsId(id);
+
+    return affectedRow;
   }
 
   //수정
   @Override
   public int updateByBbsId(Long id, Bbs bbs) {
     return bbsDAO.updateByBbsId(id, bbs);
+  }
+
+  //수정-첨부파일
+  @Override
+  public int updateByBbsId(Long id, Bbs bbs, List<MultipartFile> files) {
+
+    //1)수정
+    int affectedRow = updateByBbsId(id,bbs);
+
+    //2)첨부 저장
+    uploadFileSVC.addFile(bbs.getBcategory(),id,files);
+
+    return affectedRow;
   }
 
   //답글

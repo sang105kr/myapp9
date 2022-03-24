@@ -50,6 +50,14 @@ public interface BbsSVC {
    */
   int updateByBbsId(Long id,Bbs bbs);
 
+  /**
+   * 수정-첨부
+   * @param id 게시글 번호
+   * @param bbs 수정내용
+   * @param files 첨부파일
+   * @return 수정건수
+   */
+  int updateByBbsId(Long id,Bbs bbs, List<MultipartFile> files);
 
   /**
    * 답글작성
