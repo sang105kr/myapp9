@@ -62,6 +62,22 @@ class BbsDAOImplTest {
   }
 
   @Test
+  @DisplayName("목록(페이징)")
+  void findAllWithPaging(){
+    List<Bbs> list = bbsDAO.findAll(11, 20);
+
+    Assertions.assertThat(list.size()).isEqualTo(10);
+  }
+
+  @Test
+  @DisplayName("목록(카테고리&페이징)")
+  void findAllWithCategoryAndPaging(){
+    List<Bbs> list = bbsDAO.findAll("B0101",11, 20);
+
+    Assertions.assertThat(list.size()).isEqualTo(10);
+  }
+
+  @Test
   @DisplayName("카테고리별 목록")
   void findAllByCategory() {
     String category = "B0104";
@@ -144,6 +160,22 @@ class BbsDAOImplTest {
   }
 
 
+  @Test
+  @DisplayName("다수의 원글 작성")
+  void saveOrigins() {
+
+    for(int i=1; i<=350; i++) {
+      Bbs bbs = new Bbs();
+
+      bbs.setBcategory("B0101");
+      bbs.setTitle("제목"+i);
+      bbs.setEmail("test1@kh.com");
+      bbs.setNickname("테스터1");
+      bbs.setBcontent("본문"+i);
+
+      Long saveOriginId = bbsDAO.saveOrigin(bbs);
+    }
+  }
 }
 
 

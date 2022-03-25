@@ -84,7 +84,9 @@
             </div>
 
             <div class="bbs-page">
-              <a href="">1</a><a href="">2</a><a href="">3</a>
+              <th:block th:each="pnum : ${#numbers.sequence(pc.startPage,pc.endPage)}">
+                <a href="" th:href="@{|/bbs/list/${pnum}|}" th:text="${pnum}">1</a>
+              </th:block>
             </div>
 
             <div class="bbs-search">

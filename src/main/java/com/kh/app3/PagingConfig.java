@@ -1,0 +1,37 @@
+package com.kh.app3;
+
+import com.kh.app3.domain.common.paging.PageCriteria;
+import com.kh.app3.domain.common.paging.RecordCriteria;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class PagingConfig {
+
+  private static final  int REC_COUNT_10_PER_PAGE = 10;
+  private static final  int PAGE_COUNT_10_PER_PAGE = 10;
+
+  private static final  int REC_COUNT_5_PER_PAGE = 5;
+  private static final  int PAGE_COUNT_5_PER_PAGE = 5;
+
+  @Bean
+  public RecordCriteria rc10(){
+    return new RecordCriteria(REC_COUNT_10_PER_PAGE);
+  }
+
+  @Bean
+  public PageCriteria pc10(){
+    return new PageCriteria(rc10(), PAGE_COUNT_10_PER_PAGE);
+  }
+
+  @Bean
+  public RecordCriteria rc5(){
+    return new RecordCriteria(REC_COUNT_5_PER_PAGE);
+  }
+
+  @Bean
+  public PageCriteria pc5(){
+    return new PageCriteria(rc10(), PAGE_COUNT_5_PER_PAGE);
+  }
+
+}

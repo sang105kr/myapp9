@@ -5,11 +5,14 @@ import com.kh.app3.domain.bbs.svc.BbsSVC;
 import com.kh.app3.domain.common.code.CodeDAO;
 import com.kh.app3.domain.common.file.UploadFile;
 import com.kh.app3.domain.common.file.svc.UploadFileSVC;
+import com.kh.app3.domain.common.paging.PageCriteria;
 import com.kh.app3.web.form.bbs.*;
 import com.kh.app3.web.form.login.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +36,10 @@ public class BbsController {
   private final BbsSVC bbsSvc;
   private final CodeDAO codeDAO;
   private final UploadFileSVC uploadFileSVC;
+
+  @Autowired
+  @Qualifier("pc10")
+  private PageCriteria pc;
 
   //게시판 코드,디코드 가져오기
   @ModelAttribute("classifier")
@@ -105,8 +112,9 @@ public class BbsController {
   }
 
   //목록
-  @GetMapping
-  public String list(Model model) {
+  @GetMapping("/list")
+  public String list(
+      Model model) {
 
     List<Bbs> list = bbsSvc.findAll();
 
@@ -118,6 +126,41 @@ public class BbsController {
     }
 
     model.addAttribute("list", partOfList);
+
+    return "bbs/list";
+  }
+
+  @GetMapping("/list/{reqPage}")
+  public String listAndReqPage(
+      @PathVariable Integer reqPage,
+      @RequestParam(required = false) String category,
+      Model model) {
+
+    //요청페이지
+    pc.getRc().setReqPage(reqPage);
+
+    List<Bbs> list = null;
+    //게시물 목록 전체
+    if(category == null) {
+      //총레코드수
+      pc.setTotalRec(bbsSvc.totalCount());
+      list = bbsSvc.findAll(pc.getRc().getStartRec(), pc.getRc().getEndRec());
+
+    //카테보리별 목록
+    }else{
+      pc.setTotalRec(bbsSvc.totalCount(category));
+      list = bbsSvc.findAll(category, pc.getRc().getStartRec(),pc.getRc().getEndRec());
+    }
+
+    List<ListForm> partOfList = new ArrayList<>();
+    for (Bbs bbs : list) {
+      ListForm listForm = new ListForm();
+      BeanUtils.copyProperties(bbs, listForm);
+      partOfList.add(listForm);
+    }
+
+    model.addAttribute("list", partOfList);
+    model.addAttribute("pc",pc);
 
     return "bbs/list";
   }

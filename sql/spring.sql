@@ -1,6 +1,7 @@
 --테이블 삭제
-drop table code;
+drop table uploadfile;
 drop table bbs;
+drop table code;
 drop table member;
 drop table notice;
 
@@ -8,6 +9,7 @@ drop table notice;
 drop sequence member_member_id_seq;
 drop sequence notice_notice_id_seq;
 drop sequence bbs_bbs_id_seq;
+drop sequence uploadfile_uploadfile_id_seq;
 
 -------
 --회원
@@ -142,7 +144,6 @@ create sequence bbs_bbs_id_seq;
 ---------
 --첨부파일
 ---------
-drop table uploadfile;
 create table uploadfile(
     uploadfile_id   number(10),     --파일아이디
     code            varchar2(11),   --분류코드
@@ -170,6 +171,5 @@ alter table uploadfile modify fsize constraint uploadfile_fsize_nn not null;
 alter table uploadfile modify ftype constraint uploadfile_ftype_nn not null;
 
 --시퀀스
-drop sequence uploadfile_uploadfile_id_seq;
 create sequence uploadfile_uploadfile_id_seq;
 

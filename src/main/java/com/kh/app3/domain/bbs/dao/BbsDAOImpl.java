@@ -76,6 +76,72 @@ public class BbsDAOImpl implements BbsDAO{
     return list;
   }
 
+  @Override
+  public List<Bbs> findAll(int startRec, int endRec) {
+    StringBuffer sql = new StringBuffer();
+    sql.append("select t1.* ");
+    sql.append("from( ");
+    sql.append("    SELECT ");
+    sql.append("    ROW_NUMBER() OVER (ORDER BY bgroup DESC, step ASC) no, ");
+    sql.append("    bbs_id, ");
+    sql.append("    bcategory, ");
+    sql.append("    title, ");
+    sql.append("    email, ");
+    sql.append("    nickname, ");
+    sql.append("    hit, ");
+    sql.append("    bcontent, ");
+    sql.append("    pbbs_id, ");
+    sql.append("    bgroup, ");
+    sql.append("    step, ");
+    sql.append("    bindent, ");
+    sql.append("    status, ");
+    sql.append("    cdate, ");
+    sql.append("    udate ");
+    sql.append("    FROM ");
+    sql.append("    bbs) t1 ");
+    sql.append("where t1.no between ? and ? ");
+
+    List<Bbs> list = jdbcTemplate.query(
+        sql.toString(),
+        new BeanPropertyRowMapper<>(Bbs.class),
+        startRec, endRec
+    );
+    return list;
+  }
+
+  @Override
+  public List<Bbs> findAll(String category, int startRec, int endRec) {
+    StringBuffer sql = new StringBuffer();
+    sql.append("select t1.* ");
+    sql.append("from( ");
+    sql.append("    SELECT ");
+    sql.append("      ROW_NUMBER() OVER (ORDER BY bgroup DESC, step ASC) no, ");
+    sql.append("      bbs_id, ");
+    sql.append("      bcategory, ");
+    sql.append("      title, ");
+    sql.append("      email, ");
+    sql.append("      nickname, ");
+    sql.append("      hit, ");
+    sql.append("      bcontent, ");
+    sql.append("      pbbs_id, ");
+    sql.append("      bgroup, ");
+    sql.append("      step, ");
+    sql.append("      bindent, ");
+    sql.append("      status, ");
+    sql.append("      cdate, ");
+    sql.append("      udate ");
+    sql.append("    FROM bbs ");
+    sql.append("   where bcategory = ? ) t1 ");
+    sql.append("where t1.no between ? and ? ");
+
+    List<Bbs> list = jdbcTemplate.query(
+        sql.toString(),
+        new BeanPropertyRowMapper<>(Bbs.class),
+        category, startRec, endRec
+    );
+    return list;
+  }
+
   //카테고리별 목록
   @Override
   public List<Bbs> findAll(String category) {
@@ -268,6 +334,16 @@ public class BbsDAOImpl implements BbsDAO{
     String sql = "select count(*) from bbs";
 
     Integer cnt = jdbcTemplate.queryForObject(sql, Integer.class);
+
+    return cnt;
+  }
+
+  @Override
+  public int totalCount(String bcategory) {
+
+    String sql = "select count(*) from bbs where bcategory = ? ";
+
+    Integer cnt = jdbcTemplate.queryForObject(sql, Integer.class, bcategory);
 
     return cnt;
   }
