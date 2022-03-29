@@ -38,7 +38,7 @@ public class BbsController {
   private final UploadFileSVC uploadFileSVC;
 
   @Autowired
-  @Qualifier("pc10")
+  @Qualifier("pc10") //동일한 타입의 객체가 여러개있을때 빈이름을 명시적으로 지정해서 주입받을때
   private PageCriteria pc;
 
   //게시판 코드,디코드 가져오기

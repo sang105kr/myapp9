@@ -56,14 +56,17 @@ public class PageCriteria {
     this.calculatePaging();
   }
 
+  //시작페이지
   public int getStartPage() {
     return startPage;
   }
 
+  //종료페이지
   public int getEndPage() {
     return endPage;
   }
 
+  //최종페이지
   public int getFinalEndPage() {
     return finalEndPage;
   }
