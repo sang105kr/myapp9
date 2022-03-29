@@ -84,8 +84,20 @@
             </div>
 
             <div class="bbs-page">
+              <th:block th:if="${pc.prev}">
+                <a class="bbs-page-item" href="" th:href="@{/bbs/list/1}"><i class="fas fa-angle-double-left"></i></a>
+                <a class="bbs-page-item" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pc.startPage-1})}"><i class="fas fa-angle-left"></i></a>
+              </th:block>
+              
               <th:block th:each="pnum : ${#numbers.sequence(pc.startPage,pc.endPage)}">
-                <a href="" th:href="@{|/bbs/list/${pnum}|}" th:text="${pnum}">1</a>
+                <th:block th:if="${pnum != 0}">
+                  <a class="bbs-page-item" th:classappend="${pc.rc.reqPage == pnum} ? 'active'" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pnum})}" th:text="${pnum}">1</a>
+                </th:block>
+              </th:block>
+
+              <th:block th:if="${pc.next}">
+                <a class="bbs-page-item" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pc.endPage+1})}"><i class="fas fa-angle-right"></i></a>
+                <a class="bbs-page-item" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pc.finalEndPage})}"><i class="fas fa-angle-double-right"></i></a>
               </th:block>
             </div>
 

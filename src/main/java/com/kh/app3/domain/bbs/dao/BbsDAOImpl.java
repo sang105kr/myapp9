@@ -97,8 +97,7 @@ public class BbsDAOImpl implements BbsDAO{
     sql.append("    status, ");
     sql.append("    cdate, ");
     sql.append("    udate ");
-    sql.append("    FROM ");
-    sql.append("    bbs) t1 ");
+    sql.append("    FROM bbs) t1 ");
     sql.append("where t1.no between ? and ? ");
 
     List<Bbs> list = jdbcTemplate.query(
