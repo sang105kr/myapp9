@@ -1,6 +1,7 @@
 package com.kh.app3.web;
 
 import com.kh.app3.domain.bbs.dao.Bbs;
+import com.kh.app3.domain.bbs.dao.BbsFilterCondition;
 import com.kh.app3.domain.bbs.svc.BbsSVC;
 import com.kh.app3.domain.common.code.CodeDAO;
 import com.kh.app3.domain.common.file.UploadFile;
@@ -147,9 +148,12 @@ public class BbsController {
 //  }
 
   @GetMapping({"/list",
-               "/list/{reqPage}"})
+               "/list/{reqPage}",
+               "/list/{reqPage}/{searchType}/{keyword}"})
   public String listAndReqPage(
       @PathVariable(required = false) Optional<Integer> reqPage,
+      @PathVariable(required = false) Optional<String> searchType,
+      @PathVariable(required = false) Optional<String> keyword,
       @RequestParam(required = false) Optional<String> category,
       Model model) {
     log.info("/list 요청됨");
@@ -163,14 +167,28 @@ public class BbsController {
     List<Bbs> list = null;
     //게시물 목록 전체
     if(category == null || StringUtils.isEmpty(cate)) {
-      //총레코드수
-      pc.setTotalRec(bbsSvc.totalCount());
-      list = bbsSvc.findAll(pc.getRc().getStartRec(), pc.getRc().getEndRec());
+
+      //검색어 있음
+      if(searchType.isPresent() && keyword.isPresent()){
+//        BbsFilterCondition filterCondition = new BbsFilterCondition();
+//        pc.setTotalRec(bbsSvc.totalCount());
+      //검색어 없음  
+      }else {
+        //총레코드수
+        pc.setTotalRec(bbsSvc.totalCount());
+        list = bbsSvc.findAll(pc.getRc().getStartRec(), pc.getRc().getEndRec());
+      }
 
     //카테보리별 목록
     }else{
-      pc.setTotalRec(bbsSvc.totalCount(cate));
-      list = bbsSvc.findAll(cate, pc.getRc().getStartRec(),pc.getRc().getEndRec());
+      //검색어 있음
+      if(searchType.isPresent() && keyword.isPresent()){
+
+      //검색어 없음
+      }else {
+        pc.setTotalRec(bbsSvc.totalCount(cate));
+        list = bbsSvc.findAll(cate, pc.getRc().getStartRec(), pc.getRc().getEndRec());
+      }
     }
 
     List<ListForm> partOfList = new ArrayList<>();

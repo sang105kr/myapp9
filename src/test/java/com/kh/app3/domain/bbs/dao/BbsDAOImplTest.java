@@ -159,7 +159,6 @@ class BbsDAOImplTest {
 
   }
 
-
   @Test
   @DisplayName("다수의 원글 작성")
   void saveOrigins() {
@@ -175,6 +174,34 @@ class BbsDAOImplTest {
 
       Long saveOriginId = bbsDAO.saveOrigin(bbs);
     }
+  }
+
+  @Test
+  @DisplayName("게시글 검색-전체")
+  void searchBbs(){
+    BbsFilterCondition filterCondition = new BbsFilterCondition(
+        "",1,10,"TC","제목"
+    );
+
+    List<Bbs> list = bbsDAO.findAll(filterCondition);
+    for (Bbs bbs : list) {
+      log.info("list={}", bbs);
+    }
+
+  }
+
+  @Test
+  @DisplayName("게시글 검색-분류")
+  void searchBbsByCategory(){
+    BbsFilterCondition filterCondition = new BbsFilterCondition(
+        "B0104",1,10,"TC","제목"
+    );
+
+    List<Bbs> list = bbsDAO.findAll(filterCondition);
+    for (Bbs bbs : list) {
+      log.info("list={}", bbs);
+    }
+
   }
 }
 

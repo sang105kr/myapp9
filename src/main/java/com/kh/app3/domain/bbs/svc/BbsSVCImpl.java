@@ -2,6 +2,7 @@ package com.kh.app3.domain.bbs.svc;
 
 import com.kh.app3.domain.bbs.dao.Bbs;
 import com.kh.app3.domain.bbs.dao.BbsDAO;
+import com.kh.app3.domain.bbs.dao.BbsFilterCondition;
 import com.kh.app3.domain.common.file.UploadFile;
 import com.kh.app3.domain.common.file.dao.UploadFileDAO;
 import com.kh.app3.domain.common.file.svc.UploadFileSVC;
@@ -64,6 +65,11 @@ public class BbsSVCImpl implements BbsSVC{
     return bbsDAO.findAll(category,startRec,endRec);
   }
 
+  @Override
+  public List<Bbs> findAll(BbsFilterCondition filterCondition) {
+    return bbsDAO.findAll(filterCondition);
+  }
+
   //상세조회
   @Override
   public Bbs findByBbsId(Long id) {
@@ -119,5 +125,10 @@ public class BbsSVCImpl implements BbsSVC{
   @Override
   public int totalCount(String bcategory) {
     return bbsDAO.totalCount(bcategory);
+  }
+
+  @Override
+  public int totalCount(BbsFilterCondition filterCondition) {
+    return bbsDAO.totalCount(filterCondition);
   }
 }
