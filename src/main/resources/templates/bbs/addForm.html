@@ -41,7 +41,7 @@
   <div class="main">
     <div class="inner main-inner">
       <main>
-        <div class="bbs-wrap">
+        <div class="bbs-wrap" th:data-code="${category}">
           <div class="bbs-title"><h3>게시글 작성</h3></div>
           <div class="class-body">
             <form id="writeForm" action="" method="post" th:object="${addForm}" enctype="multipart/form-data">
@@ -64,7 +64,7 @@
                     <div class="fieldError" th:errors="*{title}"></div>
                 </div>
                 <div><lable>작성자</lable></div>
-                <div><span th:text="|*{nickname} ( *{email} )|"></span>
+                <div><span th:text="|*{nickname} ( *{email} )|"></span></div>
                 <div><lable>내용</lable></div>
                 <div>
                   <textarea name="" id="" rows="10" class="w100" th:field="*{bcontent}"></textarea>
@@ -77,7 +77,7 @@
           </div>
           <div class="bbs-btngrp">
             <button type="button" id="writeBtn">등록</button>
-            <button type="button" id="listBtn">목록</button>
+            <button type="button" id="listBtn" >목록</button>
           </div>
         </div>
       </main>

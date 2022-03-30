@@ -164,10 +164,10 @@ class BbsDAOImplTest {
   @DisplayName("다수의 원글 작성")
   void saveOrigins() {
 
-    for(int i=1; i<=350; i++) {
+    for(int i=1; i<=244; i++) {
       Bbs bbs = new Bbs();
 
-      bbs.setBcategory("B0101");
+      bbs.setBcategory("B0103");
       bbs.setTitle("제목"+i);
       bbs.setEmail("test1@kh.com");
       bbs.setNickname("테스터1");

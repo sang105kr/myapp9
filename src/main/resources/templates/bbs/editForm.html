@@ -41,7 +41,7 @@
   <div class="main">
     <div class="inner main-inner">
       <main>
-        <div class="bbs-wrap">
+        <div class="bbs-wrap" th:data-code="${category}">
           <div class="bbs-title"><h3>게시글 수정</h3></div>
           <div class="class-body" >
             <form id="editForm" action="" th:action="@{|/bbs/*{bbsId}/edit|}" method="post"
@@ -81,7 +81,7 @@
               </div>
               <div class="bbs-btngrp">
                 <button type="button" id="cancelBtn">취소</button>
-                <button type="submit" id="saveBtn">저장</button>
+                <button type="button" id="saveBtn">저장</button>
                 <button type="button" id="listBtn">목록</button>
               </div>
               <div class="bbs-attach">

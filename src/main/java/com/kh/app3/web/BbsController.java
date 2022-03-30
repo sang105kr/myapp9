@@ -19,14 +19,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -47,6 +46,15 @@ public class BbsController {
     return codeDAO.code("B01");
   }
 
+  @ModelAttribute("bbsTitle")
+  public Map<String,String> bbsTitle(){
+    List<Code> codes = codeDAO.code("B01");
+    Map<String,String> btitle = new HashMap<>();
+    for (Code code : codes) {
+      btitle.put(code.getCode(), code.getDecode());
+    }
+    return btitle;
+  }
 
   //작성양식
   @GetMapping("/add")
@@ -56,7 +64,10 @@ public class BbsController {
 //  }
   public String addForm(
       Model model,
+      @RequestParam(required = false) Optional<String> category,
       HttpSession session) {
+
+    String cate = getCategory(category);
 
     LoginMember loginMember = (LoginMember)session.getAttribute(SessionConst.LOGIN_MEMBER);
 
@@ -64,6 +75,7 @@ public class BbsController {
     addForm.setEmail(loginMember.getEmail());
     addForm.setNickname(loginMember.getNickname());
     model.addAttribute("addForm", addForm);
+    model.addAttribute("category", cate);
 
     return "bbs/addForm";
   }
@@ -73,6 +85,7 @@ public class BbsController {
   public String add(
       //@Valid
       @ModelAttribute AddForm addForm,
+      @RequestParam(required = false) Optional<String> category,
       BindingResult bindingResult,      // 폼객체에 바인딩될때 오류내용이 저장되는 객체
       HttpSession session,
       RedirectAttributes redirectAttributes) throws IOException {
@@ -82,6 +95,8 @@ public class BbsController {
       log.info("add/bindingResult={}",bindingResult);
       return "bbs/addForm";
     }
+
+    String cate = getCategory(category);
 
     Bbs bbs = new Bbs();
     BeanUtils.copyProperties(addForm, bbs);
@@ -100,56 +115,62 @@ public class BbsController {
     
     Long originId = 0l;
     //파일첨부유무
-    if(addForm.getFiles() == null) {
+    if(addForm.getFiles().size() > 0) {
       originId = bbsSvc.saveOrigin(bbs);
     }else{
       originId = bbsSvc.saveOrigin(bbs, addForm.getFiles());
     }
     redirectAttributes.addAttribute("id", originId);
+    redirectAttributes.addAttribute("category",cate);
     // <=서버응답 302 get http://서버:port/bbs/10
     // =>클라이언트요청 get http://서버:port/bbs/10
     return "redirect:/bbs/{id}";
   }
 
   //목록
-  @GetMapping("/list")
-  public String list(
-      Model model) {
+//  @GetMapping("/list")
+//  public String list(
+//      Model model) {
+//
+//    List<Bbs> list = bbsSvc.findAll();
+//
+//    List<ListForm> partOfList = new ArrayList<>();
+//    for (Bbs bbs : list) {
+//      ListForm listForm = new ListForm();
+//      BeanUtils.copyProperties(bbs, listForm);
+//      partOfList.add(listForm);
+//    }
+//
+//    model.addAttribute("list", partOfList);
+//
+//    return "bbs/list";
+//  }
 
-    List<Bbs> list = bbsSvc.findAll();
-
-    List<ListForm> partOfList = new ArrayList<>();
-    for (Bbs bbs : list) {
-      ListForm listForm = new ListForm();
-      BeanUtils.copyProperties(bbs, listForm);
-      partOfList.add(listForm);
-    }
-
-    model.addAttribute("list", partOfList);
-
-    return "bbs/list";
-  }
-
-  @GetMapping("/list/{reqPage}")
+  @GetMapping({"/list",
+               "/list/{reqPage}"})
   public String listAndReqPage(
-      @PathVariable Integer reqPage,
-      @RequestParam(required = false) String category,
+      @PathVariable(required = false) Optional<Integer> reqPage,
+      @RequestParam(required = false) Optional<String> category,
       Model model) {
-
+    log.info("/list 요청됨");
+    //요청없으면 1
+    Integer page = reqPage.orElse(1);
+    String cate = getCategory(category);
+    
     //요청페이지
-    pc.getRc().setReqPage(reqPage);
+    pc.getRc().setReqPage(page);
 
     List<Bbs> list = null;
     //게시물 목록 전체
-    if(category == null) {
+    if(category == null || StringUtils.isEmpty(cate)) {
       //총레코드수
       pc.setTotalRec(bbsSvc.totalCount());
       list = bbsSvc.findAll(pc.getRc().getStartRec(), pc.getRc().getEndRec());
 
     //카테보리별 목록
     }else{
-      pc.setTotalRec(bbsSvc.totalCount(category));
-      list = bbsSvc.findAll(category, pc.getRc().getStartRec(),pc.getRc().getEndRec());
+      pc.setTotalRec(bbsSvc.totalCount(cate));
+      list = bbsSvc.findAll(cate, pc.getRc().getStartRec(),pc.getRc().getEndRec());
     }
 
     List<ListForm> partOfList = new ArrayList<>();
@@ -161,6 +182,7 @@ public class BbsController {
 
     model.addAttribute("list", partOfList);
     model.addAttribute("pc",pc);
+    model.addAttribute("category", cate);
 
     return "bbs/list";
   }
@@ -169,12 +191,16 @@ public class BbsController {
     @GetMapping("/{id}")
     public String detail(
         @PathVariable Long id,
+        @RequestParam(required = false) Optional<String> category,
         Model model) {
+
+      String cate = getCategory(category);
 
       Bbs detailBbs = bbsSvc.findByBbsId(id);
       DetailForm detailForm = new DetailForm();
       BeanUtils.copyProperties(detailBbs, detailForm);
       model.addAttribute("detailForm", detailForm);
+      model.addAttribute("category", cate);
 
       //첨부조회
       List<UploadFile> attachFiles = uploadFileSVC.getFilesByCodeWithRid(detailBbs.getBcategory(), detailBbs.getBbsId());
@@ -185,26 +211,31 @@ public class BbsController {
 
       return "bbs/detailForm";
   }
-
+  
   //삭제
   @GetMapping("/{id}/del")
   public String del(
-      @PathVariable Long id) {
+      @PathVariable Long id,
+      @RequestParam(required = false) Optional<String> category) {
 
     bbsSvc.deleteByBbsId(id);
-
-    return "redirect:/bbs";
+    String cate = getCategory(category);
+    return "redirect:/bbs/list?category="+cate;
   }
 
   //수정양식
   @GetMapping("/{id}/edit")
-  public String editForm(@PathVariable Long id,Model model){
-
+  public String editForm(
+      @PathVariable Long id,
+      @RequestParam(required = false) Optional<String> category,
+      Model model){
+    String cate = getCategory(category);
     Bbs bbs = bbsSvc.findByBbsId(id);
 
     EditForm editForm = new EditForm();
     BeanUtils.copyProperties(bbs,editForm);
     model.addAttribute("editForm", editForm);
+    model.addAttribute("category",cate);
 
     //첨부조회
     List<UploadFile> attachFiles = uploadFileSVC.getFilesByCodeWithRid(bbs.getBcategory(), bbs.getBbsId());
@@ -218,7 +249,9 @@ public class BbsController {
 
   //수정처리
   @PostMapping("/{id}/edit")
-  public String edit(@PathVariable Long id,
+  public String edit(
+    @PathVariable Long id,
+    @RequestParam(required = false) Optional<String> category,
     @Valid @ModelAttribute EditForm editForm,
     BindingResult bindingResult,
     RedirectAttributes redirectAttributes
@@ -228,16 +261,18 @@ public class BbsController {
       return "bbs/editForm";
     }
 
+    String cate = getCategory(category);
     Bbs bbs = new Bbs();
     BeanUtils.copyProperties(editForm, bbs);
     bbsSvc.updateByBbsId(id,bbs);
 
-    if(editForm.getFiles() == null) {
+    if(editForm.getFiles().size() > 0) {
       bbsSvc.updateByBbsId(id, bbs);
     }else{
       bbsSvc.updateByBbsId(id, bbs, editForm.getFiles());
     }
     redirectAttributes.addAttribute("id",id);
+    redirectAttributes.addAttribute("category", cate);
 
     return "redirect:/bbs/{id}";
   }
@@ -245,7 +280,11 @@ public class BbsController {
   //답글작성양식
   @GetMapping("/{id}/reply")
   public String replyForm(@PathVariable Long id,
+                          @RequestParam(required = false) Optional<String> category,
                           Model model,HttpSession session) {
+
+    String cate = getCategory(category);
+
     Bbs parentBbs = bbsSvc.findByBbsId(id);
     ReplyForm replyForm = new ReplyForm();
     replyForm.setBcategory(parentBbs.getBcategory());
@@ -257,6 +296,7 @@ public class BbsController {
     replyForm.setNickname(loginMember.getNickname());
 
     model.addAttribute("replyForm", replyForm);
+    model.addAttribute("category", cate);
     return "bbs/replyForm";
   }
 
@@ -264,6 +304,7 @@ public class BbsController {
   @PostMapping("/{id}/reply")
   public String reply(
     @PathVariable Long id,      //부모글의 bbsId
+    @RequestParam(required = false) Optional<String> category,
     @Valid ReplyForm replyForm,
     BindingResult bindingResult,
     RedirectAttributes redirectAttributes
@@ -271,7 +312,7 @@ public class BbsController {
     if(bindingResult.hasErrors()){
       return "bbs/replyForm";
     }
-
+    String cate = getCategory(category);
     Bbs replyBbs = new Bbs();
     BeanUtils.copyProperties(replyForm, replyBbs);
 
@@ -282,6 +323,7 @@ public class BbsController {
     Long replyBbsId = bbsSvc.saveReply(id, replyBbs);
 
     redirectAttributes.addAttribute("id",replyBbsId);
+    redirectAttributes.addAttribute("category", cate);
     return "redirect:/bbs/{id}";
   }
 
@@ -293,6 +335,13 @@ public class BbsController {
     replyBbs.setBgroup(parentBbs.getBgroup());
     replyBbs.setStep(parentBbs.getStep());
     replyBbs.setBindent(parentBbs.getBindent());
+  }
+
+  //쿼리스트링 카테고리 읽기, 없으면 ""반환
+  private String getCategory(Optional<String> category) {
+    String cate = category.isPresent()? category.get():"";
+    log.info("category={}", cate);
+    return cate;
   }
 }
 

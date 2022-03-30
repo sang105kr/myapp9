@@ -41,8 +41,8 @@
   <div class="main">
     <div class="inner main-inner">
       <main>
-        <div class="bbs-wrap">
-          <div class="bbs-title"><h3>게시글 목록</h3></div>
+        <div class="bbs-wrap" th:data-code="${category}">
+          <div class="bbs-title" ><h3 th:text="${bbsTitle['__${category}__']}?:_">전체목록</h3></div>
           <div class="bbs-body">
             <div class="bbs-content">
               <table>
@@ -59,7 +59,9 @@
                 <tbody>
                 <tr th:each="item : ${list}">
                   <td th:text="${item.bbsId}"></td>
-                  <td th:text="${item.bcategory}">자유게시판</td>
+                  <td th:text="${#strings.isEmpty(category)?
+                    bbsTitle[item.bcategory]
+                    :bbsTitle['__${category}__']}">자유게시판</td>
                   <td>
                     <!--들여쓰기-->
                     <th:block th:if="${item.bindent} > 0">
@@ -70,7 +72,7 @@
 <!--                      <i class="fa-solid fa-reply"></i>-->
                       <i class="fa-solid fa-comment-dots"></i>
                     </th:block>
-                    <a href="" th:href="@{|/bbs/${item.bbsId}|}" th:text="${item.title}">제목</a>
+                    <a href="" th:href="@{/bbs/{id}(id=${item.bbsId},category=${category})}" th:text="${item.title}">제목</a>
                   </td>
                   <td th:text="${item.nickname}">작성자1</td>
                   <td th:text="${#temporals.format(item.cdate,'yy/MM/dd HH:dd')}">작성일1</td>
@@ -80,28 +82,28 @@
               </table>
             </div>
             <div class="bbs-btngrp">
-              <button type="botton" id="writeBtn">글작성</button>
+              <button type="botton" id="writeBtn" th:data-code="${code}">글작성</button>
             </div>
 
             <div class="bbs-page">
               <!--이전페이지정보-->
               <th:block th:if="${pc.prev}">
-                <a class="bbs-page-item" href="" th:href="@{/bbs/list/1}"><i class="fas fa-angle-double-left"></i></a>
-                <a class="bbs-page-item" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pc.startPage-1})}"><i class="fas fa-angle-left"></i></a>
+                <a class="bbs-page-item" href="" th:href="@{/bbs/list/1(category=${param.category})}"><i class="fas fa-angle-double-left"></i></a>
+                <a class="bbs-page-item" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pc.startPage-1},category=${param.category})}"><i class="fas fa-angle-left"></i></a>
               </th:block>
 
               <!--페이지표시-->
               <th:block th:each="pnum : ${#numbers.sequence(pc.startPage,pc.endPage)}">
                 <th:block th:if="${pnum != 0}">
 <!--                  <a class="bbs-page-item" th:classappend="${pc.rc.reqPage == pnum} ? 'active'" href="" th:href="@{|/bbs/list/${pnum}|}" th:text="${pnum}">1</a>-->
-                  <a class="bbs-page-item" th:classappend="${pc.rc.reqPage == pnum} ? 'active'" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pnum})}" th:text="${pnum}">1</a>
+                  <a class="bbs-page-item" th:classappend="${pc.rc.reqPage == pnum} ? 'active'" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pnum},category=${param.category})}" th:text="${pnum}">1</a>
                 </th:block>
               </th:block>
 
               <!--다음페이지정보-->
               <th:block th:if="${pc.next}">
-                <a class="bbs-page-item" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pc.endPage+1})}"><i class="fas fa-angle-right"></i></a>
-                <a class="bbs-page-item" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pc.finalEndPage})}"><i class="fas fa-angle-double-right"></i></a>
+                <a class="bbs-page-item" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pc.endPage+1},category=${param.category})}"><i class="fas fa-angle-right"></i></a>
+                <a class="bbs-page-item" href="" th:href="@{/bbs/list/{reqPage}(reqPage=${pc.finalEndPage},category=${param.category})}"><i class="fas fa-angle-double-right"></i></a>
               </th:block>
             </div>
 
