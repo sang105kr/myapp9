@@ -5,10 +5,10 @@
         ~{::title},       <!--/* title */-->
         <!--/*--------------------------*/-->
         <!--/*외부파일로 정의시*/-->
-        ~{},              <!--/* styles */-->
+        ~{::link},              <!--/* styles */-->
         ~{},              <!--/* scripts */-->
         <!--/*내부태그로 정의시*/-->
-        ~{::style},              <!--/* style */-->
+        ~{},              <!--/* style */-->
         ~{::script},      <!--/* script */-->
         <!--/*--------------------------*/-->
         ~{::.upm-inner},  <!--/* upm */-->
@@ -22,10 +22,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>내정보 수정</title>
-  <style>
-    main {display:flex; justify-content:center; margin-top:50px;}
-    main.content-wrap{width:80%;}
-  </style>
+  <link rel="stylesheet" th:href="@{/css/member/modifyForm.css}">
 </head>
 <body>
 <div class="global-wrap">
@@ -48,56 +45,72 @@
     <div class="inner main-inner">
       <main>
         <div class="content-wrap">
-        <form action="" th:action="@{/members/edit}"   method="post" th:object="${modifyForm}">
+        <form id="modifyForm" action="" th:action="@{/members/edit}"   method="post" th:object="${modifyForm}">
           <ul>
-            <li><h3>회원수정</h3></li>
             <li>
-              <label for="email" th:for="${#ids.next('email')}">아이디</label>
-              <input type="text" name="email" id="email" th:field="*{email}"
-                     th:class="${#fields.hasErrors('email') ? 'fieldError' : 'fieldSuccess'}"
-                     readonly="readonly">
+              <div></div>
+              <div><h3>회원수정</h3></div>
+            </li>
+            <li>
+              <div><label for="email" th:for="${#ids.next('email')}">아이디</label></div>
+              <div>
+                <input type="text" name="email" id="email" th:field="*{email}"
+                       th:class="${#fields.hasErrors('email') ? 'fieldError' : 'fieldSuccess'}"
+                       readonly="readonly">
+              </div>
             </li>
             <li th:if="${#fields.hasErrors('email')}">
-              <p th:errors="*{email}" th:errorclass="fieldError"></p>
+              <div></div>
+              <div th:errors="*{email}" th:errorclass="fieldError"></div>
             </li>
             <li>
-              <label for="passwd" th:for="${#ids.next('passwd')}">비밀번호</label>
-              <input type="password" name="passwd" id="passwd" th:field="*{passwd}"
-                     th:class="${#fields.hasErrors('passwd') ? 'fieldError' : 'fieldSuccess'}">
+              <div><label for="passwd" th:for="${#ids.next('passwd')}">비밀번호</label></div>
+              <div>
+                <input type="password" name="passwd" id="passwd" th:field="*{passwd}"
+                       th:class="${#fields.hasErrors('passwd') ? 'fieldError' : 'fieldSuccess'}">
+              </div>
             </li>
             <li th:if="${#fields.hasErrors('passwd')}">
-              <p th:errors="*{passwd}" th:errorclass="fieldError"></p>
+              <div></div>
+              <div th:errors="*{passwd}" th:errorclass="fieldError"></div>
             </li>
             <li>
               <label for="nickname" th:for="${#ids.next('nickname')}">별칭</label>
-              <input type="text" name="nickname" id="nickname" th:field="*{nickname}"
-                     th:class="${#fields.hasErrors('nickname') ? 'fieldError' : 'fieldSuccess'}">
+              <div>
+                <input type="text" name="nickname" id="nickname" th:field="*{nickname}"
+                       th:class="${#fields.hasErrors('nickname') ? 'fieldError' : 'fieldSuccess'}">
+              </div>
             </li>
             <li th:if="${#fields.hasErrors('nickname')}">
-              <p th:errors="*{nickname}" th:errorclass="fieldError"></p>
+              <div></div>
+              <div th:errors="*{nickname}" th:errorclass="fieldError"></div>
             </li>
             <li>
-              <span>성별</span>
-              <th:block th:each=" ele : ${gender} ">
-                <label for="male" th:for="${#ids.next('gender')}" th:text="${ele.description}"></label>
-                <input type="radio" th:field="*{gender}" th:value="${ele.name()}">
-              </th:block>
+              <div><label>성별</label></div>
+              <div>
+                <th:block th:each=" ele : ${gender} ">
+                  <label for="male" th:for="${#ids.next('gender')}" th:text="${ele.description}"></label>
+                  <input type="radio" th:field="*{gender}" th:value="${ele.name()}">
+                </th:block>
+              </div>
 
-              <th:block th:remove="all">
+              <div th:remove="all">
                 <label for="male">남자</label>
                 <input type="radio" name="gender" id="male" value="남자">
                 <label for="female">여자</label>
                 <input type="radio" name="gender" id="female" value="여자">
-              </th:block>
+              </div>
             </li>
             <li>
-              <span>취미</span>
-              <th:block th:each="ele : ${hobbys}">
-                <label for="" th:for="${#ids.next('hobby')}" th:text="${ele.value}"></label>
-                <input type="checkbox" name="" id="" value="" th:value="${ele.value}" th:field="*{hobby}">
-              </th:block>
+              <div><label>취미</label></div>
+              <div>
+                <th:block th:each="ele : ${hobbys}">
+                  <label for="" th:for="${#ids.next('hobby')}" th:text="${ele.value}"></label>
+                  <input type="checkbox" name="" id="" value="" th:value="${ele.value}" th:field="*{hobby}">
+                </th:block>
+              </div>
 
-              <th:block th:remove="all">
+              <div th:remove="all">
                 <label for="">독서</label>
                 <input type="checkbox" name="" id="" value="">
                 <label for="">수영</label>
@@ -106,31 +119,36 @@
                 <input type="checkbox" name="" id="" value="">
                 <label for="">골프</label>
                 <input type="checkbox" name="" id="" value="">
-              </th:block>
+              </div>
             </li>
             <li>
-              <span>지역</span>
-              <select name="" id="" th:field="*{region}">
-                <option value="">==선 택==</option>
-                <th:block th:each=" ele : ${regions} ">
-                  <option value="서울" th:value="${ele}" th:text="${ele}">서울</option>
-                </th:block>
-              </select>
-
-              <th:block th:remove="all">
-                <select name="" id="">
+              <div>
+                <sapn>지역</sapn>
+              </div>
+              <div>
+                <select name="" id="" th:field="*{region}">
                   <option value="">==선 택==</option>
+                  <th:block th:each=" ele : ${regions} ">
+                    <option value="서울" th:value="${ele}" th:text="${ele}">서울</option>
+                  </th:block>
+                </select>
+              </div>
+
+              <div th:remove="all">
+                <select name="" id="">
+                  <option value=""> 선 택 </option>
                   <option value="서울">서울</option>
                   <option value="부산">부산</option>
                   <option value="울산">울산</option>
                   <option value="대구">대구</option>
                   <option value="제주">제주</option>
                 </select>
-              </th:block>
+              </div>
             </li>
             <li>
-              <button type="submit" th:text="#{btn.update}">수정</button>
-              <button type="button" id="mypageBtn">마이페이지</button>
+              <div></div>
+              <div><button type="submit" th:text="#{btn.update}">수정</button></div>
+              <!--<button type="button" id="mypageBtn">마이페이지</button>-->
             </li>
           </ul>
         </form>

@@ -1,0 +1,47 @@
+@charset "utf-8";
+main {display:flex; justify-content:center; margin-top:50px;}
+main .content-wrap{
+    width:100vw;
+    display:flex;
+    justify-content: center;
+}
+
+#modifyForm{
+    width:300px;
+}
+#modifyForm ul{
+    display: grid;
+    grid-template-columns:1fr;
+    gap:5px;
+    list-style:none;
+    padding-left:0;
+}
+#modifyForm h3{
+    text-align:center;
+}
+
+#modifyForm ul li {
+  display: grid;
+  grid-template-columns: 110px 1fr;  
+}
+
+#modifyForm input,
+#modifyForm select,
+#modifyForm button{
+    box-sizing: border-box;
+    width:100%; 
+    outline: none;
+    padding:2px;
+}
+
+#modifyForm input[type='checkbox'],
+#modifyForm input[type='radio']{
+    width:auto;
+}
+#modifyForm select{
+    text-align: center;
+}
+
+#emailDupChk {
+    margin-top: 5px;
+}

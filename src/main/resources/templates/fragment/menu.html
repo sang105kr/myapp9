@@ -56,13 +56,13 @@
   <nav th:fragment="my-page">
     <ul class="depth1">
       <li class="item">
-        <a th:href="@{|/members/${s_email}/detail|}">내정보조회</a>
+        <a th:href="@{/members/{email}/detail(email=${s_email})}">내정보조회</a>
       </li>
       <li class="item">
-        <a th:href="@{|/members/${s_email}/edit|}">내정보수정</a>
+        <a th:href="@{/members/{email}/edit(email=${s_email})}">내정보수정</a>
       </li>
       <li class="item">
-        <a th:href="@{|/members/${s_email}/out|}">탈퇴</a>
+        <a th:href="@{/members/{email}/out(email=${s_email})}">탈퇴</a>
       </li>
     </ul>
   </nav>

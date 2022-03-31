@@ -1,0 +1,47 @@
+@charset "utf-8";
+
+main .content-wrap{
+    width:100vw;
+    display:flex;
+    justify-content: center;
+    margin-top:100px;
+}
+#joinForm{
+    width:300px;
+}
+#joinForm ul{
+    display: grid;
+    grid-template-columns:1fr;
+    gap:5px;
+    list-style:none;
+    padding-left:0;
+}
+#joinForm h3{
+    text-align:center;
+}
+
+#joinForm ul li {
+  display: grid;
+  grid-template-columns: 110px 1fr;  
+}
+
+#joinForm input,
+#joinForm select,
+#joinForm button{
+    box-sizing: border-box;
+    width:100%; 
+    outline: none;
+    padding:2px;
+}
+
+#joinForm input[type='checkbox'],
+#joinForm input[type='radio']{
+    width:auto;
+}
+#joinForm select{
+    text-align: center;
+}
+
+#emailDupChk {
+    margin-top: 5px;
+}

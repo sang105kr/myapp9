@@ -1,10 +1,12 @@
 package com.kh.app3.domain.common.paging;
 
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 /**
  * 페이징 계산
  */
+@ToString
 public class PageCriteria {
   private RecordCriteria rc;							//요청페이지, 요청페이지에 보여줄 레코드수
   private final int PAGE_COUNT_PER_PAGE;  //요청페이지에 보여줄 페이지수

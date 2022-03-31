@@ -1,5 +1,6 @@
 package com.kh.app3;
 
+import com.kh.app3.domain.common.paging.FindCriteria;
 import com.kh.app3.domain.common.paging.PageCriteria;
 import com.kh.app3.domain.common.paging.RecordCriteria;
 import org.springframework.context.annotation.Bean;
@@ -34,4 +35,13 @@ public class PagingConfig {
     return new PageCriteria(rc10(), PAGE_COUNT_5_PER_PAGE);
   }
 
+  @Bean
+  public FindCriteria fc10() {
+    return new FindCriteria(rc10(),PAGE_COUNT_10_PER_PAGE);
+  }
+
+  @Bean
+  public FindCriteria fc5() {
+    return  new FindCriteria(rc5(),PAGE_COUNT_5_PER_PAGE);
+  }
 }

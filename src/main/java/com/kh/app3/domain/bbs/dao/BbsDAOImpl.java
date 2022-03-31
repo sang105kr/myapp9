@@ -418,17 +418,13 @@ public class BbsDAOImpl implements BbsDAO{
     //게시판 전체 검색 건수
     if(StringUtils.isEmpty(filterCondition.getCategory())) {
       cnt = jdbcTemplate.queryForObject(
-              sql.toString(), Integer.class,
-              filterCondition.getSearchType(),
-              filterCondition.getKeyword()
+              sql.toString(), Integer.class
             );
     //게시판 분류별 검색 건수
     }else{
       cnt = jdbcTemplate.queryForObject(
               sql.toString(), Integer.class,
-              filterCondition.getCategory(),
-              filterCondition.getSearchType(),
-              filterCondition.getKeyword()
+              filterCondition.getCategory()
             );
     }
 

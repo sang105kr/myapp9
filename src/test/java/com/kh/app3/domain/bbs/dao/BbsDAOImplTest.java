@@ -203,6 +203,28 @@ class BbsDAOImplTest {
     }
 
   }
+
+  @Test
+  @DisplayName("게시글 건수-전체")
+  void totalCountWithSearch(){
+    BbsFilterCondition filterCondition = new BbsFilterCondition(
+        "","TC","제목"
+    );
+
+    int cnt = bbsDAO.totalCount(filterCondition);
+    log.info("count={}", cnt);
+  }
+
+  @Test
+  @DisplayName("게시글 건수-카테고리별")
+  void totalCountWithSearchByCategory(){
+    BbsFilterCondition filterCondition = new BbsFilterCondition(
+        "B0104","TC","제목"
+    );
+
+    int cnt = bbsDAO.totalCount(filterCondition);
+    log.info("count={}", cnt);
+  }
 }
 
 

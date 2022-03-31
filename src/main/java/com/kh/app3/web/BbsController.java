@@ -6,6 +6,7 @@ import com.kh.app3.domain.bbs.svc.BbsSVC;
 import com.kh.app3.domain.common.code.CodeDAO;
 import com.kh.app3.domain.common.file.UploadFile;
 import com.kh.app3.domain.common.file.svc.UploadFileSVC;
+import com.kh.app3.domain.common.paging.FindCriteria;
 import com.kh.app3.domain.common.paging.PageCriteria;
 import com.kh.app3.web.form.bbs.*;
 import com.kh.app3.web.form.login.LoginMember;
@@ -38,8 +39,8 @@ public class BbsController {
   private final UploadFileSVC uploadFileSVC;
 
   @Autowired
-  @Qualifier("pc10") //동일한 타입의 객체가 여러개있을때 빈이름을 명시적으로 지정해서 주입받을때
-  private PageCriteria pc;
+  @Qualifier("fc10") //동일한 타입의 객체가 여러개있을때 빈이름을 명시적으로 지정해서 주입받을때
+  private FindCriteria fc;
 
   //게시판 코드,디코드 가져오기
   @ModelAttribute("classifier")
@@ -149,6 +150,7 @@ public class BbsController {
 
   @GetMapping({"/list",
                "/list/{reqPage}",
+               "/list/{reqPage}//",
                "/list/{reqPage}/{searchType}/{keyword}"})
   public String listAndReqPage(
       @PathVariable(required = false) Optional<Integer> reqPage,
@@ -156,13 +158,14 @@ public class BbsController {
       @PathVariable(required = false) Optional<String> keyword,
       @RequestParam(required = false) Optional<String> category,
       Model model) {
-    log.info("/list 요청됨");
-    //요청없으면 1
-    Integer page = reqPage.orElse(1);
+    log.info("/list 요청됨{},{},{},{}",reqPage,searchType,keyword,category);
+
     String cate = getCategory(category);
-    
-    //요청페이지
-    pc.getRc().setReqPage(page);
+
+    //FindCriteria 값 설정
+    fc.getRc().setReqPage(reqPage.orElse(1)); //요청페이지, 요청없으면 1
+    fc.setSearchType(searchType.orElse(""));  //검색유형
+    fc.setKeyword(keyword.orElse(""));        //검색어
 
     List<Bbs> list = null;
     //게시물 목록 전체
@@ -170,24 +173,38 @@ public class BbsController {
 
       //검색어 있음
       if(searchType.isPresent() && keyword.isPresent()){
-//        BbsFilterCondition filterCondition = new BbsFilterCondition();
-//        pc.setTotalRec(bbsSvc.totalCount());
+        BbsFilterCondition filterCondition = new BbsFilterCondition(
+            "",fc.getRc().getStartRec(), fc.getRc().getEndRec(),
+            searchType.get(),
+            keyword.get());
+        fc.setTotalRec(bbsSvc.totalCount(filterCondition));
+        fc.setSearchType(searchType.get());
+        fc.setKeyword(keyword.get());
+        list = bbsSvc.findAll(filterCondition);
+
       //검색어 없음  
       }else {
         //총레코드수
-        pc.setTotalRec(bbsSvc.totalCount());
-        list = bbsSvc.findAll(pc.getRc().getStartRec(), pc.getRc().getEndRec());
+        fc.setTotalRec(bbsSvc.totalCount());
+        list = bbsSvc.findAll(fc.getRc().getStartRec(), fc.getRc().getEndRec());
       }
 
-    //카테보리별 목록
+    //카테고리별 목록
     }else{
       //검색어 있음
       if(searchType.isPresent() && keyword.isPresent()){
-
+        BbsFilterCondition filterCondition = new BbsFilterCondition(
+            category.get(),fc.getRc().getStartRec(), fc.getRc().getEndRec(),
+            searchType.get(),
+            keyword.get());
+        fc.setTotalRec(bbsSvc.totalCount(filterCondition));
+        fc.setSearchType(searchType.get());
+        fc.setKeyword(keyword.get());
+        list = bbsSvc.findAll(filterCondition);
       //검색어 없음
       }else {
-        pc.setTotalRec(bbsSvc.totalCount(cate));
-        list = bbsSvc.findAll(cate, pc.getRc().getStartRec(), pc.getRc().getEndRec());
+        fc.setTotalRec(bbsSvc.totalCount(cate));
+        list = bbsSvc.findAll(cate, fc.getRc().getStartRec(), fc.getRc().getEndRec());
       }
     }
 
@@ -199,7 +216,7 @@ public class BbsController {
     }
 
     model.addAttribute("list", partOfList);
-    model.addAttribute("pc",pc);
+    model.addAttribute("fc",fc);
     model.addAttribute("category", cate);
 
     return "bbs/list";
