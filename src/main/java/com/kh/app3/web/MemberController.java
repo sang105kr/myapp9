@@ -299,4 +299,10 @@ public class MemberController {
     return "member/findEmail";
   }
 
+  //프로파일수정
+  @GetMapping("/{email}/profile")
+  public String profileEditForm(@PathVariable String email){
+    return "member/profileEditForm";
+  }
+
 }

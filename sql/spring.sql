@@ -147,7 +147,7 @@ create sequence bbs_bbs_id_seq;
 create table uploadfile(
     uploadfile_id   number(10),     --파일아이디
     code            varchar2(11),   --분류코드
-    rid             number(10),     --참조번호(게시글번호등)
+    rid             varchar2(10),     --참조번호(게시글번호등)
     store_filename  varchar2(100),   --서버보관파일명
     upload_filename varchar2(100),   --업로드파일명(유저가 업로드한파일명)
     fsize           varchar2(45),   --업로드파일크기(단위byte)

@@ -20,7 +20,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UploadFilesSVCImpl implements UploadFileSVC{
+public class UploadFilesSVCImpl implements com.kh.app3.domain.common.file.svc.UploadFileSVC {
 
   private final UploadFileDAO uploadFileDAO;
 

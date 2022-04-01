@@ -19,6 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시글 답글 작성</title>
   <link rel="stylesheet" href="" th:href="@{/css/bbs/replyForm.css}">
+  <script defer th:src="@{/js/common/ckeditor.js}"></script>
   <script defer src="" th:src="@{/js/bbs/replyForm.js}"></script>
 </head>
 <body>
@@ -44,7 +45,7 @@
         <div class="bbs-wrap" th:data-code="${category}">
           <div class="bbs-title"><h3>게시글 답글 작성</h3></div>
           <div class="class-body">
-            <form id="replyForm" action="" method="post" th:object="${replyForm}">
+            <form id="replyForm" action="" method="post" th:object="${replyForm}" enctype="multipart/form-data">
               <input type="hidden" th:field="*{bcategory}">
               <input type="hidden" th:field="*{email}">
               <input type="hidden" th:field="*{nickname}">
@@ -72,7 +73,7 @@
                   <div class="fieldError" th:errors="*{bcontent}"></div>
                 </div>
                 <div><lable>첨부</lable></div>
-                <div><input type="file" name="" id="" class="w100" multiple></div>
+                <div><input type="file" name="" id="" class="w100" th:field="*{files}" multiple></div>
               </div>
             </form>
           </div>

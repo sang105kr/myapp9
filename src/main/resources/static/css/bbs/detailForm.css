@@ -32,3 +32,7 @@ main { display:flex; justify-content:center; }
   display:flex;
   justify-content: flex-end;
 }
+
+/* ckeditor style 지정 */
+#bcontent {display:none;}
+.bbs-wrap .ck-editor__editable{min-height:20rem;}
