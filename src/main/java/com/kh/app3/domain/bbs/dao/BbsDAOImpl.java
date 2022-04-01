@@ -469,4 +469,5 @@ public class BbsDAOImpl implements BbsDAO{
     }
     return sql;
   }
+
 }

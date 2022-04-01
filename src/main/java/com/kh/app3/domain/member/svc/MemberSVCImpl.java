@@ -119,4 +119,22 @@ public class MemberSVCImpl implements MemberSVC{
   public String findEmailByNickname(String nickname) {
     return memberDAO.findEmailByNickname(nickname);
   }
+
+  //프로파일 사전 조회
+  @Override
+  public byte[] findPicOfProfile(Long memberId) {
+    return memberDAO.findPicOfProfile(memberId);
+  }
+
+  //프로파일 사진 변경
+  @Override
+  public int updatePicOfProfile(Long memberId, byte[] pic) {
+    return memberDAO.updatePicOfProfile(memberId, pic);
+  }
+
+  //프로파일 별칭 변경
+  @Override
+  public int updateNickNameOfProfile(Long memberId, String nickname) {
+    return memberDAO.updateNickNameOfProfile(memberId, nickname);
+  }
 }

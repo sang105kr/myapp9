@@ -68,7 +68,8 @@ public class LoginController {
     }
 
     //회원 세션 정보
-    LoginMember loginMember = new LoginMember(member.getEmail(), member.getNickname());
+    LoginMember loginMember = new LoginMember(
+        member.getMemberId(), member.getEmail(), member.getNickname(), member.getGubun());
 
     //인증성공
     //세션이 있으면 세션 반환, 없으면 새로이 생성

@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko"
+<html id="root"
+      lang="ko"
 			xmlns:th="http://www.thymeleaf.org"
       th:fragment="main(title,styles,scripts,style,script,upm,header,nav,main,footer)"
-      th:with="s_email=${session?.loginMember?.email},
-               s_nickname=${session?.loginMember?.nickname}">
+      th:with="s_memberId=${session?.loginMember?.memberId},
+               s_email=${session?.loginMember?.email},
+               s_nickname=${session?.loginMember?.nickname},
+               s_gubun=${session?.loginMember?.gubun}"
+      th:data-s-member-id="${s_memberId}"
+      th:data-s-email="${s_email}"
+      th:data-s-nickname="${s_nickname}"
+      th:data-s-gubun="${s_gubun}"
+
+>
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -62,6 +71,7 @@
         </footer>
       </div>
     </div>
+  </div>
   </div>
   <th:block th:replace="${script}"></th:block>
 </body>

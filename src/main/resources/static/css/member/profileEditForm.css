@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+main .content-wrap{
+    width:100vw;
+    display:flex;
+    justify-content: center;
+    margin-top:100px;
+}
+
+main .profile-content .profile-img,
+main .profile-content .profile-nick{
+      display:grid;
+      grid-template-columns: 100px 300px;
+      padding:20px
+}
+main #preview {
+      height:100px;
+      width:100px;
+      border:1px solid #333;
+      padding:2px;
+      border-radius: 50%;
+}
+main #preview img{
+      width:100%; height:100%;
+      border-radius: 50%;
+}

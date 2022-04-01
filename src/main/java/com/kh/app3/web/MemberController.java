@@ -95,11 +95,14 @@ public class MemberController {
 
     //4)정상처리로직
     log.info("joinForm={}", joinForm);
-    Member member = new Member( null,
-                joinForm.getEmail(), joinForm.getPasswd(), joinForm.getNickname(),
-                joinForm.getGender().getDescription(),
-                makeListToString(joinForm.getHobby()),
-                joinForm.getRegion());
+    Member member = new Member();
+    member.setEmail(joinForm.getEmail());
+    member.setPasswd(joinForm.getPasswd());
+    member.setNickname(joinForm.getNickname());
+    member.setGender(joinForm.getGender().getDescription());
+    member.setHobby(makeListToString(joinForm.getHobby()));
+    member.setRegion(joinForm.getRegion());
+
     Member joinedMember = memberSVC.join(member);
     log.info("email={}, passwd={}, nickname={}",
         joinedMember.getEmail(),joinedMember.getPasswd(),joinedMember.getNickname());
@@ -207,11 +210,13 @@ public class MemberController {
     }
     
     //3) 회원정보 수정
-    Member member = new Member( null,
-        modifyForm.getEmail(), modifyForm.getPasswd(), modifyForm.getNickname(),
-        modifyForm.getGender().getDescription(),
-        makeListToString(modifyForm.getHobby()),
-        modifyForm.getRegion());
+    Member member = new Member();
+    member.setEmail(modifyForm.getEmail());
+    member.setPasswd(modifyForm.getPasswd());
+    member.setNickname(modifyForm.getNickname());
+    member.setGender(modifyForm.getGender().getDescription());
+    member.setHobby(makeListToString(modifyForm.getHobby()));
+    member.setRegion(modifyForm.getRegion());
 
     memberSVC.modify(member);
     redirectAttributes.addAttribute("email", member.getEmail());
@@ -299,9 +304,9 @@ public class MemberController {
     return "member/findEmail";
   }
 
-  //프로파일수정
-  @GetMapping("/{email}/profile")
-  public String profileEditForm(@PathVariable String email){
+  //프로파일
+  @GetMapping("/{memberId}/profile")
+  public String profile(@PathVariable Long memberId){
     return "member/profileEditForm";
   }
 

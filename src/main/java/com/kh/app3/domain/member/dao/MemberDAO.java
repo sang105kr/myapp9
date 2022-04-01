@@ -34,4 +34,27 @@ public interface MemberDAO {
 
   //아이디 찾기
   String findEmailByNickname(String nickname);
+
+  /**
+   * 프로파일 이미지 조회
+   * @param memberId
+   * @return
+   */
+  byte[] findPicOfProfile(Long memberId);
+
+  /**
+   * 프로파일 이미지 수정
+   * @param memberId
+   * @param pic
+   * @return
+   */
+  int updatePicOfProfile(Long memberId, byte[] pic);
+
+  /**
+   * 프로파일 별칭 수정
+   * @param memberId
+   * @param nickname
+   * @return
+   */
+  int updateNickNameOfProfile(Long memberId, String nickname);
 }

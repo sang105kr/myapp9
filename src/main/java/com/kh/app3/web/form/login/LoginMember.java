@@ -11,6 +11,8 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 public class LoginMember {
+  private Long memberId;
   private String email;
   private String nickname;
+  private String gubun;
 }
