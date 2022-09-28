@@ -1,4 +1,4 @@
-package com.kh.app3.web;
+package com.kh.app3.domain.common.code;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

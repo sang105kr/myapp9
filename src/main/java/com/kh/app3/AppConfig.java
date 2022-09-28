@@ -1,8 +1,6 @@
 package com.kh.app3;
 
-import com.kh.app3.test.Person;
 import com.kh.app3.web.interceptor.LoginCheckInterceptor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -21,6 +19,7 @@ public class AppConfig implements WebMvcConfigurer {
             "/login",               //로그인
             "/logout",              //로그아웃
             "/members/add",         //회원가입
+            "/members/joinSuccess", //가입성공페이지
             "/css/**",
             "/js/**",
             "/img/**",

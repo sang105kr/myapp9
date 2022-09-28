@@ -3,8 +3,6 @@ package com.kh.app3.domain.member.dao;
 import com.kh.app3.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -39,7 +37,7 @@ public class MemberDAOImpl implements MemberDAO{
   public Member insertMember(Member member) {
     //SQL문작성
     StringBuffer sql = new StringBuffer();
-    sql.append("insert into member ");
+    sql.append("insert into member (member_id,email,passwd,nickname,gender,hobby,region)");
     sql.append("values(member_member_id_seq.nextval, ?, ?, ? , ?, ?, ?)");
 
     //SQL실행

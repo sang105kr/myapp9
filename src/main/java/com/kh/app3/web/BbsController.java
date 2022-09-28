@@ -3,11 +3,11 @@ package com.kh.app3.web;
 import com.kh.app3.domain.bbs.dao.Bbs;
 import com.kh.app3.domain.bbs.dao.BbsFilterCondition;
 import com.kh.app3.domain.bbs.svc.BbsSVC;
+import com.kh.app3.domain.common.code.Code;
 import com.kh.app3.domain.common.code.CodeDAO;
 import com.kh.app3.domain.common.file.UploadFile;
 import com.kh.app3.domain.common.file.svc.UploadFileSVC;
 import com.kh.app3.domain.common.paging.FindCriteria;
-import com.kh.app3.domain.common.paging.PageCriteria;
 import com.kh.app3.web.form.bbs.*;
 import com.kh.app3.web.form.login.LoginMember;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +19,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 

@@ -1,7 +1,5 @@
 package com.kh.app3.domain.common.code;
 
-import com.kh.app3.web.Code;
-
 import java.util.List;
 
 public interface CodeDAO {

@@ -1,6 +1,5 @@
 package com.kh.app3.domain.common.code;
 
-import com.kh.app3.web.Code;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
