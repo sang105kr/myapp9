@@ -180,6 +180,7 @@ public class MemberController {
 
   //콤마를 구분자로하는 문자열을 문자열 요소로갖는 리스트로 변환
   private List<String> stringToList(String str) {
+    if (str == null) return null;
     String[] array = str.split(",");
     log.info("array={}", array.length);
     List<String> list = new ArrayList<>();

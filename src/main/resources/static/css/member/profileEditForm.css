@@ -1,16 +1,15 @@
 @charset "utf-8";
-
+main {display:flex; justify-content:center; margin-top:50px;}
 main .content-wrap{
     width:100vw;
     display:flex;
     justify-content: center;
-    margin-top:100px;
 }
 
 main .profile-content .profile-img,
 main .profile-content .profile-nick{
       display:grid;
-      grid-template-columns: 100px 300px;
+      grid-template-columns: 100px 200px;
       padding:20px
 }
 main #preview {
