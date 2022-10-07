@@ -40,3 +40,12 @@ input.fieldSuccess {
     height:100%;
     align-self:bottom;
 }
+
+
+/* ckedit 충돌 방지위해 별도 정의함. */
+.ck.ck-editor__main strong,
+.ck.ck-editor__main i,
+.ck.ck-editor__main ol,
+.ck.ck-editor__main ul{
+   all: revert; // 본래 속성값으로 되돌림
+}
