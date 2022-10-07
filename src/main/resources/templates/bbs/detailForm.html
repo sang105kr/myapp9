@@ -19,6 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시글 보기</title>
   <link rel="stylesheet" href="" th:href="@{/css/bbs/detailForm.css}">
+  <script defer th:src="@{/js/common/common.js}"></script>
   <script defer th:src="@{/js/common/ckeditor.js}"></script>
   <script defer src="" th:src="@{/js/bbs/detailForm.js}"></script>
 </head>
@@ -66,7 +67,7 @@
                 <div><lable>작성자</lable></div>
                 <div><span th:text="|*{nickname} ( *{email} )|"></span></div>
                 <div><lable>내용</lable></div>
-                <div><textarea name="" id="" rows="10" class="w100" th:field="*{bcontent}" th:readonly="readonly"></textarea></div>
+                <div><textarea name="" id="" rows="10" class="w100" th:field="*{bcontent}" th:readonly="readonly" style="display:none"></textarea></div>
               </div>
               <div class="bbs-btngrp">
                 <button type="button" id="replyBtn">답글</button>

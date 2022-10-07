@@ -19,6 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시글 답글 작성</title>
   <link rel="stylesheet" href="" th:href="@{/css/bbs/replyForm.css}">
+  <script defer th:src="@{/js/common/common.js}"></script>
   <script defer th:src="@{/js/common/ckeditor.js}"></script>
   <script defer src="" th:src="@{/js/bbs/replyForm.js}"></script>
 </head>
@@ -69,7 +70,7 @@
                 <div><span th:text="|*{nickname} ( *{email} )|"></span></div>
                 <div><lable>내용</lable></div>
                 <div>
-                  <textarea name="" id="" rows="10" class="w100" th:field="*{bcontent}"></textarea>
+                  <textarea name="" id="" rows="10" class="w100" th:field="*{bcontent}" style="display:none"></textarea>
                   <div class="fieldError" th:errors="*{bcontent}"></div>
                 </div>
                 <div><lable>첨부</lable></div>
